@@ -1,0 +1,228 @@
+---- Minecraft Crash Report ----
+// Shall we play a game?
+
+Time: 2023-09-12 16:13:36
+Description: Unexpected error
+
+java.lang.IndexOutOfBoundsException: Index 3 out of bounds for length 3
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
+	at java.base/java.util.Objects.checkIndex(Objects.java:361)
+	at java.base/java.util.ArrayList.get(ArrayList.java:427)
+	at me.margiux.miniutils.gui.Enum.lambda$new$1(Enum.java:52)
+	at me.margiux.miniutils.mutable.MutableObjectExtended.onValueChanged(MutableObjectExtended.java:27)
+	at me.margiux.miniutils.mutable.MutableObjectExtended.setValue(MutableObjectExtended.java:19)
+	at me.margiux.miniutils.module.Module.changeMode(Module.java:44)
+	at me.margiux.miniutils.module.Module.toggle(Module.java:53)
+	at net.minecraft.client.Keyboard.handleKey(Keyboard.java:1603)
+	at net.minecraft.client.Keyboard.handler$zgb000$miniutils$onKey(Keyboard.java:1573)
+	at net.minecraft.client.Keyboard.onKey(Keyboard.java)
+	at net.minecraft.client.Keyboard.method_22678(Keyboard.java:462)
+	at net.minecraft.util.thread.ThreadExecutor.execute(ThreadExecutor.java:103)
+	at net.minecraft.client.Keyboard.method_22676(Keyboard.java:462)
+	at org.lwjgl.glfw.GLFWKeyCallbackI.callback(GLFWKeyCallbackI.java:44)
+	at org.lwjgl.system.JNI.invokeV(Native Method)
+	at org.lwjgl.glfw.GLFW.glfwPollEvents(GLFW.java:3403)
+	at com.mojang.blaze3d.systems.RenderSystem.flipFrame(RenderSystem.java:197)
+	at net.minecraft.client.util.Window.swapBuffers(Window.java:315)
+	at net.minecraft.client.MinecraftClient.render(MinecraftClient.java:1205)
+	at net.minecraft.client.MinecraftClient.run(MinecraftClient.java:768)
+	at net.minecraft.client.main.Main.main(Main.java:244)
+	at net.minecraft.client.main.Main.main(Main.java:51)
+	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:468)
+	at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:74)
+	at net.fabricmc.loader.impl.launch.knot.KnotClient.main(KnotClient.java:23)
+	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Render thread
+Stacktrace:
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
+	at java.base/java.util.Objects.checkIndex(Objects.java:361)
+	at java.base/java.util.ArrayList.get(ArrayList.java:427)
+	at me.margiux.miniutils.gui.Enum.lambda$new$1(Enum.java:52)
+	at me.margiux.miniutils.mutable.MutableObjectExtended.onValueChanged(MutableObjectExtended.java:27)
+	at me.margiux.miniutils.mutable.MutableObjectExtended.setValue(MutableObjectExtended.java:19)
+	at me.margiux.miniutils.module.Module.changeMode(Module.java:44)
+	at me.margiux.miniutils.module.Module.toggle(Module.java:53)
+	at net.minecraft.client.Keyboard.handleKey(Keyboard.java:1603)
+	at net.minecraft.client.Keyboard.handler$zgb000$miniutils$onKey(Keyboard.java:1573)
+	at net.minecraft.client.Keyboard.onKey(Keyboard.java)
+	at net.minecraft.client.Keyboard.method_22678(Keyboard.java:462)
+	at net.minecraft.util.thread.ThreadExecutor.execute(ThreadExecutor.java:103)
+	at net.minecraft.client.Keyboard.method_22676(Keyboard.java:462)
+	at org.lwjgl.glfw.GLFWKeyCallbackI.callback(GLFWKeyCallbackI.java:44)
+	at org.lwjgl.system.JNI.invokeV(Native Method)
+	at org.lwjgl.glfw.GLFW.glfwPollEvents(GLFW.java:3403)
+	at com.mojang.blaze3d.systems.RenderSystem.flipFrame(RenderSystem.java:197)
+
+-- Last reload --
+Details:
+	Reload number: 1
+	Reload reason: initial
+	Finished: Yes
+	Packs: Default, Fabric Mods
+Stacktrace:
+	at net.minecraft.client.resource.ResourceReloadLogger.addReloadSection(ResourceReloadLogger.java:49)
+	at net.minecraft.client.MinecraftClient.addDetailsToCrashReport(MinecraftClient.java:2348)
+	at net.minecraft.client.MinecraftClient.run(MinecraftClient.java:792)
+	at net.minecraft.client.main.Main.main(Main.java:244)
+	at net.minecraft.client.main.Main.main(Main.java:51)
+	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:468)
+	at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:74)
+	at net.fabricmc.loader.impl.launch.knot.KnotClient.main(KnotClient.java:23)
+	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.19.2
+	Minecraft Version ID: 1.19.2
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 17.0.8, GraalVM Community
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), GraalVM Community
+	Memory: 203745792 bytes (194 MiB) / 1000341504 bytes (954 MiB) up to 4280287232 bytes (4082 MiB)
+	CPUs: 4
+	Processor Vendor: GenuineIntel
+	Processor Name: Intel(R) Core(TM) i3-8100 CPU @ 3.60GHz
+	Identifier: Intel64 Family 6 Model 158 Stepping 11
+	Microarchitecture: Coffee Lake
+	Frequency (GHz): 3.60
+	Number of physical packages: 1
+	Number of physical CPUs: 4
+	Number of logical CPUs: 4
+	Graphics card #0 name: Radeon RX 580 Series
+	Graphics card #0 vendor: Advanced Micro Devices, Inc. (0x1002)
+	Graphics card #0 VRAM (MB): 4095.00
+	Graphics card #0 deviceId: 0x67df
+	Graphics card #0 versionInfo: DriverVersion=31.0.21018.5001
+	Memory slot #0 capacity (MB): 8192.00
+	Memory slot #0 clockSpeed (GHz): 2.40
+	Memory slot #0 type: DDR4
+	Memory slot #1 capacity (MB): 8192.00
+	Memory slot #1 clockSpeed (GHz): 2.40
+	Memory slot #1 type: DDR4
+	Virtual memory max (MB): 26564.59
+	Virtual memory used (MB): 16767.34
+	Swap memory total (MB): 10240.00
+	Swap memory used (MB): 103.03
+	JVM Flags: 5 total; -XX:ThreadPriorityPolicy=1 -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCIProduct -XX:JVMCIThreadsPerNativeLibraryRuntime=1 -XX:-UnlockExperimentalVMOptions
+	Fabric Mods: 
+		autofish: Autofish 0.9.5-SNAPSHOT
+		bobby: Bobby 4.0.1
+			com_typesafe_config: config 1.4.2
+			io_leangen_geantyref_geantyref: geantyref 1.3.13
+			org_spongepowered_configurate-core: configurate-core 4.1.2
+			org_spongepowered_configurate-hocon: configurate-hocon 4.1.2
+		boostedbrightness: Boosted Brightness 2.1.2
+		cloth-config: Cloth Config v8 8.3.103
+			cloth-basic-math: cloth-basic-math 0.6.1
+		cmdkeybind: Command Macros 1.6.0-1.19
+			kyrptconfig: Kyrpt Config 1.4.14-1.19
+		fabric-api: Fabric API 0.76.1+1.19.2
+			fabric-command-api-v1: Fabric Command API (v1) 1.2.16+f71b366f90
+			fabric-commands-v0: Fabric Commands (v0) 0.2.33+df3654b390
+			fabric-containers-v0: Fabric Containers (v0) 0.1.42+df3654b390
+			fabric-events-lifecycle-v0: Fabric Events Lifecycle (v0) 0.2.36+df3654b390
+			fabric-keybindings-v0: Fabric Key Bindings (v0) 0.2.23+df3654b390
+			fabric-loot-tables-v1: Fabric Loot Tables (v1) 1.1.16+9e7660c690
+			fabric-networking-v0: Fabric Networking (v0) 0.3.29+df3654b390
+			fabric-renderer-registries-v1: Fabric Renderer Registries (v1) 3.2.24+df3654b390
+			fabric-rendering-v0: Fabric Rendering (v0) 1.1.27+df3654b390
+		fabric-api-base: Fabric API Base 0.4.15+8f4e8eb390
+		fabric-api-lookup-api-v1: Fabric API Lookup API (v1) 1.6.14+93d8cb8290
+		fabric-biome-api-v1: Fabric Biome API (v1) 9.1.1+16f1e31390
+		fabric-block-api-v1: Fabric Block API (v1) 1.0.2+e415d50e90
+		fabric-blockrenderlayer-v1: Fabric BlockRenderLayer Registration (v1) 1.1.25+cafc6e8e90
+		fabric-client-tags-api-v1: Fabric Client Tags 1.0.5+b35fea8390
+		fabric-command-api-v2: Fabric Command API (v2) 2.2.1+413cbbc790
+		fabric-content-registries-v0: Fabric Content Registries (v0) 3.5.2+7c6cd14d90
+		fabric-convention-tags-v1: Fabric Convention Tags 1.3.0+4bc6e26290
+		fabric-crash-report-info-v1: Fabric Crash Report Info (v1) 0.2.8+aeb40ebe90
+		fabric-data-generation-api-v1: Fabric Data Generation API (v1) 5.3.9+413cbbc790
+		fabric-dimensions-v1: Fabric Dimensions API (v1) 2.1.35+0d0f210290
+		fabric-entity-events-v1: Fabric Entity Events (v1) 1.5.4+9244241690
+		fabric-events-interaction-v0: Fabric Events Interaction (v0) 0.4.34+562bff6e90
+		fabric-game-rule-api-v1: Fabric Game Rule API (v1) 1.0.24+b6b6abb490
+		fabric-gametest-api-v1: Fabric Game Test API (v1) 1.1.8+4d0d570390
+		fabric-item-api-v1: Fabric Item API (v1) 1.6.6+b7d1888890
+		fabric-item-groups-v0: Fabric Item Groups (v0) 0.3.39+9244241690
+		fabric-key-binding-api-v1: Fabric Key Binding API (v1) 1.0.25+5c4fce2890
+		fabric-language-kotlin: Fabric Language Kotlin 1.10.8+kotlin.1.9.0
+			org_jetbrains_kotlin_kotlin-reflect: kotlin-reflect 1.9.0
+			org_jetbrains_kotlin_kotlin-stdlib: kotlin-stdlib 1.9.0
+			org_jetbrains_kotlin_kotlin-stdlib-jdk7: kotlin-stdlib-jdk7 1.9.0
+			org_jetbrains_kotlin_kotlin-stdlib-jdk8: kotlin-stdlib-jdk8 1.9.0
+			org_jetbrains_kotlinx_atomicfu-jvm: atomicfu-jvm 0.21.0
+			org_jetbrains_kotlinx_kotlinx-coroutines-core-jvm: kotlinx-coroutines-core-jvm 1.7.2
+			org_jetbrains_kotlinx_kotlinx-coroutines-jdk8: kotlinx-coroutines-jdk8 1.7.2
+			org_jetbrains_kotlinx_kotlinx-datetime-jvm: kotlinx-datetime-jvm 0.4.0
+			org_jetbrains_kotlinx_kotlinx-serialization-cbor-jvm: kotlinx-serialization-cbor-jvm 1.5.1
+			org_jetbrains_kotlinx_kotlinx-serialization-core-jvm: kotlinx-serialization-core-jvm 1.5.1
+			org_jetbrains_kotlinx_kotlinx-serialization-json-jvm: kotlinx-serialization-json-jvm 1.5.1
+		fabric-lifecycle-events-v1: Fabric Lifecycle Events (v1) 2.2.4+1b46dc7890
+		fabric-loot-api-v2: Fabric Loot API (v2) 1.1.13+83a8659290
+		fabric-message-api-v1: Fabric Message API (v1) 5.0.7+93d8cb8290
+		fabric-mining-level-api-v1: Fabric Mining Level API (v1) 2.1.24+33fbc73890
+		fabric-models-v0: Fabric Models (v0) 0.3.21+c6af733c90
+		fabric-networking-api-v1: Fabric Networking API (v1) 1.2.12+def3f86d90
+		fabric-object-builder-api-v1: Fabric Object Builder API (v1) 4.2.2+d8ef690890
+		fabric-particles-v1: Fabric Particles (v1) 1.0.14+4d0d570390
+		fabric-recipe-api-v1: Fabric Recipe API (v1) 1.0.2+413cbbc790
+		fabric-registry-sync-v0: Fabric Registry Sync (v0) 0.9.33+9244241690
+		fabric-renderer-api-v1: Fabric Renderer API (v1) 1.2.1+1adbf27790
+		fabric-renderer-indigo: Fabric Renderer - Indigo 0.8.0+1adbf27790
+		fabric-rendering-data-attachment-v1: Fabric Rendering Data Attachment (v1) 0.3.19+6e0787e690
+		fabric-rendering-fluids-v1: Fabric Rendering Fluids (v1) 3.0.11+4d0d570390
+		fabric-rendering-v1: Fabric Rendering (v1) 1.12.1+d8ef690890
+		fabric-resource-conditions-api-v1: Fabric Resource Conditions API (v1) 2.1.2+aae9039d90
+		fabric-resource-loader-v0: Fabric Resource Loader (v0) 0.8.4+edbdcddb90
+		fabric-screen-api-v1: Fabric Screen API (v1) 1.0.32+4d0d570390
+		fabric-screen-handler-api-v1: Fabric Screen Handler API (v1) 1.3.8+1cc24b1b90
+		fabric-sound-api-v1: Fabric Sound API (v1) 1.0.2+c4f28df590
+		fabric-textures-v0: Fabric Textures (v0) 1.0.24+aeb40ebe90
+		fabric-transfer-api-v1: Fabric Transfer API (v1) 2.1.6+413cbbc790
+		fabric-transitive-access-wideners-v1: Fabric Transitive Access Wideners (v1) 1.3.3+08b73de490
+		fabricloader: Fabric Loader 0.14.22
+		forgeconfigapiport: Forge Config API Port 4.2.11
+			com_electronwill_night-config_core: core 3.6.5
+			com_electronwill_night-config_toml: toml 3.6.5
+		healthindicatortxf: Health Indicator TXF 1.19.2-1.0.0-fabric
+		ias: In-Game Account Switcher 8.0.1
+		inventoryhud: Inventory HUD + 3.4.7
+		jankson: Jankson 4.1.1+j1.2.1
+		java: OpenJDK 64-Bit Server VM 17
+		lazydfu: LazyDFU 0.1.3
+		libgui: LibGui 6.4.0+1.19
+		libipn: libIPN 3.0.2
+		libninepatch: LibNinePatch 1.1.0
+		logical_zoom: Logical Zoom 0.0.17
+		minecraft: Minecraft 1.19.2
+		miniutils: Example Mod 1.0.0
+		modmenu: Mod Menu 4.2.0-beta.2
+		reeses-sodium-options: Reese's Sodium Options 1.6.4+mc1.19.2-build.93
+		shulkerboxtooltip: Shulker Box Tooltip 3.2.2+1.19.2
+		sodium: Sodium 0.4.4+build.18
+			org_joml_joml: joml 1.10.4
+		sodium-extra: Sodium Extra 0.4.16+mc1.19.2-build.90
+			caffeineconfig: CaffeineConfig 1.0.0+1.17
+		yet-another-config-lib: YetAnotherConfigLib 2.2.0-for-1.19.2
+	Launched Version: Fabric
+	Backend library: LWJGL version 3.3.1 SNAPSHOT
+	Backend API: Radeon RX 580 Series GL version 3.2.0 Core Profile Context 22.20.27.09.230719, ATI Technologies Inc.
+	Window size: 958x1000
+	GL Caps: Using framebuffer using OpenGL 3.2
+	GL debug messages: 
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'fabric'
+	Type: Client (map_client.txt)
+	Graphics mode: fancy
+	Resource Packs: Fabric Mods
+	Current Language: English (US)
+	CPU: 4x Intel(R) Core(TM) i3-8100 CPU @ 3.60GHz

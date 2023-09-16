@@ -1,0 +1,34 @@
+{
+  "mappings": {
+    "me/margiux/miniutils/mixin/ClientInteractionMixin": {
+      "breakBlock": "Lnet/minecraft/class_636;method_2899(Lnet/minecraft/class_2338;)Z"
+    },
+    "me/margiux/miniutils/mixin/KeyboardMixin": {
+      "onKey": "Lnet/minecraft/class_309;method_1466(JIIII)V"
+    },
+    "me/margiux/miniutils/mixin/MinecraftClientMixin": {
+      "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;": "Lnet/minecraft/class_746;method_5998(Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;",
+      "doItemUse": "Lnet/minecraft/class_310;method_1583()V"
+    },
+    "me/margiux/miniutils/mixin/TruesightMixin": {
+      "isInvisibleTo": "Lnet/minecraft/class_1297;method_5756(Lnet/minecraft/class_1657;)Z"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "me/margiux/miniutils/mixin/ClientInteractionMixin": {
+        "breakBlock": "Lnet/minecraft/class_636;method_2899(Lnet/minecraft/class_2338;)Z"
+      },
+      "me/margiux/miniutils/mixin/KeyboardMixin": {
+        "onKey": "Lnet/minecraft/class_309;method_1466(JIIII)V"
+      },
+      "me/margiux/miniutils/mixin/MinecraftClientMixin": {
+        "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;": "Lnet/minecraft/class_746;method_5998(Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;",
+        "doItemUse": "Lnet/minecraft/class_310;method_1583()V"
+      },
+      "me/margiux/miniutils/mixin/TruesightMixin": {
+        "isInvisibleTo": "Lnet/minecraft/class_1297;method_5756(Lnet/minecraft/class_1657;)Z"
+      }
+    }
+  }
+}
