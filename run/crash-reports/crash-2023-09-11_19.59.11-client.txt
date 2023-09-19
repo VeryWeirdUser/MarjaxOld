@@ -22,8 +22,8 @@ Caused by: java.lang.ExceptionInInitializerError
 	at net.fabricmc.loader.impl.entrypoint.EntrypointUtils.invoke0(EntrypointUtils.java:47)
 	... 9 more
 Caused by: java.lang.NullPointerException: Adding null widget to WGridPanel {
-	me.margiux.miniutils.gui.Toggle@77e3d121,
-	me.margiux.miniutils.gui.Toggle@60f5f187,
+	me.margiux.miniutils.gui.widget.Toggle@77e3d121,
+	me.margiux.miniutils.gui.widget.Toggle@60f5f187,
 }
 	at io.github.cottonmc.cotton.gui.widget.WPanel$WidgetList.checkWidget(WPanel.java:287)
 	at io.github.cottonmc.cotton.gui.widget.WPanel$WidgetList.add(WPanel.java:314)

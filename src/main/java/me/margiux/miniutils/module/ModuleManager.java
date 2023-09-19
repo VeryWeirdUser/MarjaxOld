@@ -2,6 +2,7 @@ package me.margiux.miniutils.module;
 
 import me.margiux.miniutils.CheatMode;
 import me.margiux.miniutils.Mode;
+import me.margiux.miniutils.gui.MiniutilsGui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +43,6 @@ public class ModuleManager {
         for (Module module : modules) {
             module.initGui();
         }
+        MiniutilsGui.instance.validate();
     }
 }

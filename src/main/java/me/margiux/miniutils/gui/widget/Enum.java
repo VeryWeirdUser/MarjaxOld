@@ -1,9 +1,8 @@
-package me.margiux.miniutils.gui;
+package me.margiux.miniutils.gui.widget;
 
 import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;
 import io.github.cottonmc.cotton.gui.widget.WButton;
-import me.margiux.miniutils.CheatMode;
-import me.margiux.miniutils.mutable.MutableObjectExtended;
+import me.margiux.miniutils.mutable.MutableExtended;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,10 +11,10 @@ import java.util.function.Consumer;
 public class Enum<T extends me.margiux.miniutils.Enum<T>> extends WButton implements Widget {
     public final String name;
     public final String description;
-    public final MutableObjectExtended<T> mutableEnum;
+    public final MutableExtended<T> mutableEnum;
     public Consumer<T> customAction;
 
-    public Enum(String name, String description, MutableObjectExtended<T> mutableEnum, @Nullable Consumer<T> customAction) {
+    public Enum(String name, String description, MutableExtended<T> mutableEnum, @Nullable Consumer<T> customAction) {
         this.name = name;
         this.description = description;
         this.mutableEnum = mutableEnum;
@@ -32,8 +31,6 @@ public class Enum<T extends me.margiux.miniutils.Enum<T>> extends WButton implem
                 }
             }
         });
-        this.mutableEnum.setOnValueChanged((newValue) -> {
-            this.setLabel(Text.literal(name + ": " + this.mutableEnum.getValue().getName()));
-        });
+        this.mutableEnum.setOnValueChanged((newValue) -> this.setLabel(Text.literal(name + ": " + this.mutableEnum.getValue().getName())));
     }
 }

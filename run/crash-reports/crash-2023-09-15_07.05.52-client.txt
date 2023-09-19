@@ -18,7 +18,7 @@ java.lang.RuntimeException: Could not execute entrypoint stage 'main' due to err
 	at net.fabricmc.loader.impl.launch.knot.KnotClient.main(KnotClient.java:23)
 	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86)
 Caused by: java.lang.NullPointerException: Cannot invoke "me.margiux.miniutils.mutable.MutableObjectExtended.getValue()" because "this.mutableEnum" is null
-	at me.margiux.miniutils.gui.Enum.<init>(Enum.java:24)
+	at me.margiux.miniutils.gui.widget.Enum.<init>(Enum.java:24)
 	at me.margiux.miniutils.Main.onInitialize(Main.java:35)
 	at net.fabricmc.loader.impl.entrypoint.EntrypointUtils.invoke0(EntrypointUtils.java:47)
 	... 9 more

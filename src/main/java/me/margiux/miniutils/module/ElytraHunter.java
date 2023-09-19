@@ -1,9 +1,9 @@
 package me.margiux.miniutils.module;
 
 import me.margiux.miniutils.Main;
+import me.margiux.miniutils.gui.widget.Input;
 import me.margiux.miniutils.gui.MiniutilsGui;
-import me.margiux.miniutils.gui.input.FloatInputWidget;
-import me.margiux.miniutils.mutable.MutableFloatExtended;
+import me.margiux.miniutils.mutable.MutableExtended;
 import me.margiux.miniutils.task.DelayableTask;
 import me.margiux.miniutils.task.TaskManager;
 import me.margiux.miniutils.utils.HudUtil;
@@ -17,8 +17,8 @@ import java.util.List;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class ElytraHunter extends Module {
-    public MutableFloatExtended radiusInput = new MutableFloatExtended(250);
-    private final FloatInputWidget radiusField = new FloatInputWidget("Radius of search", this.description, radiusInput);
+    public MutableExtended<Float> radiusInput = new MutableExtended<>(250f);
+    private final Input<Float> radiusField = new Input<>("Radius of search", radiusInput, Input.INT_FILTER, (e) -> radiusInput.setValue(Float.valueOf(e), true));
     private boolean aimlockConfirmed = false;
     private boolean aimlockRequested = false;
 
@@ -36,6 +36,7 @@ public class ElytraHunter extends Module {
         targets.clear();
         for (PlayerEntity e :
                 getClient().world.getPlayers()) {
+            if (e != getClient().player)
             for (ItemStack i :
                     e.getArmorItems()) {
                 if (i.getItem() == Items.ELYTRA) {
@@ -156,7 +157,7 @@ public class ElytraHunter extends Module {
 
     @Override
     public void initGui() {
-        MiniutilsGui.instance.add(toggleButton);
-        MiniutilsGui.instance.add(radiusField);
+        MiniutilsGui.instance.main.add(toggleButton);
+        MiniutilsGui.instance.main.add(radiusField);
     }
 }

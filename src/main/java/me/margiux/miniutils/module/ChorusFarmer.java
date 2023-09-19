@@ -2,8 +2,8 @@ package me.margiux.miniutils.module;
 
 import me.margiux.miniutils.Main;
 import me.margiux.miniutils.gui.*;
-import me.margiux.miniutils.gui.input.IntInput;
-import me.margiux.miniutils.mutable.MutableIntExtended;
+import me.margiux.miniutils.gui.widget.Input;
+import me.margiux.miniutils.mutable.MutableExtended;
 import me.margiux.miniutils.utils.HudUtil;
 import net.minecraft.block.ChorusFlowerBlock;
 import net.minecraft.client.MinecraftClient;
@@ -17,17 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChorusFarmer extends Module {
-    public MutableIntExtended radius;
-    public MutableIntExtended maxY;
-    private final IntInput radiusField;
-    private final IntInput maxYField;
+    public MutableExtended<Integer> radius;
+    public MutableExtended<Integer> maxY;
+    private final Input<Integer> radiusField;
+    private final Input<Integer> maxYField;
 
     public ChorusFarmer(String name, String description) {
         super(name, description);
-        radius = new MutableIntExtended(50);
-        maxY = new MutableIntExtended(20);
-        radiusField = new IntInput("Radius of chorus flower searching area", this.description, radius);
-        maxYField = new IntInput("Radius of chorus flower searching area", this.description, maxY);
+        radius = new MutableExtended<>(50);
+        maxY = new MutableExtended<>(20);
+        radiusField = new Input<>("Radius of chorus flower searching area", radius, Input.INT_FILTER, (e) -> radius.setValue(Integer.valueOf(e), true));
+        maxYField = new Input<>("Radius of chorus flower searching area by Y", maxY, Input.INT_FILTER, (e) -> maxY.setValue(Integer.valueOf(e), true));
     }
 
     public List<BlockPos> blocks = new ArrayList<>();
@@ -39,7 +39,7 @@ public class ChorusFarmer extends Module {
         int yRadius = 20;
         try {
             radius = (this.radius.getValue() == 0 || this.radius.getValue() > 100) ? radius : this.radius.getValue();
-            yRadius = (radius > maxY.getValue()) ? maxY.getValue() : radius;
+            yRadius = maxY.getValue();
         } catch (Exception e) {
             Main.instance.LOGGER.error("Failed to parse input!", e);
             radius = 25;
@@ -135,8 +135,8 @@ public class ChorusFarmer extends Module {
 
     @Override
     public void initGui() {
-        MiniutilsGui.instance.add(toggleButton);
-        MiniutilsGui.instance.add(radiusField);
-        MiniutilsGui.instance.add(maxYField);
+        MiniutilsGui.instance.main.add(toggleButton);
+        MiniutilsGui.instance.main.add(radiusField);
+        MiniutilsGui.instance.main.add(maxYField);
     }
 }

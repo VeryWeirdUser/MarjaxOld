@@ -1,16 +1,15 @@
 package me.margiux.miniutils.module;
 
-import me.margiux.miniutils.CheatMode;
 import me.margiux.miniutils.Mode;
-import me.margiux.miniutils.gui.Enum;
-import me.margiux.miniutils.mutable.MutableObjectExtended;
+import me.margiux.miniutils.gui.widget.Enum;
+import me.margiux.miniutils.mutable.MutableExtended;
 import net.minecraft.client.MinecraftClient;
 import me.margiux.miniutils.Main;
 
 public class Module {
     public final String name;
     public final String description;
-    protected MutableObjectExtended<Mode> mode = new MutableObjectExtended<>(Mode.DISABLED);
+    protected MutableExtended<Mode> mode = new MutableExtended<>(Mode.DISABLED);
     protected final Enum<Mode> toggleButton;
     public boolean disabledByMain = false;
 
@@ -31,7 +30,7 @@ public class Module {
 
     public void changeMode(Mode mode) {
         Mode oldMode = this.mode.getValue();
-        this.mode.setValue(mode);
+        this.mode.setValue(mode, true);
         if (this.mode.getValue() == Mode.ENABLED) onEnable();
         else if (oldMode == Mode.ENABLED && mode != oldMode) onDisable();
     }

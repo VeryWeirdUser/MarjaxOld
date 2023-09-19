@@ -2,21 +2,20 @@ package me.margiux.miniutils.mutable;
 
 import java.util.function.Consumer;
 
-public class MutableObjectExtended<T> extends org.apache.commons.lang3.mutable.MutableObject<T> {
+public class MutableExtended<T> extends org.apache.commons.lang3.mutable.MutableObject<T> {
     protected Consumer<T> valueChangedListener;
 
-    public MutableObjectExtended() {
+    public MutableExtended() {
         super();
     }
 
-    public MutableObjectExtended(T value) {
+    public MutableExtended(T value) {
         super(value);
     }
 
-    @Override
-    public void setValue(T value) {
+    public void setValue(T value, boolean notify) {
         super.setValue(value);
-        this.onValueChanged();
+        if (notify) this.onValueChanged();
     }
 
     public void setOnValueChanged(Consumer<T> task) {

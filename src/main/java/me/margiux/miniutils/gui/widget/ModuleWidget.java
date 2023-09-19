@@ -1,7 +1,8 @@
-package me.margiux.miniutils.gui;
+package me.margiux.miniutils.gui.widget;
 
 import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;
 import io.github.cottonmc.cotton.gui.widget.WButton;
+import io.github.cottonmc.cotton.gui.widget.WWidget;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
@@ -20,5 +21,10 @@ public class ModuleWidget extends WButton {
             this.setLabel(Text.literal(name + ": " + (this.toggle.booleanValue() ? "§aenabled" : "§4disabled")));
             toggle.setValue(this.toggle.booleanValue());
         });
+    }
+
+    @Override
+    public void setSize(int x, int y) {
+        ((WWidget) this).setSize(x, 20);
     }
 }

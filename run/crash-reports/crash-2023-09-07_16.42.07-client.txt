@@ -5,7 +5,7 @@ Time: 2023-09-07 16:42:07
 Description: charTyped event handler
 
 java.lang.NullPointerException: Cannot invoke "org.apache.commons.lang3.mutable.MutableObject.setValue(Object)" because "this.input" is null
-	at me.margiux.miniutils.gui.input.InputWidget.lambda$new$0(InputWidget.java:21)
+	at me.margiux.miniutils.gui.widget.Input.lambda$new$0(InputWidget.java:21)
 	at io.github.cottonmc.cotton.gui.widget.WTextField.setTextWithResult(WTextField.java:101)
 	at io.github.cottonmc.cotton.gui.widget.WTextField.insertText(WTextField.java:383)
 	at io.github.cottonmc.cotton.gui.widget.WTextField.onCharTyped(WTextField.java:367)
@@ -37,7 +37,7 @@ A detailed walkthrough of the error, its code path and all known details is as f
 -- Head --
 Thread: Render thread
 Stacktrace:
-	at me.margiux.miniutils.gui.input.InputWidget.lambda$new$0(InputWidget.java:21)
+	at me.margiux.miniutils.gui.widget.Input.lambda$new$0(InputWidget.java:21)
 	at io.github.cottonmc.cotton.gui.widget.WTextField.setTextWithResult(WTextField.java:101)
 	at io.github.cottonmc.cotton.gui.widget.WTextField.insertText(WTextField.java:383)
 	at io.github.cottonmc.cotton.gui.widget.WTextField.onCharTyped(WTextField.java:367)

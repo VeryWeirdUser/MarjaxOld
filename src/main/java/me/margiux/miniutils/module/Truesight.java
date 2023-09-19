@@ -20,6 +20,6 @@ public class Truesight extends Module {
 
     @Override
     public void initGui() {
-        MiniutilsGui.instance.add(toggleButton);
+        MiniutilsGui.instance.main.add(toggleButton);
     }
 }
