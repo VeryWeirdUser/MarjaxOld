@@ -1,9 +1,10 @@
 package me.margiux.miniutils.task;
 
-public class DelayableTask extends Task {
-    private int delay;
+public class RepeatTask extends Task {
+    private final int delay;
+    private int ticks;
 
-    public DelayableTask(Runnable task, int delay) {
+    public RepeatTask(Runnable task, int delay) {
         super(task);
         this.delay = delay;
     }
@@ -11,11 +12,11 @@ public class DelayableTask extends Task {
     @Override
     public void tick() {
         if (taskCompleted) return;
-        if (delay > 0) {
-            --delay;
+        if (delay > ticks) {
+            ++ticks;
         } else {
             task.run();
-            taskCompleted = true;
+            ticks = delay;
         }
     }
 }

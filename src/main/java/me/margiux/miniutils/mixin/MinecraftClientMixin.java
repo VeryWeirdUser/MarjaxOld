@@ -1,6 +1,10 @@
 package me.margiux.miniutils.mixin;
 
+import me.margiux.miniutils.event.EventManager;
+import me.margiux.miniutils.event.OpenScreenEvent;
+import me.margiux.miniutils.module.AuctionSeller;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.Hand;
@@ -33,5 +37,10 @@ public abstract class MinecraftClientMixin {
                 }
             }
         }
+    }
+
+    @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
+    private void setScreen(Screen screen, CallbackInfo info) {
+        EventManager.fireEvent(new OpenScreenEvent(screen));
     }
 }

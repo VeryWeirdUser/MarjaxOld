@@ -8,13 +8,10 @@ public class TaskManager {
 
     public static void tick() {
         for (int i = 0; i < taskList.size(); i++) {
-            if (taskList.get(i) instanceof DelayableTask delayableTask)
-            {
-                delayableTask.tick();
-                if (taskList.get(i).taskCompleted) {
-                    taskList.remove(i);
-                    --i;
-                }
+            taskList.get(i).tick();
+            if (taskList.get(i).taskCompleted) {
+                taskList.remove(i);
+                --i;
             }
         }
     }

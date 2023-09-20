@@ -30,8 +30,7 @@ public class Main implements ModInitializer {
         MiniutilsGui.instance.root.add(new Enum<>("MiniUtils mode", "MiniUtils mode", Main.instance.STATUS, this::statusChange),
                 0, 460, 120, 15);
         ClientTickEvents.END_CLIENT_TICK.register((client) -> {
-            ModuleManager.chorusFarmer.tick();
-            ModuleManager.elytraHunter.tick();
+            ModuleManager.tick();
             TaskManager.tick();
         });
     }

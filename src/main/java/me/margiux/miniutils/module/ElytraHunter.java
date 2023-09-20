@@ -4,7 +4,7 @@ import me.margiux.miniutils.Main;
 import me.margiux.miniutils.gui.widget.Input;
 import me.margiux.miniutils.gui.MiniutilsGui;
 import me.margiux.miniutils.mutable.MutableExtended;
-import me.margiux.miniutils.task.DelayableTask;
+import me.margiux.miniutils.task.DelayTask;
 import me.margiux.miniutils.task.TaskManager;
 import me.margiux.miniutils.utils.HudUtil;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class ElytraHunter extends Module {
+public class ElytraHunter extends Module implements OnTick {
     public MutableExtended<Float> radiusInput = new MutableExtended<>(250f);
     private final Input<Float> radiusField = new Input<>("Radius of search", radiusInput, Input.INT_FILTER, (e) -> radiusInput.setValue(Float.valueOf(e), true));
     private boolean aimlockConfirmed = false;
@@ -50,6 +50,7 @@ public class ElytraHunter extends Module {
         return !targets.isEmpty();
     }
 
+    @Override
     public void tick() {
         if (!canRun || !isEnabled())
             return;
@@ -120,7 +121,7 @@ public class ElytraHunter extends Module {
         targets.clear();
         canRun = false;
         selectedTarget = 0;
-        TaskManager.addTask(new DelayableTask(() -> canRun = true, 20));
+        TaskManager.addTask(new DelayTask(() -> canRun = true, 20));
         HudUtil.setActionbar(message);
     }
 

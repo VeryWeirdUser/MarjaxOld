@@ -16,7 +16,7 @@ import net.minecraft.world.RaycastContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChorusFarmer extends Module {
+public class ChorusFarmer extends Module implements OnTick {
     public MutableExtended<Integer> radius;
     public MutableExtended<Integer> maxY;
     private final Input<Integer> radiusField;
@@ -59,6 +59,7 @@ public class ChorusFarmer extends Module {
         }
     }
 
+    @Override
     public void tick() {
         if (!isEnabled()) return;
         MinecraftClient client = Main.instance.getClient();

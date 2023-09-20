@@ -45,4 +45,10 @@ public class ModuleManager {
         }
         MiniutilsGui.instance.validate();
     }
+
+    public static void tick() {
+        for (Module module : modules) {
+            if (module instanceof OnTick tick) tick.tick();
+        }
+    }
 }
