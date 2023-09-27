@@ -1,9 +1,13 @@
 package me.margiux.miniutils.module;
 
 import me.margiux.miniutils.Main;
+import me.margiux.miniutils.Mode;
+import me.margiux.miniutils.event.EventHandler;
+import me.margiux.miniutils.event.KeyEvent;
+import me.margiux.miniutils.event.TickEvent;
 import me.margiux.miniutils.gui.widget.Input;
 import me.margiux.miniutils.gui.MiniutilsGui;
-import me.margiux.miniutils.mutable.MutableExtended;
+import me.margiux.miniutils.utils.Mutable;
 import me.margiux.miniutils.task.DelayTask;
 import me.margiux.miniutils.task.TaskManager;
 import me.margiux.miniutils.utils.HudUtil;
@@ -11,22 +15,28 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class ElytraHunter extends Module implements OnTick {
-    public MutableExtended<Float> radiusInput = new MutableExtended<>(250f);
-    private final Input<Float> radiusField = new Input<>("Radius of search", radiusInput, Input.INT_FILTER, (e) -> radiusInput.setValue(Float.valueOf(e), true));
-    private boolean aimlockConfirmed = false;
-    private boolean aimlockRequested = false;
-
-    public ElytraHunter(String name, String description) {
-        super(name, description);
+public class ElytraHunter extends Module {
+    enum Aimlock {
+        None,
+        Requested,
+        Confirmed
     }
 
-    public PlayerEntity target = null;
+    private Aimlock aimlockStatus;
+    private final Mutable<Float> radiusInput = new Mutable<>(250f);
+    private final Input<Float> radiusField = new Input<>("Radius of search", radiusInput, Input.INT_FILTER, (e) -> radiusInput.setValue(Float.valueOf(e), true));
+
+    public ElytraHunter(String name, String description, int activationKey) {
+        super(name, description, activationKey);
+    }
+
+    private PlayerEntity target = null;
     private final List<PlayerEntity> targets = new ArrayList<>();
     private int selectedTarget;
     private boolean canRun = true;
@@ -34,13 +44,13 @@ public class ElytraHunter extends Module implements OnTick {
 
     public void findPlayers(float radius) {
         targets.clear();
-        for (PlayerEntity e :
-                getClient().world.getPlayers()) {
-            if (e != getClient().player)
-            for (ItemStack i :
-                    e.getArmorItems()) {
-                if (i.getItem() == Items.ELYTRA) {
-                    if (e.distanceTo(getClient().player) <= radius) targets.add(e);
+        for (PlayerEntity e : getClient().world.getPlayers()) {
+            if (e != getClient().player) {
+                for (ItemStack i :
+                        e.getArmorItems()) {
+                    if (i.getItem() == Items.ELYTRA) {
+                        if (e.distanceTo(getClient().player) <= radius) targets.add(e);
+                    }
                 }
             }
         }
@@ -50,8 +60,8 @@ public class ElytraHunter extends Module implements OnTick {
         return !targets.isEmpty();
     }
 
-    @Override
-    public void tick() {
+    @EventHandler
+    public void tick(TickEvent event) {
         if (!canRun || !isEnabled())
             return;
         if (getClient().world == null) return;
@@ -61,22 +71,22 @@ public class ElytraHunter extends Module implements OnTick {
         } catch (Exception e) {
             Main.instance.LOGGER.error("Failed to parse input!", e);
         }
-        wasFound = !targets.isEmpty();
+        wasFound = hasTargets();
         findPlayers(radius);
 
-        if (!targets.isEmpty() && !wasFound) {
+        if (hasTargets() && !wasFound) {
             HudUtil.setActionbar("§fTargets found! Use arrows to select target!");
         }
         if (selectedTarget > targets.size())
             selectedTarget = targets.size() - 1;
 
-        if (aimlockConfirmed) {
+        if (aimlockStatus == Aimlock.Confirmed) {
             aim();
         }
     }
 
     public void selectNext() {
-        if (!targets.isEmpty()) {
+        if (hasTargets()) {
             if (++selectedTarget >= targets.size())
                 selectedTarget = 0;
             HudUtil.setActionbar(String.format("§eSelected target: %s", targets.get(selectedTarget).getDisplayName().getString()));
@@ -85,7 +95,7 @@ public class ElytraHunter extends Module implements OnTick {
     }
 
     public void selectPrevious() {
-        if (!targets.isEmpty()) {
+        if (hasTargets()) {
             if (--selectedTarget == -1)
                 selectedTarget = targets.size() - 1;
             HudUtil.setActionbar(String.format("§eSelected target: %s", targets.get(selectedTarget).getDisplayName().getString()));
@@ -94,12 +104,12 @@ public class ElytraHunter extends Module implements OnTick {
     }
 
     public void requestAimlock() {
-        if (aimlockConfirmed && aimlockRequested) {
+        if (aimlockStatus == Aimlock.Confirmed) {
             HudUtil.setActionbar(String.format("§eYou already did confirm aimlock, to cancel press arrow down! Target: %s!", target.getDisplayName().getString()));
             return;
         }
-        if (aimlockRequested) aimlockConfirmed = true;
-        if (aimlockConfirmed) {
+        if (aimlockStatus == Aimlock.Requested) {
+            aimlockStatus = Aimlock.Confirmed;
             if (selectedTarget >= targets.size() || selectedTarget < 0) {
                 abortAimlock("§cInvalid target selected, select target and repeat aimlock!");
                 return;
@@ -107,26 +117,23 @@ public class ElytraHunter extends Module implements OnTick {
             target = targets.get(selectedTarget);
             if (target != null)
                 HudUtil.setActionbar(String.format("§aAimlock confirmed. Target: %s!", target.getDisplayName().getString()));
-        } else {
-            aimlockRequested = true;
-            HudUtil.setActionbar("§aPress up arrow again to confirm aimlock!");
+            return;
         }
+        aimlockStatus = Aimlock.Requested;
+        HudUtil.setActionbar("§aPress up arrow again to confirm aimlock!");
     }
 
     public void abortAimlock(String message) {
-        target = null;
-        aimlockRequested = false;
-        aimlockConfirmed = false;
-        wasFound = false;
-        targets.clear();
-        canRun = false;
-        selectedTarget = 0;
-        TaskManager.addTask(new DelayTask(() -> canRun = true, 20));
+        if (target == null) {
+            HudUtil.setActionbar("§eNo target is selected, abort failed");
+            return;
+        }
+        reset();
         HudUtil.setActionbar(message);
     }
 
     public void abortAimlock() {
-        abortAimlock("§cAimlock aborted! Aimlock aborted!");
+        abortAimlock("§cAimlock aborted!");
     }
 
     public void aim() {
@@ -134,7 +141,13 @@ public class ElytraHunter extends Module implements OnTick {
     }
 
     public void aim(PlayerEntity target) {
-        if (!targets.isEmpty()) {
+        for (PlayerEntity p : targets) {
+            if (p.getUuid() == target.getUuid()) {
+                target = p;
+                break;
+            }
+        }
+        if (hasTargets()) {
             double posX = target.getX() - getClient().player.getX();
             double posY = target.getY() - (getClient().player.getY() + getClient().player.getEyeHeight(getClient().player.getPose()));
             double posZ = target.getZ() - getClient().player.getZ();
@@ -160,5 +173,30 @@ public class ElytraHunter extends Module implements OnTick {
     public void initGui() {
         MiniutilsGui.instance.main.add(toggleButton);
         MiniutilsGui.instance.main.add(radiusField);
+    }
+
+    public void reset() {
+        target = null;
+        wasFound = false;
+        targets.clear();
+        canRun = false;
+        selectedTarget = 0;
+        TaskManager.addTask(new DelayTask((task) -> canRun = true, 20));
+    }
+
+    @EventHandler
+    public void onKey(KeyEvent event) {
+        if (mode.getValue() != Mode.ENABLED || getClient().world == null) return;
+        if (event.getAction() != 1) return;
+        switch (event.getKey()) {
+            case GLFW.GLFW_KEY_RIGHT -> selectNext();
+            case GLFW.GLFW_KEY_LEFT -> selectPrevious();
+            case GLFW.GLFW_KEY_UP -> requestAimlock();
+            case GLFW.GLFW_KEY_DOWN -> abortAimlock();
+        }
+        if (event.getModifiers() == 7 && event.getKey() == GLFW.GLFW_KEY_DOWN) {
+            reset();
+            HudUtil.setActionbar("§cForce aimlock reset [ElytraHunter]");
+        }
     }
 }

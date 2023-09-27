@@ -2,7 +2,7 @@ package me.margiux.miniutils.gui.widget;
 
 import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;
 import io.github.cottonmc.cotton.gui.widget.WButton;
-import me.margiux.miniutils.mutable.MutableExtended;
+import me.margiux.miniutils.utils.Mutable;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,10 +11,10 @@ import java.util.function.Consumer;
 public class Enum<T extends me.margiux.miniutils.Enum<T>> extends WButton implements Widget {
     public final String name;
     public final String description;
-    public final MutableExtended<T> mutableEnum;
+    public final Mutable<T> mutableEnum;
     public Consumer<T> customAction;
 
-    public Enum(String name, String description, MutableExtended<T> mutableEnum, @Nullable Consumer<T> customAction) {
+    public Enum(String name, String description, Mutable<T> mutableEnum, @Nullable Consumer<T> customAction) {
         this.name = name;
         this.description = description;
         this.mutableEnum = mutableEnum;

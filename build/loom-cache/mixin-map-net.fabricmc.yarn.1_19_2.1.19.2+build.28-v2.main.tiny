@@ -2,3 +2,4 @@ v1	named	intermediary
 FIELD	me/margiux/miniutils/mixin/MinecraftClientMixin	Lnet/minecraft/util/hit/HitResult;	crosshairTarget	field_1765
 FIELD	me/margiux/miniutils/mixin/MinecraftClientMixin	Lnet/minecraft/client/network/ClientPlayerEntity;	player	field_1724
 FIELD	me/margiux/miniutils/mixin/MinecraftClientMixin	Lnet/minecraft/client/world/ClientWorld;	world	field_1687
+METHOD	me/margiux/miniutils/mixin/KeyboardMixin	(JIIII)V	onKey	method_1466

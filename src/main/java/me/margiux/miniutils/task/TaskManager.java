@@ -8,15 +8,20 @@ public class TaskManager {
 
     public static void tick() {
         for (int i = 0; i < taskList.size(); i++) {
-            taskList.get(i).tick();
-            if (taskList.get(i).taskCompleted) {
-                taskList.remove(i);
-                --i;
+            try {
+                taskList.get(i).tick();
+                if (taskList.get(i).taskCompleted) {
+                    taskList.remove(i);
+                    --i;
+                }
+            } catch (Exception e) {
+                throw e;
             }
         }
     }
 
-    public static void addTask(Task task) {
+    public static Task addTask(Task task) {
         taskList.add(task);
+        return task;
     }
 }

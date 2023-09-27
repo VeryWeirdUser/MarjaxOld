@@ -1,15 +1,15 @@
-package me.margiux.miniutils.mutable;
+package me.margiux.miniutils.utils;
 
 import java.util.function.Consumer;
 
-public class MutableExtended<T> extends org.apache.commons.lang3.mutable.MutableObject<T> {
+public class Mutable<T> extends org.apache.commons.lang3.mutable.MutableObject<T> {
     protected Consumer<T> valueChangedListener;
 
-    public MutableExtended() {
+    public Mutable() {
         super();
     }
 
-    public MutableExtended(T value) {
+    public Mutable(T value) {
         super(value);
     }
 
