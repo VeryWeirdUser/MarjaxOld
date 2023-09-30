@@ -1,14 +1,20 @@
 package me.margiux.miniutils.task;
 
-public class Task {
-    protected final Runnable task;
-    protected boolean taskCompleted = false;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-    public Task(Runnable task) {
+public class Task {
+    protected final Consumer<Task> task;
+    protected boolean taskCompleted = false;
+    protected Predicate<Boolean> predicate;
+    protected Task onCompleteTask = null;
+
+    public Task(Consumer<Task> task) {
         this.task = task;
     }
 
     public void tick() {
+
     }
 
     public void setTaskCompleted() {
@@ -17,9 +23,20 @@ public class Task {
 
     public void setTaskCompleted(boolean value) {
         taskCompleted = value;
+        if (onCompleteTask != null) TaskManager.addTask(onCompleteTask);
     }
 
     public boolean isTaskCompleted() {
         return taskCompleted;
+    }
+
+    public Task setPredicate(Predicate<Boolean> predicate) {
+        this.predicate = predicate;
+        return this;
+    }
+
+    public Task setOnCompleteTask(Task onCompleteTask) {
+        this.onCompleteTask = onCompleteTask;
+        return onCompleteTask;
     }
 }

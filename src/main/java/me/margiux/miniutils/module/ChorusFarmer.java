@@ -1,10 +1,11 @@
 package me.margiux.miniutils.module;
 
 import me.margiux.miniutils.Main;
+import me.margiux.miniutils.event.ModuleEventHandler;
+import me.margiux.miniutils.event.TickEvent;
 import me.margiux.miniutils.gui.*;
 import me.margiux.miniutils.gui.widget.Input;
-import me.margiux.miniutils.mutable.MutableExtended;
-import me.margiux.miniutils.utils.HudUtil;
+import me.margiux.miniutils.utils.Mutable;
 import net.minecraft.block.ChorusFlowerBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.BowItem;
@@ -16,16 +17,16 @@ import net.minecraft.world.RaycastContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChorusFarmer extends Module implements OnTick {
-    public MutableExtended<Integer> radius;
-    public MutableExtended<Integer> maxY;
+public class ChorusFarmer extends Module {
+    public Mutable<Integer> radius;
+    public Mutable<Integer> maxY;
     private final Input<Integer> radiusField;
     private final Input<Integer> maxYField;
 
-    public ChorusFarmer(String name, String description) {
-        super(name, description);
-        radius = new MutableExtended<>(50);
-        maxY = new MutableExtended<>(20);
+    public ChorusFarmer(String name, String description, int activationKey) {
+        super(name, description, activationKey);
+        radius = new Mutable<>(50);
+        maxY = new Mutable<>(20);
         radiusField = new Input<>("Radius of chorus flower searching area", radius, Input.INT_FILTER, (e) -> radius.setValue(Integer.valueOf(e), true));
         maxYField = new Input<>("Radius of chorus flower searching area by Y", maxY, Input.INT_FILTER, (e) -> maxY.setValue(Integer.valueOf(e), true));
     }
@@ -59,9 +60,8 @@ public class ChorusFarmer extends Module implements OnTick {
         }
     }
 
-    @Override
-    public void tick() {
-        if (!isEnabled()) return;
+    @ModuleEventHandler
+    public void tick(TickEvent event) {
         MinecraftClient client = Main.instance.getClient();
         if (client.player != null && client.interactionManager != null && client.player.getMainHandStack().getItem() instanceof BowItem) {
             findFlowers(client);
@@ -122,16 +122,11 @@ public class ChorusFarmer extends Module implements OnTick {
     }
 
     @Override
-    public void onEnable() {
-        HudUtil.setSubTitle("§7ChorusFarmer: §aEnabled");
-    }
-
-    @Override
     public void onDisable() {
+        super.onDisable();
         tick = 0;
         blocks.clear();
         getClient().options.useKey.setPressed(false);
-        HudUtil.setSubTitle("§7ChorusFarmer: §4Disabled");
     }
 
     @Override

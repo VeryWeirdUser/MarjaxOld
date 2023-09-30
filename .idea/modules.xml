@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MiniUtils.iml" filepath="$PROJECT_DIR$/.idea/modules/MiniUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MiniUtils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/MiniUtils.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MiniUtils.test.iml" filepath="$PROJECT_DIR$/.idea/modules/MiniUtils.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/me.margiux.MiniUtils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/me.margiux.MiniUtils.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/me.margiux.MiniUtils.test.iml" filepath="$PROJECT_DIR$/.idea/modules/me.margiux.MiniUtils.test.iml" />
     </modules>
   </component>
 </project>

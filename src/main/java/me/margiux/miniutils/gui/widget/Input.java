@@ -1,7 +1,7 @@
 package me.margiux.miniutils.gui.widget;
 
 import io.github.cottonmc.cotton.gui.widget.WTextField;
-import me.margiux.miniutils.mutable.MutableExtended;
+import me.margiux.miniutils.utils.Mutable;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,14 +39,19 @@ public class Input<T> extends WTextField implements Widget {
         return true;
     };
     public final String description;
-    public final MutableExtended<T> input;
+    public final Mutable<T> input;
 
-    public Input(String description, MutableExtended<T> input,
-                 @Nullable Predicate<String> predicate, @Nullable Consumer<String> consumer) {
+    public Input(String description, Mutable<T> input, @Nullable Predicate<String> predicate, @Nullable Consumer<String> consumer) {
+        this(description, input, predicate, consumer, true);
+    }
+
+    public Input(String description, Mutable<T> input,
+                 @Nullable Predicate<String> predicate, @Nullable Consumer<String> consumer, boolean setText) {
         this.setMaxLength(64);
         this.description = description;
         this.input = input;
         this.setTextPredicate(predicate);
+        if (setText) this.setText(String.valueOf(input));
         this.setChangedListener((e) -> {
             if (textChanged) {
                 textChanged = false;
@@ -75,5 +80,13 @@ public class Input<T> extends WTextField implements Widget {
         if (this.getCursor() > getText().length()) this.setCursorPos(this.getText().length() - 1);
         if (this.getCursor() < 0) this.setCursorPos(0);
         super.onKeyPressed(ch, key, modifiers);
+    }
+
+    public boolean isEmpty() {
+        return Objects.equals(this.getText(), "");
+    }
+
+    public boolean notEmpty() {
+        return !isEmpty();
     }
 }

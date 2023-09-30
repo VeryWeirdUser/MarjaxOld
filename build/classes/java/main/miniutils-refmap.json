@@ -8,7 +8,8 @@
     },
     "me/margiux/miniutils/mixin/MinecraftClientMixin": {
       "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;": "Lnet/minecraft/class_746;method_5998(Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;",
-      "doItemUse": "Lnet/minecraft/class_310;method_1583()V"
+      "doItemUse": "Lnet/minecraft/class_310;method_1583()V",
+      "setScreen": "Lnet/minecraft/class_310;method_1507(Lnet/minecraft/class_437;)V"
     },
     "me/margiux/miniutils/mixin/TruesightMixin": {
       "isInvisibleTo": "Lnet/minecraft/class_1297;method_5756(Lnet/minecraft/class_1657;)Z"
@@ -24,7 +25,8 @@
       },
       "me/margiux/miniutils/mixin/MinecraftClientMixin": {
         "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;": "Lnet/minecraft/class_746;method_5998(Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;",
-        "doItemUse": "Lnet/minecraft/class_310;method_1583()V"
+        "doItemUse": "Lnet/minecraft/class_310;method_1583()V",
+        "setScreen": "Lnet/minecraft/class_310;method_1507(Lnet/minecraft/class_437;)V"
       },
       "me/margiux/miniutils/mixin/TruesightMixin": {
         "isInvisibleTo": "Lnet/minecraft/class_1297;method_5756(Lnet/minecraft/class_1657;)Z"

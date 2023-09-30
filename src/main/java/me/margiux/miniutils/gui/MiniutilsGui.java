@@ -1,5 +1,6 @@
 package me.margiux.miniutils.gui;
 
+import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
@@ -22,7 +23,8 @@ public class MiniutilsGui extends LightweightGuiDescription {
         root.add(main, 0, 0);
         root.validate(this);
 
-
+        root.setBackgroundPainter(BackgroundPainter.SLOT);
+        root.getBackgroundPainter();
     }
     public MiniutilsScreen getScreen() {
         return new MiniutilsScreen(instance);

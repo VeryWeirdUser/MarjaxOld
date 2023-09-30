@@ -4,18 +4,18 @@ import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
 import io.github.cottonmc.cotton.gui.widget.WScrollPanel;
 import me.margiux.miniutils.gui.MiniutilsGui;
 import me.margiux.miniutils.gui.PanelWithAlignment;
-import me.margiux.miniutils.mutable.MutableExtended;
+import me.margiux.miniutils.utils.Mutable;
 
 import java.util.function.Function;
 
 public class List<T extends java.util.List<R>, R> extends WScrollPanel implements Widget {
     protected int height = 20;
-    public Function<MutableExtended<T>, PanelWithAlignment> converter;
+    public Function<Mutable<T>, PanelWithAlignment> converter;
     public WPlainPanel root;
     public PanelWithAlignment main;
-    protected MutableExtended<T> list;
+    protected Mutable<T> list;
 
-    public List(MutableExtended<T> list, WPlainPanel panel, Function<MutableExtended<T>, PanelWithAlignment> converter) {
+    public List(Mutable<T> list, WPlainPanel panel, Function<Mutable<T>, PanelWithAlignment> converter) {
         super(panel);
         this.root = panel;
         this.main = new PanelWithAlignment();
