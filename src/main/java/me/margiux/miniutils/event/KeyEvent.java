@@ -1,6 +1,6 @@
 package me.margiux.miniutils.event;
 
-public class KeyEvent extends Event {
+public class KeyEvent extends Event implements Cancelable {
     public int getKey() {
         return key;
     }

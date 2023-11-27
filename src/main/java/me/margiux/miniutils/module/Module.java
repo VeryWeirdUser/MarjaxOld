@@ -4,17 +4,21 @@ import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.event.EventHandler;
 import me.margiux.miniutils.event.ModuleKeyEvent;
 import me.margiux.miniutils.event.Listener;
-import me.margiux.miniutils.gui.widget.Enum;
+import me.margiux.miniutils.module.setting.Setting;
 import me.margiux.miniutils.utils.Mutable;
 import me.margiux.miniutils.utils.HudUtil;
 import net.minecraft.client.MinecraftClient;
 import me.margiux.miniutils.Main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Module implements Listener {
     public final String name;
     public final String description;
-    protected Mutable<Mode> mode = new Mutable<>(Mode.DISABLED);
-    protected final Enum<Mode> toggleButton;
+    public final Category category;
+    public final List<Setting<?>> moduleSettings = new ArrayList<>();
+    protected final Mutable<Mode> mode = new Mutable<>(Mode.DISABLED);
     public boolean disabledByMain = false;
     public final int activationKey;
 
@@ -22,21 +26,21 @@ public class Module implements Listener {
         return Main.instance.getClient();
     }
 
-    public Module(String name, String description, int activationKey, Mode defaultMode) {
-        this(name, description, activationKey);
+    public Module(String name, String description, Category category, int activationKey, Mode defaultMode) {
+        this(name, description, category, activationKey);
         this.mode.setValue(defaultMode);
     }
 
-    public Module(String name, String description, int activationKey) {
+    public Module(String name, String description, Category category, int activationKey) {
         this.name = name;
         this.description = description;
+        this.category = category;
         this.activationKey = activationKey;
-        this.toggleButton = new Enum<>(this.name, this.description, mode, this::changeMode);
     }
 
     public void changeMode(Mode mode) {
         Mode oldMode = this.mode.getValue();
-        this.mode.setValue(mode, true);
+        this.mode.setValue(mode);
         if (this.mode.getValue() == Mode.ENABLED) onEnable();
         else if (oldMode == Mode.ENABLED && mode != oldMode) onDisable();
     }
@@ -53,12 +57,11 @@ public class Module implements Listener {
         HudUtil.setSubTitle("§7" + name + ": §cDisabled");
     }
 
-    public void initGui() {
-
-    }
-
     public boolean isEnabled() {
         return mode.getValue() == Mode.ENABLED;
+    }
+    public Mode getMode() {
+        return mode.getValue();
     }
 
     @EventHandler
@@ -67,5 +70,9 @@ public class Module implements Listener {
             toggle();
             event.setCanceled();
         }
+    }
+
+    public void addSetting(Setting<?> setting) {
+        this.moduleSettings.add(setting);
     }
 }

@@ -1,36 +1,31 @@
 package me.margiux.miniutils.gui.widget;
 
-import io.github.cottonmc.cotton.gui.widget.TooltipBuilder;
 import io.github.cottonmc.cotton.gui.widget.WButton;
+import me.margiux.miniutils.module.setting.EnumSetting;
 import me.margiux.miniutils.utils.Mutable;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class Enum<T extends me.margiux.miniutils.Enum<T>> extends WButton implements Widget {
-    public final String name;
-    public final String description;
-    public final Mutable<T> mutableEnum;
-    public Consumer<T> customAction;
+public class Enum<T extends me.margiux.miniutils.Enum<T>> extends Button {
+    public EnumSetting<T> setting;
 
-    public Enum(String name, String description, Mutable<T> mutableEnum, @Nullable Consumer<T> customAction) {
-        this.name = name;
-        this.description = description;
-        this.mutableEnum = mutableEnum;
-        if (customAction != null) this.customAction = customAction;
-
-        this.setLabel(Text.literal(name + ": " + this.mutableEnum.getValue().getName()));
-        this.addTooltip(new TooltipBuilder().add(Text.literal(description)));
-        this.setOnClick(() -> {
-            if (!mutableEnum.getValue().isDisplayOnly()) {
-                mutableEnum.setValue(mutableEnum.getValue().next());
-                this.setLabel(Text.literal(name + ": " + this.mutableEnum.getValue().getName()));
-                if (this.customAction != null) {
-                    this.customAction.accept(this.mutableEnum.getValue());
-                }
-            }
+    public Enum(int x, int y, int width, int height, String name, String description, EnumSetting<T> setting) {
+        super(x, y, width, height, name, description, (b, mx, my, b1) -> {
+            setting.setData(setting.getData().next());
+            b.name = name + ": " + setting.getData().getName();
         });
-        this.mutableEnum.setOnValueChanged((newValue) -> this.setLabel(Text.literal(name + ": " + this.mutableEnum.getValue().getName())));
+        this.name = name + ": " + setting.getData().getName();
+        this.setting = setting;
+    }
+
+    public Enum(int width, int height, String name, String description, EnumSetting<T> setting) {
+        super(width, height, name, description, (b, mx, my, b1) -> {
+            setting.setData(setting.getData().next());
+            b.name = name + ": " + setting.getData().getName();
+        });
+        this.name = name + ": " + setting.getData().getName();
+        this.setting = setting;
     }
 }

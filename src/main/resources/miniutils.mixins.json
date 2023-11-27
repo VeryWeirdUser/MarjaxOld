@@ -7,10 +7,14 @@
     "TruesightMixin"
   ],
   "client": [
-    "ClientInteractionMixin",
+    "ChatHudMixin",
+    "GenericContainerScreenAccessor",
     "GenericContainerScreenMixin",
+    "HandledScreenAccessor",
     "KeyboardMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "ScreenAccessor",
+    "ShulkerBoxScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,36 +1,44 @@
 package me.margiux.miniutils.gui;
 
-import io.github.cottonmc.cotton.gui.client.BackgroundPainter;
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import me.margiux.miniutils.gui.widget.Button;
+import me.margiux.miniutils.module.Category;
+import me.margiux.miniutils.module.Module;
+import me.margiux.miniutils.module.ModuleManager;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.text.Text;
 
-public class MiniutilsGui extends LightweightGuiDescription {
-    public static MiniutilsGui instance;
-    public WPlainPanel root;
-    public PanelWithAlignment main;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+public class MiniutilsGui extends Window {
     public MiniutilsGui() {
-        root = new WPlainPanel();
-        main = new PanelWithAlignment(500, 450);
-        setRootPanel(root);
+        super(5, 5, 500, 500);
 
-        root.setSize(510, 490);
-        root.setInsets(Insets.ROOT_PANEL);
+        int x = 0;
 
-        main.setSize(500, 450);
+        Map<Category, List<Module>> moduleMap = new HashMap<>();
 
-        root.add(main, 0, 0);
-        root.validate(this);
+        for (Module mod : ModuleManager.modules) {
+            moduleMap.computeIfAbsent(mod.category, (k) -> new ArrayList<>()).add(mod);
+        }
 
-        root.setBackgroundPainter(BackgroundPainter.SLOT);
-        root.getBackgroundPainter();
-    }
-    public MiniutilsScreen getScreen() {
-        return new MiniutilsScreen(instance);
-    }
-
-    public void validate() {
-        root.validate(this);
+        for (Category c : Category.values()) {
+            HackListWindow window;
+            List<HackWindow> hackWindows = new ArrayList<>();
+            for (Module module : moduleMap.get(c)) {
+                hackWindows.add(new HackWindow(0, 0, module));
+            }
+            window = new HackListWindow(x, 0, 100, 300, c, hackWindows);
+            x += 110;
+            addChild(window);
+        }
     }
 }

@@ -8,7 +8,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.RaycastContext;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,8 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin {
     @Shadow
-    public HitResult crosshairTarget;
-    @Shadow
     public ClientPlayerEntity player;
     @Shadow
     public ClientWorld world;
@@ -30,16 +27,11 @@ public abstract class MinecraftClientMixin {
     public void switchCrosshairTarget(CallbackInfo ci) {
         if (MinecraftClient.getInstance().cameraEntity != null) {
             BlockHitResult result;
-            if ((result = world.raycast(new RaycastContext(player.getEyePos(), player.getEyePos().add(MinecraftClient.getInstance().cameraEntity.getRotationVec(0).multiply(MinecraftClient.getInstance().interactionManager.getReachDistance())), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, player))) != null) {
+            if (MinecraftClient.getInstance().interactionManager != null && (result = world.raycast(new RaycastContext(player.getEyePos(), player.getEyePos().add(MinecraftClient.getInstance().cameraEntity.getRotationVec(0).multiply(MinecraftClient.getInstance().interactionManager.getReachDistance())), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, player))) != null) {
                 if (world.getBlockState(result.getBlockPos()).hasBlockEntity()) {
                     MinecraftClient.getInstance().interactionManager.interactBlock(player, Hand.MAIN_HAND, result);
                 }
             }
         }
-    }
-
-    @Inject(method = "setScreen", at = @At("HEAD"))
-    private void setScreen(Screen screen, CallbackInfo info) {
-        EventManager.fireEvent(new OpenScreenEvent(screen));
     }
 }

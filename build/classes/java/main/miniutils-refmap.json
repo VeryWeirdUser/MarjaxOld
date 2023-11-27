@@ -1,15 +1,26 @@
 {
   "mappings": {
-    "me/margiux/miniutils/mixin/ClientInteractionMixin": {
-      "breakBlock": "Lnet/minecraft/class_636;method_2899(Lnet/minecraft/class_2338;)Z"
+    "me/margiux/miniutils/mixin/ChatHudMixin": {
+      "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V": "Lnet/minecraft/class_338;method_44811(Lnet/minecraft/class_2561;Lnet/minecraft/class_7469;Lnet/minecraft/class_7591;)V"
+    },
+    "me/margiux/miniutils/mixin/GenericContainerScreenAccessor": {
+      "rows": "field_2864:I"
+    },
+    "me/margiux/miniutils/mixin/HandledScreenAccessor": {
+      "backgroundHeight": "field_2779:I",
+      "backgroundWidth": "field_2792:I",
+      "x": "field_2776:I",
+      "y": "field_2800:I"
     },
     "me/margiux/miniutils/mixin/KeyboardMixin": {
       "onKey": "Lnet/minecraft/class_309;method_1466(JIIII)V"
     },
     "me/margiux/miniutils/mixin/MinecraftClientMixin": {
       "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;": "Lnet/minecraft/class_746;method_5998(Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;",
-      "doItemUse": "Lnet/minecraft/class_310;method_1583()V",
-      "setScreen": "Lnet/minecraft/class_310;method_1507(Lnet/minecraft/class_437;)V"
+      "doItemUse": "Lnet/minecraft/class_310;method_1583()V"
+    },
+    "me/margiux/miniutils/mixin/ScreenAccessor": {
+      "addDrawableChild": "method_37063(Lnet/minecraft/class_364;)Lnet/minecraft/class_364;"
     },
     "me/margiux/miniutils/mixin/TruesightMixin": {
       "isInvisibleTo": "Lnet/minecraft/class_1297;method_5756(Lnet/minecraft/class_1657;)Z"
@@ -17,16 +28,27 @@
   },
   "data": {
     "named:intermediary": {
-      "me/margiux/miniutils/mixin/ClientInteractionMixin": {
-        "breakBlock": "Lnet/minecraft/class_636;method_2899(Lnet/minecraft/class_2338;)Z"
+      "me/margiux/miniutils/mixin/ChatHudMixin": {
+        "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V": "Lnet/minecraft/class_338;method_44811(Lnet/minecraft/class_2561;Lnet/minecraft/class_7469;Lnet/minecraft/class_7591;)V"
+      },
+      "me/margiux/miniutils/mixin/GenericContainerScreenAccessor": {
+        "rows": "field_2864:I"
+      },
+      "me/margiux/miniutils/mixin/HandledScreenAccessor": {
+        "backgroundHeight": "field_2779:I",
+        "backgroundWidth": "field_2792:I",
+        "x": "field_2776:I",
+        "y": "field_2800:I"
       },
       "me/margiux/miniutils/mixin/KeyboardMixin": {
         "onKey": "Lnet/minecraft/class_309;method_1466(JIIII)V"
       },
       "me/margiux/miniutils/mixin/MinecraftClientMixin": {
         "Lnet/minecraft/client/network/ClientPlayerEntity;getStackInHand(Lnet/minecraft/util/Hand;)Lnet/minecraft/item/ItemStack;": "Lnet/minecraft/class_746;method_5998(Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;",
-        "doItemUse": "Lnet/minecraft/class_310;method_1583()V",
-        "setScreen": "Lnet/minecraft/class_310;method_1507(Lnet/minecraft/class_437;)V"
+        "doItemUse": "Lnet/minecraft/class_310;method_1583()V"
+      },
+      "me/margiux/miniutils/mixin/ScreenAccessor": {
+        "addDrawableChild": "method_37063(Lnet/minecraft/class_364;)Lnet/minecraft/class_364;"
       },
       "me/margiux/miniutils/mixin/TruesightMixin": {
         "isInvisibleTo": "Lnet/minecraft/class_1297;method_5756(Lnet/minecraft/class_1657;)Z"

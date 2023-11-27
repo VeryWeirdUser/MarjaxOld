@@ -1,11 +1,9 @@
 package me.margiux.miniutils.module;
 
-import me.margiux.miniutils.Main;
 import me.margiux.miniutils.event.KeyEvent;
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
-import me.margiux.miniutils.gui.widget.Input;
-import me.margiux.miniutils.gui.MiniutilsGui;
+import me.margiux.miniutils.module.setting.IntegerSetting;
 import me.margiux.miniutils.utils.Mutable;
 import me.margiux.miniutils.task.DelayTask;
 import me.margiux.miniutils.task.TaskManager;
@@ -19,8 +17,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("FieldCanBeLocal")
-public class ElytraHunter extends Module {
+public final class ElytraHunter extends Module {
     enum Aimlock {
         None,
         Requested,
@@ -28,11 +25,11 @@ public class ElytraHunter extends Module {
     }
 
     private Aimlock aimlockStatus;
-    private final Mutable<Float> radiusInput = new Mutable<>(250f);
-    private final Input<Float> radiusField = new Input<>("Radius of search", radiusInput, Input.INT_FILTER, (e) -> radiusInput.setValue(Float.valueOf(e), true));
+    private final IntegerSetting radiusInput = new IntegerSetting("Radius", "", 250);
 
-    public ElytraHunter(String name, String description, int activationKey) {
-        super(name, description, activationKey);
+    public ElytraHunter(String name, String description, Category category, int activationKey) {
+        super(name, description, category, activationKey);
+        addSetting(radiusInput);
     }
 
     private PlayerEntity target = null;
@@ -43,6 +40,7 @@ public class ElytraHunter extends Module {
 
     public void findPlayers(float radius) {
         targets.clear();
+        if (getClient().world == null) return;
         for (PlayerEntity e : getClient().world.getPlayers()) {
             if (e != getClient().player) {
                 for (ItemStack i :
@@ -63,11 +61,10 @@ public class ElytraHunter extends Module {
     public void tick(TickEvent event) {
         if (!canRun) return;
         if (getClient().world == null) return;
-        float radius = 25;
+        float radius = 100;
         try {
-            radius = (radiusInput.getValue() == 0) ? radius : radiusInput.getValue();
-        } catch (Exception e) {
-            Main.instance.LOGGER.error("Failed to parse input!", e);
+            radius = (radiusInput.getData() == 0) ? radius : radiusInput.getData();
+        } catch (Exception ignored) {
         }
         wasFound = hasTargets();
         findPlayers(radius);
@@ -102,7 +99,8 @@ public class ElytraHunter extends Module {
     }
 
     public void requestAimlock() {
-        if (aimlockStatus == Aimlock.Confirmed) {
+        if (targets.isEmpty()) return;
+        if (aimlockStatus == Aimlock.Confirmed && target != null) {
             HudUtil.setActionbar(String.format("§eYou already did confirm aimlock, to cancel press arrow down! Target: %s!", target.getDisplayName().getString()));
             return;
         }
@@ -122,7 +120,7 @@ public class ElytraHunter extends Module {
     }
 
     public void abortAimlock(String message) {
-        if (target == null) {
+        if (target == null || aimlockStatus == Aimlock.None) {
             HudUtil.setActionbar("§eNo target is selected, abort failed");
             return;
         }
@@ -139,13 +137,15 @@ public class ElytraHunter extends Module {
     }
 
     public void aim(PlayerEntity target) {
+        if (target == null) return;
         for (PlayerEntity p : targets) {
-            if (p.getUuid() == target.getUuid()) {
+            if (target != null && p.getUuid() == target.getUuid()) {
                 target = p;
                 break;
             }
         }
         if (hasTargets()) {
+            if (getClient().player == null || getClient().world == null) return;
             double posX = target.getX() - getClient().player.getX();
             double posY = target.getY() - (getClient().player.getY() + getClient().player.getEyeHeight(getClient().player.getPose()));
             double posZ = target.getZ() - getClient().player.getZ();
@@ -165,12 +165,6 @@ public class ElytraHunter extends Module {
             getClient().player.setYaw(getClient().player.getYaw() + MathHelper.wrapDegrees(newYaw - getClient().player.getYaw()));
             getClient().player.setPitch(getClient().player.getPitch() + MathHelper.wrapDegrees(newPitch - getClient().player.getPitch()));
         }
-    }
-
-    @Override
-    public void initGui() {
-        MiniutilsGui.instance.main.add(toggleButton);
-        MiniutilsGui.instance.main.add(radiusField);
     }
 
     public void reset() {

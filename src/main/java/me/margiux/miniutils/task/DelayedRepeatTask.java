@@ -5,12 +5,21 @@ import java.util.function.Consumer;
 public class DelayedRepeatTask extends Task {
     private final int delay;
     private final int delayUntilStart;
+    private int maxRepeatCount = -1;
+    private int repeatCount = 0;
     private int ticks;
 
     public DelayedRepeatTask(Consumer<Task> task, int delay, int delayUntilStart) {
         super(task);
         this.delay = delay;
         this.delayUntilStart = delayUntilStart;
+    }
+
+    public DelayedRepeatTask(Consumer<Task> task, int delay, int delayUntilStart, int maxRepeatCount) {
+        super(task);
+        this.delay = delay;
+        this.delayUntilStart = delayUntilStart;
+        this.maxRepeatCount = maxRepeatCount;
     }
 
     @Override
@@ -25,8 +34,20 @@ public class DelayedRepeatTask extends Task {
         if (delay > ticks) {
             ++ticks;
         } else {
+            if (maxRepeatCount != -1) {
+                if (repeatCount < maxRepeatCount) repeatCount++;
+                else {
+                    setTaskCompleted();
+                    return;
+                }
+            }
             task.accept(this);
             ticks = 0;
         }
+    }
+
+    @Override
+    public void onTaskEnded() {
+        ticks = 0;
     }
 }

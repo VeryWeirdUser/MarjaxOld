@@ -26,7 +26,7 @@ dependencies {
 }
 
 base {
-	archivesName = project.archives_base_name
+	archivesName = "miniutils"
 }
 
 processResources {

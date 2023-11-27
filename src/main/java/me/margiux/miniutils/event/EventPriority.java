@@ -14,6 +14,7 @@ public enum EventPriority {
         this.slot = slot;
     }
 
+    @SuppressWarnings("unused")
     public int getSlot() {
         return slot;
     }

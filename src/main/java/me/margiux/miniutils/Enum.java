@@ -14,6 +14,7 @@ public abstract class Enum<T> {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public int getOrdinal() {
         return ordinal;
     }

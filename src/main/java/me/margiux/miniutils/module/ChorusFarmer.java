@@ -3,9 +3,7 @@ package me.margiux.miniutils.module;
 import me.margiux.miniutils.Main;
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
-import me.margiux.miniutils.gui.*;
-import me.margiux.miniutils.gui.widget.Input;
-import me.margiux.miniutils.utils.Mutable;
+import me.margiux.miniutils.module.setting.IntegerSetting;
 import net.minecraft.block.ChorusFlowerBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.BowItem;
@@ -17,21 +15,17 @@ import net.minecraft.world.RaycastContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChorusFarmer extends Module {
-    public Mutable<Integer> radius;
-    public Mutable<Integer> maxY;
-    private final Input<Integer> radiusField;
-    private final Input<Integer> maxYField;
+public final class ChorusFarmer extends Module {
+    private final IntegerSetting radiusField = new IntegerSetting("Radius", "Radius of chorus flower searching area", 50);
+    private final IntegerSetting maxYField = new IntegerSetting("Y radius", "Radius of chorus flower searching area by Y", 20);
 
-    public ChorusFarmer(String name, String description, int activationKey) {
-        super(name, description, activationKey);
-        radius = new Mutable<>(50);
-        maxY = new Mutable<>(20);
-        radiusField = new Input<>("Radius of chorus flower searching area", radius, Input.INT_FILTER, (e) -> radius.setValue(Integer.valueOf(e), true));
-        maxYField = new Input<>("Radius of chorus flower searching area by Y", maxY, Input.INT_FILTER, (e) -> maxY.setValue(Integer.valueOf(e), true));
+    public ChorusFarmer(String name, String description, Category category, int activationKey) {
+        super(name, description, category, activationKey);
+        addSetting(radiusField);
+        addSetting(maxYField);
     }
 
-    public List<BlockPos> blocks = new ArrayList<>();
+    public final List<BlockPos> blocks = new ArrayList<>();
     public int tick = 0;
 
     public void findFlowers(MinecraftClient client) {
@@ -39,10 +33,9 @@ public class ChorusFarmer extends Module {
         int radius = 25;
         int yRadius = 20;
         try {
-            radius = (this.radius.getValue() == 0 || this.radius.getValue() > 100) ? radius : this.radius.getValue();
-            yRadius = maxY.getValue();
+            radius = (radiusField.getData() == 0 || radiusField.getData() > 100) ? radius : radiusField.getData();
+            yRadius = maxYField.getData();
         } catch (Exception e) {
-            Main.instance.LOGGER.error("Failed to parse input!", e);
             radius = 25;
         }
         if (client.world != null) {
@@ -68,24 +61,25 @@ public class ChorusFarmer extends Module {
             if (!blocks.isEmpty()) {
                 BlockPos target = null;
                 for (BlockPos pos : blocks) {
-                    BlockPos raycast = client.world.raycast(
-                            new RaycastContext(new Vec3d(client.player.getEyePos().getX(), client.player.getEyePos().getY(), client.player.getEyePos().getZ()),
-                                    new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5),
-                                    RaycastContext.ShapeType.COLLIDER,
-                                    RaycastContext.FluidHandling.SOURCE_ONLY, client.player
-                            )
-                    ).getBlockPos();
+                    BlockPos raycast = null;
+                    if (client.world != null) {
+                        raycast = client.world.raycast(
+                                new RaycastContext(new Vec3d(client.player.getEyePos().getX(), client.player.getEyePos().getY(), client.player.getEyePos().getZ()),
+                                        new Vec3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5),
+                                        RaycastContext.ShapeType.COLLIDER,
+                                        RaycastContext.FluidHandling.SOURCE_ONLY, client.player
+                                )
+                        ).getBlockPos();
+                    }
 
-                    if (raycast.getX() == pos.getX() && raycast.getY() == pos.getY() && raycast.getZ() == pos.getZ()) {
+                    if (raycast != null && raycast.getX() == pos.getX() && raycast.getY() == pos.getY() && raycast.getZ() == pos.getZ()) {
                         if (pos.getSquaredDistance(client.player.getEyePos()) < ((target != null) ? target.getSquaredDistance(client.player.getEyePos()) : 10000)) {
                             target = pos;
                         }
                     }
                 }
-                if (target == null) {
-                    Main.instance.LOGGER.warn("Target is null, preventing module from further actions");
-                    return;
-                }
+                if (target == null) return;
+
                 double posX = target.getX() + 0.5 - client.player.getX();
                 double posY = target.getY() + 0.5 - (client.player.getY() + client.player.getEyeHeight(client.player.getPose()));
                 double posZ = target.getZ() + 0.5 - client.player.getZ();
@@ -114,6 +108,7 @@ public class ChorusFarmer extends Module {
             getClient().options.useKey.setPressed(true);
         }
         if (tick == 23) {
+            if (getClient().interactionManager == null) return;
             getClient().interactionManager.stopUsingItem(getClient().player);
             tick = 0;
             return;
@@ -127,12 +122,5 @@ public class ChorusFarmer extends Module {
         tick = 0;
         blocks.clear();
         getClient().options.useKey.setPressed(false);
-    }
-
-    @Override
-    public void initGui() {
-        MiniutilsGui.instance.main.add(toggleButton);
-        MiniutilsGui.instance.main.add(radiusField);
-        MiniutilsGui.instance.main.add(maxYField);
     }
 }

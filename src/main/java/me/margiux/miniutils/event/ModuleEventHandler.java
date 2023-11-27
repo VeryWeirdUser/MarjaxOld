@@ -9,5 +9,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ModuleEventHandler {
     EventPriority priority() default EventPriority.NORMAL;
+
     boolean ignoreCanceled() default true;
+
+    boolean executeInPanicMode() default false;
 }

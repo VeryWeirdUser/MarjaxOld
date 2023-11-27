@@ -3,6 +3,7 @@ package me.margiux.miniutils.event;
 import net.minecraft.client.gui.screen.Screen;
 
 public class OpenScreenEvent extends Event {
+    @SuppressWarnings("unused")
     public Screen getScreen() {
         return screen;
     }

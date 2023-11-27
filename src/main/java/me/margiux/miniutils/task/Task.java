@@ -3,7 +3,7 @@ package me.margiux.miniutils.task;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class Task {
+public abstract class Task {
     protected final Consumer<Task> task;
     protected boolean taskCompleted = false;
     protected Predicate<Boolean> predicate;
@@ -13,9 +13,8 @@ public class Task {
         this.task = task;
     }
 
-    public void tick() {
-
-    }
+    public abstract void tick();
+    public abstract void onTaskEnded();
 
     public void setTaskCompleted() {
         setTaskCompleted(true);
@@ -38,5 +37,10 @@ public class Task {
     public Task setOnCompleteTask(Task onCompleteTask) {
         this.onCompleteTask = onCompleteTask;
         return onCompleteTask;
+    }
+
+    public void endTask() {
+        this.taskCompleted = true;
+        onTaskEnded();
     }
 }

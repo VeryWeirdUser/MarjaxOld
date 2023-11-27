@@ -1,12 +1,17 @@
 package me.margiux.miniutils.task;
 
+import me.margiux.miniutils.event.EventHandler;
+import me.margiux.miniutils.event.Listener;
+import me.margiux.miniutils.event.TickEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskManager {
+public class TaskManager implements Listener {
     protected static final List<Task> taskList = new ArrayList<>();
 
-    public static void tick() {
+    @EventHandler
+    public static void tick(TickEvent event) {
         for (int i = 0; i < taskList.size(); i++) {
             try {
                 taskList.get(i).tick();
@@ -14,8 +19,7 @@ public class TaskManager {
                     taskList.remove(i);
                     --i;
                 }
-            } catch (Exception e) {
-                throw e;
+            } catch (Exception ignored) {
             }
         }
     }
@@ -23,5 +27,9 @@ public class TaskManager {
     public static Task addTask(Task task) {
         taskList.add(task);
         return task;
+    }
+
+    public static void removeTask(Task task) {
+        taskList.remove(task);
     }
 }

@@ -1,28 +1,37 @@
 package me.margiux.miniutils.mixin;
 
-import io.github.cottonmc.cotton.gui.client.CottonClientScreen;
-import me.margiux.miniutils.gui.widget.Button;
-import net.minecraft.client.gui.widget.ButtonWidget;
+import me.margiux.miniutils.event.EventManager;
+import me.margiux.miniutils.event.OpenScreenEvent;
+import me.margiux.miniutils.event.PreOpenScreenEvent;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import org.spongepowered.asm.mixin.Final;
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
 import net.minecraft.screen.GenericContainerScreenHandler;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(GenericContainerScreen.class)
 public abstract class GenericContainerScreenMixin extends HandledScreen<GenericContainerScreenHandler> implements ScreenHandlerProvider<GenericContainerScreenHandler> {
     public GenericContainerScreenMixin(GenericContainerScreenHandler container, PlayerInventory playerInventory, Text name) {
         super(container, playerInventory, name);
+        MutableObject<Screen> screen = new MutableObject<>(this);
+        PreOpenScreenEvent event = new PreOpenScreenEvent(screen);
+        EventManager.fireEvent(event);
     }
 
     @Override
     protected void init() {
         super.init();
-        this.addDrawableChild(new ButtonWidget(x + backgroundWidth - 108, y + 4, 50, 12, Text.literal("ggg"), (b) -> {}));
+        OpenScreenEvent event = new OpenScreenEvent(this);
+        EventManager.fireEvent(event);
     }
 }

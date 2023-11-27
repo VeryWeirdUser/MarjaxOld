@@ -22,4 +22,9 @@ public class RepeatTask extends Task {
             ticks = 0;
         }
     }
+
+    @Override
+    public void onTaskEnded() {
+        ticks = 0;
+    }
 }

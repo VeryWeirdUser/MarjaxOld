@@ -1,6 +1,5 @@
 package me.margiux.miniutils.mixin;
 
-import me.margiux.miniutils.module.Module;
 import me.margiux.miniutils.module.ModuleManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

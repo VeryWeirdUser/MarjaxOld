@@ -4,10 +4,12 @@ import java.util.function.Consumer;
 
 public class DelayTask extends Task {
     private int delay;
+    private final int _delay;
 
     public DelayTask(Consumer<Task> task, int delay) {
         super(task);
         this.delay = delay;
+        this._delay = delay;
     }
 
     @Override
@@ -20,5 +22,10 @@ public class DelayTask extends Task {
             task.accept(this);
             setTaskCompleted();
         }
+    }
+
+    @Override
+    public void onTaskEnded() {
+        delay = _delay;
     }
 }

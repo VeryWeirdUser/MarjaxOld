@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheatMode extends Enum<CheatMode> {
-    public static List<CheatMode> enumList = new ArrayList<>();
+    public static final List<CheatMode> enumList = new ArrayList<>();
     public static final CheatMode ENABLED = new CheatMode("§aEnabled", 0, false);
     public static final CheatMode DISABLED = new CheatMode("§cDisabled", 1, false);
     public static final CheatMode PANIC = new CheatMode("§c&lPANIC", 2, true);
