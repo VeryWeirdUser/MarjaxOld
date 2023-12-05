@@ -1,4 +1,4 @@
-package me.margiux.miniutils.gui;
+package me.margiux.miniutils.gui.widget;
 
 import me.margiux.miniutils.gui.widget.Widget;
 

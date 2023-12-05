@@ -19,7 +19,7 @@ public class MainListener implements Listener {
 
     @EventHandler(executeInPanicMode = true)
     public static void onKey(KeyEvent event) {
-        if (event.getModifiers() == 7 && event.getKey() == GLFW.GLFW_KEY_KP_DECIMAL) {
+        if (event.getModifiers() == GLFW.GLFW_MOD_ALT && event.getKey() == GLFW.GLFW_KEY_KP_DECIMAL) {
             if (event.getAction() == 2) holdTime++;
             if (holdTime > 60 && !panicTriggered) {
                 panicTriggered = true;
@@ -48,7 +48,7 @@ public class MainListener implements Listener {
 
     @EventHandler(ignoreCanceled = false)
     public static void onChat(ChatReceiveMessageEvent message) {
-        if (message.message.getString().contains("Вы были вызваны на проверку читов")) {
+        if (message.message.getString().contains("Вы были вызваны на проверку читов") && Main.instance.STATUS.getValue() != CheatMode.ENABLED) {
             HudUtil.setSubTitle("§c§lHacks have been disabled!");
             Main.instance.changeStatus(CheatMode.DISABLED);
         }

@@ -4,7 +4,7 @@ import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.event.EventHandler;
 import me.margiux.miniutils.event.ModuleKeyEvent;
 import me.margiux.miniutils.event.Listener;
-import me.margiux.miniutils.module.setting.Setting;
+import me.margiux.miniutils.setting.Setting;
 import me.margiux.miniutils.utils.Mutable;
 import me.margiux.miniutils.utils.HudUtil;
 import net.minecraft.client.MinecraftClient;
@@ -40,13 +40,14 @@ public class Module implements Listener {
 
     public void changeMode(Mode mode) {
         Mode oldMode = this.mode.getValue();
+        if (mode == oldMode) return;
         this.mode.setValue(mode);
         if (this.mode.getValue() == Mode.ENABLED) onEnable();
-        else if (oldMode == Mode.ENABLED && mode != oldMode) onDisable();
+        else if (oldMode == Mode.ENABLED) onDisable();
     }
 
     public void toggle() {
-        changeMode(mode.getValue().next());
+        if (this.mode.getValue() != Mode.FORCE_DISABLED) changeMode(mode.getValue().getNext());
     }
 
     public void onEnable() {

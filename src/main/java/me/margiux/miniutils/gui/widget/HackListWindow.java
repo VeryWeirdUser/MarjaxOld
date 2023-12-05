@@ -1,7 +1,6 @@
-package me.margiux.miniutils.gui;
+package me.margiux.miniutils.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.margiux.miniutils.gui.widget.Widget;
 import me.margiux.miniutils.module.Category;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;

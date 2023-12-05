@@ -1,4 +1,4 @@
-package me.margiux.miniutils.module.setting;
+package me.margiux.miniutils.setting;
 
 public abstract class FieldSetting<T> extends Setting<T> {
     public FieldSetting(String name, String description, T data) {

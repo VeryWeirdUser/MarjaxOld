@@ -2,7 +2,6 @@ package me.margiux.miniutils.module;
 
 import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.event.EventManager;
-import me.margiux.miniutils.gui.MiniutilsGui;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -16,6 +15,9 @@ public class ModuleManager {
     public static final AutoSell auctionSeller = new AutoSell("AutoSell", "Sells items to auction", Category.MISC, GLFW.GLFW_KEY_A);
     public static final ChestStealer chestStealer = new ChestStealer("ChestSteal", "Steals items from a container", Category.MISC, GLFW.GLFW_KEY_C);
     public static final TriggerBot triggerBot = new TriggerBot("TriggerBot", "Immediately attacks entities you are looking at", Category.COMBAT, GLFW.GLFW_KEY_T);
+    public static final PlayerSearcher playerSearcher = new PlayerSearcher("PlayerSearcher", "Searching for a defined player", Category.MISC, GLFW.GLFW_KEY_T);
+    public static final AnticheatTrigger anticheatTrigger = new AnticheatTrigger("AnticheatTrigger", "Anticheat trigger", Category.MISC, GLFW.GLFW_KEY_KP_1);
+    public static final AnticheatTrigger2 anticheatTrigger2 = new AnticheatTrigger2("AnticheatTrigger2", "Anticheat trigger", Category.MISC, GLFW.GLFW_KEY_KP_2);
 
     static {
         modules.add(truesight);
@@ -24,6 +26,9 @@ public class ModuleManager {
         modules.add(auctionSeller);
         modules.add(chestStealer);
         modules.add(triggerBot);
+        modules.add(playerSearcher);
+        modules.add(anticheatTrigger);
+        modules.add(anticheatTrigger2);
         for (Module mod : modules) {
             EventManager.addListener(mod);
             EventManager.addModuleListener(mod, mod);

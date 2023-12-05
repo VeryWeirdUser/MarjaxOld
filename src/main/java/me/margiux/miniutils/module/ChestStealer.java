@@ -7,8 +7,8 @@ import me.margiux.miniutils.event.OpenScreenEvent;
 import me.margiux.miniutils.mixin.GenericContainerScreenAccessor;
 import me.margiux.miniutils.mixin.HandledScreenAccessor;
 import me.margiux.miniutils.mixin.ScreenAccessor;
-import me.margiux.miniutils.module.setting.EnumSetting;
-import me.margiux.miniutils.module.setting.IntegerSetting;
+import me.margiux.miniutils.setting.EnumSetting;
+import me.margiux.miniutils.setting.IntegerSetting;
 import me.margiux.miniutils.task.DelayTask;
 import me.margiux.miniutils.task.TaskManager;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
@@ -21,34 +21,52 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class ChestStealer extends Module {
-    public static class StealMode extends Enum<StealMode> {
-        protected static final List<StealMode> enumList = new ArrayList<>();
-        public static final StealMode ON_SCREEN_OPEN = new StealMode("On screen open", 0, false);
-        public static final StealMode ON_KEY_PRESSED = new StealMode("On key pressed", 1, false);
-        public static final StealMode ON_BUTTON_CLICKED = new StealMode("On button clicked", 2, false);
+    public enum StealMode implements Enum<StealMode> {
+        SCREEN_OPEN("On screen open"),
+        KEY_PRESSED("On key pressed"),
+        BUTTON_CLICKED("On button clicked");
 
-        public StealMode(String name, int ordinal, boolean displayOnly) {
-            super(name, ordinal, displayOnly);
-            enumList.add(this);
+        final String name;
+        final boolean displayOnly;
+
+        StealMode(String name, boolean displayOnly) {
+            this.name = name;
+            this.displayOnly = displayOnly;
         }
 
-        @SuppressWarnings("unused")
+        StealMode(String name) {
+            this(name, false);
+        }
+
         @Override
-        public StealMode next() {
-            for (StealMode mode : enumList) {
-                if (mode.ordinal <= this.ordinal) continue;
-                if (mode.isDisplayOnly()) continue;
-                return mode;
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public boolean isDisplayOnly() {
+            return displayOnly;
+        }
+
+        @Override
+        public StealMode getNext() {
+            int thisIndex = 0;
+            for (int i = 0; i < values().length; i++) {
+                if (values()[i] == this) {
+                    thisIndex = i;
+                    break;
+                }
             }
-            return enumList.get(0);
+            for (int i = thisIndex; i < values().length; i++) {
+                if (!values()[i].displayOnly && i != thisIndex) return values()[i];
+            }
+            return values()[0];
         }
     }
-    public EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.ON_BUTTON_CLICKED);
+    public EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.BUTTON_CLICKED);
     public IntegerSetting tickDelay = new IntegerSetting("Delay", "Delay in ticks", 3);
 
     public ChestStealer(String name, String description, Category category, int activationKey) {
@@ -63,15 +81,15 @@ public final class ChestStealer extends Module {
         if (event.getScreen() instanceof GenericContainerScreen screen2) screen = screen2;
         else if (event.getScreen() instanceof ShulkerBoxScreen screen2) screen = screen2;
         else return;
-        if (stealMode.getData() == StealMode.ON_BUTTON_CLICKED) {
+        if (stealMode.getData() == StealMode.BUTTON_CLICKED) {
             HandledScreenAccessor handledScreen = ((HandledScreenAccessor) screen);
             ((ScreenAccessor) screen).callAddDrawableChild(new ButtonWidget(handledScreen.getX() + handledScreen.getBackgroundWidth() - 60, handledScreen.getY() + 3, 54, 12, Text.literal("Steal"), (b) -> steal(screen)));
-        } else if (stealMode.getData() == StealMode.ON_SCREEN_OPEN) TaskManager.addTask(new DelayTask((task) -> steal(screen), 5));
+        } else if (stealMode.getData() == StealMode.SCREEN_OPEN) TaskManager.addTask(new DelayTask((task) -> steal(screen), 5));
     }
 
     @ModuleEventHandler
     public void onKeyPressed(KeyEvent e) {
-        if (e.getKey() == GLFW.GLFW_KEY_LEFT_ALT && stealMode.getData() == StealMode.ON_KEY_PRESSED && getClient().currentScreen != null && getClient().currentScreen instanceof HandledScreen<?> screen && (getClient().currentScreen instanceof GenericContainerScreen || getClient().currentScreen instanceof ShulkerBoxScreen)) {
+        if (e.getKey() == GLFW.GLFW_KEY_LEFT_ALT && stealMode.getData() == StealMode.KEY_PRESSED && getClient().currentScreen != null && getClient().currentScreen instanceof HandledScreen<?> screen && (getClient().currentScreen instanceof GenericContainerScreen || getClient().currentScreen instanceof ShulkerBoxScreen)) {
             steal(screen);
         }
     }

@@ -1,31 +1,33 @@
 package me.margiux.miniutils.gui.widget;
 
-import io.github.cottonmc.cotton.gui.widget.WButton;
-import me.margiux.miniutils.module.setting.EnumSetting;
-import me.margiux.miniutils.utils.Mutable;
-import net.minecraft.text.Text;
+import me.margiux.miniutils.setting.EnumSetting;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Consumer;
 
 public class Enum<T extends me.margiux.miniutils.Enum<T>> extends Button {
     public EnumSetting<T> setting;
+    public PressAction<T> onPress;
 
-    public Enum(int x, int y, int width, int height, String name, String description, EnumSetting<T> setting) {
-        super(x, y, width, height, name, description, (b, mx, my, b1) -> {
-            setting.setData(setting.getData().next());
-            b.name = name + ": " + setting.getData().getName();
-        });
+    public Enum(int x, int y, int width, int height, String name, String description, EnumSetting<T> setting, @Nullable PressAction<T> handler) {
+        super(x, y, width, height, name, description, null);
+        this.onPress = handler;
         this.name = name + ": " + setting.getData().getName();
         this.setting = setting;
     }
 
-    public Enum(int width, int height, String name, String description, EnumSetting<T> setting) {
-        super(width, height, name, description, (b, mx, my, b1) -> {
-            setting.setData(setting.getData().next());
-            b.name = name + ": " + setting.getData().getName();
-        });
+    public Enum(int width, int height, String name, String description, EnumSetting<T> setting, @Nullable PressAction<T> handler) {
+        super(width, height, name, description, null);
+        this.onPress = handler;
         this.name = name + ": " + setting.getData().getName();
         this.setting = setting;
+    }
+
+    @Override
+    public void onClick(double mouseX, double mouseY, int button) {
+        onPress.onPress(this, button);
+    }
+
+    @FunctionalInterface
+    public interface PressAction<T extends me.margiux.miniutils.Enum<T>> {
+        void onPress(Enum<T> enumWidget, int button);
     }
 }

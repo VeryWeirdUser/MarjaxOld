@@ -1,14 +1,10 @@
-package me.margiux.miniutils.gui;
+package me.margiux.miniutils.gui.widget;
 
 import me.margiux.miniutils.Mode;
-import me.margiux.miniutils.gui.widget.Button;
-import me.margiux.miniutils.gui.widget.Enum;
-import me.margiux.miniutils.gui.widget.Field;
-import me.margiux.miniutils.gui.widget.Widget;
 import me.margiux.miniutils.module.Module;
-import me.margiux.miniutils.module.setting.EnumSetting;
-import me.margiux.miniutils.module.setting.FieldSetting;
-import me.margiux.miniutils.module.setting.Setting;
+import me.margiux.miniutils.setting.EnumSetting;
+import me.margiux.miniutils.setting.FieldSetting;
+import me.margiux.miniutils.setting.Setting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -18,7 +14,6 @@ public class HackWindow extends Window {
     public boolean expanded = false;
     public Module module;
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public HackWindow(int x, int y, Module module) {
         super(x, y, 100, 25);
         this.module = module;
@@ -45,8 +40,8 @@ public class HackWindow extends Window {
         for (Setting<?> s : settings) {
             if (s instanceof FieldSetting<?> setting) {
                 addChild(new Field(100, 25, "", "", setting));
-            } else if (s instanceof EnumSetting setting) {
-                addChild(new Enum<>(100, 25, setting.getName(), setting.getDescription(), setting));
+            } else if (s instanceof EnumSetting<?> setting) {
+                addChild(new Enum<>(100, 25, setting.getName(), setting.getDescription(), setting, null));
             }
         }
     }
@@ -71,6 +66,11 @@ public class HackWindow extends Window {
         }
 
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+
+        String color = "§7";
+        if (module.getMode() == Mode.ENABLED) color = "§a";
+        else if (module.getMode() == Mode.DISABLED) color = "§c";
+        children.get(0).name = color + module.name;
         if (expanded) {
             for (Widget window : children) {
                 window.render(matrices, mouseX, mouseY, delta);

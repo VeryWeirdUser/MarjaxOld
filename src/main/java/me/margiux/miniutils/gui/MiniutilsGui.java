@@ -1,17 +1,11 @@
 package me.margiux.miniutils.gui;
 
-import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
-import io.github.cottonmc.cotton.gui.widget.*;
-import io.github.cottonmc.cotton.gui.widget.data.Insets;
-import me.margiux.miniutils.gui.widget.Button;
+import me.margiux.miniutils.gui.widget.HackListWindow;
+import me.margiux.miniutils.gui.widget.HackWindow;
+import me.margiux.miniutils.gui.widget.Window;
 import me.margiux.miniutils.module.Category;
 import me.margiux.miniutils.module.Module;
 import me.margiux.miniutils.module.ModuleManager;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;

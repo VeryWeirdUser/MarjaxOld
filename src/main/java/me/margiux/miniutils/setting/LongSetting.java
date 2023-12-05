@@ -1,4 +1,4 @@
-package me.margiux.miniutils.module.setting;
+package me.margiux.miniutils.setting;
 
 public class LongSetting extends FieldSetting<Long> {
     public LongSetting(String name, String description, Long data) {

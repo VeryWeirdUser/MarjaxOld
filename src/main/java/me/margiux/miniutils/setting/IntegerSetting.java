@@ -1,4 +1,4 @@
-package me.margiux.miniutils.module.setting;
+package me.margiux.miniutils.setting;
 
 public class IntegerSetting extends FieldSetting<Integer> {
     public IntegerSetting(String name, String description, Integer data) {

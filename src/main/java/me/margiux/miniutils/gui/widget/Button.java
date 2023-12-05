@@ -50,7 +50,7 @@ public class Button extends Widget {
 
     @Override
     public void onClick(double mouseX, double mouseY, int button) {
-        onPress.onPress(this, mouseX, mouseY, button);
+        if (onPress != null) onPress.onPress(this, mouseX, mouseY, button);
     }
 
     @FunctionalInterface

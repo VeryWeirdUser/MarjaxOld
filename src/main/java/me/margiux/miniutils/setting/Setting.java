@@ -1,4 +1,4 @@
-package me.margiux.miniutils.module.setting;
+package me.margiux.miniutils.setting;
 
 import me.margiux.miniutils.utils.Mutable;
 

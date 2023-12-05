@@ -1,4 +1,4 @@
-package me.margiux.miniutils.module.setting;
+package me.margiux.miniutils.setting;
 
 public class DoubleSetting extends FieldSetting<Double> {
     public DoubleSetting(String name, String description, Double data) {

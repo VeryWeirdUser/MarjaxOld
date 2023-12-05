@@ -3,24 +3,45 @@ package me.margiux.miniutils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheatMode extends Enum<CheatMode> {
-    public static final List<CheatMode> enumList = new ArrayList<>();
-    public static final CheatMode ENABLED = new CheatMode("§aEnabled", 0, false);
-    public static final CheatMode DISABLED = new CheatMode("§cDisabled", 1, false);
-    public static final CheatMode PANIC = new CheatMode("§c&lPANIC", 2, true);
+public enum CheatMode implements Enum<CheatMode> {
+    ENABLED("§aEnabled"),
+    DISABLED("§cDisabled"),
+    PANIC("§c&lPANIC", true);
 
-    public CheatMode(String name, int ordinal, boolean displayOnly) {
-        super(name, ordinal, displayOnly);
-        enumList.add(this);
+    final String name;
+    final boolean displayOnly;
+
+    CheatMode(String name, boolean displayOnly) {
+        this.name = name;
+        this.displayOnly = displayOnly;
+    }
+
+    CheatMode(String name) {
+        this(name, false);
     }
 
     @Override
-    public CheatMode next() {
-        for (CheatMode mode : enumList) {
-            if (mode.ordinal <= this.ordinal) continue;
-            if (mode.isDisplayOnly()) continue;
-            return mode;
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean isDisplayOnly() {
+        return displayOnly;
+    }
+
+    @Override
+    public CheatMode getNext() {
+        int thisIndex = 0;
+        for (int i = 0; i < values().length; i++) {
+            if (values()[i] == this) {
+                thisIndex = i;
+                break;
+            }
         }
-        return enumList.get(0);
+        for (int i = thisIndex; i < values().length; i++) {
+            if (!values()[i].displayOnly && i != thisIndex) return values()[i];
+        }
+        return values()[0];
     }
 }

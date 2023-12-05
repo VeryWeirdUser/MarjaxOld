@@ -3,7 +3,7 @@ package me.margiux.miniutils.module;
 import me.margiux.miniutils.Main;
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
-import me.margiux.miniutils.module.setting.IntegerSetting;
+import me.margiux.miniutils.setting.IntegerSetting;
 import net.minecraft.block.ChorusFlowerBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.BowItem;

@@ -1,4 +1,4 @@
-package me.margiux.miniutils.module.setting;
+package me.margiux.miniutils.setting;
 
 public class FloatSetting extends FieldSetting<Float> {
     public FloatSetting(String name, String description, Float data) {

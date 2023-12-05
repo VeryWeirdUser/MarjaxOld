@@ -6,6 +6,7 @@ import me.margiux.miniutils.gui.ClickGuiScreen;
 import me.margiux.miniutils.gui.MiniutilsScreen;
 import me.margiux.miniutils.gui.widget.Enum;
 import me.margiux.miniutils.gui.MiniutilsGui;
+import me.margiux.miniutils.mixin.MinecraftClientAccessor;
 import me.margiux.miniutils.module.ModuleManager;
 import me.margiux.miniutils.task.TaskManager;
 import me.margiux.miniutils.utils.Mutable;
@@ -31,6 +32,8 @@ public class Main implements ModInitializer {
         EventManager.addStaticListener(MainListener.class);
         EventManager.addStaticListener(TaskManager.class);
         ClientTickEvents.END_CLIENT_TICK.register((client) -> EventManager.fireEvent(new TickEvent()));
+        ((MinecraftClientAccessor)getClient()).setGameVersion("Абракадабра :) (1.19.2 Fabric)");
+        ((MinecraftClientAccessor)getClient()).setVersionType("Абракадабра :) (1.19.2 Fabric)");
         //MiniutilsGui.instance.root.add(new Enum<>("MiniUtils mode", Main.instance.STATUS, this::changeStatus), 0, 460, 120, 15);
     }
 

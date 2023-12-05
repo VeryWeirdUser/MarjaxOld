@@ -2,13 +2,11 @@ package me.margiux.miniutils.module;
 
 import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.event.ChatReceiveMessageEvent;
-import me.margiux.miniutils.event.EventHandler;
 import me.margiux.miniutils.event.ModuleEventHandler;
-import me.margiux.miniutils.event.TickEvent;
 import me.margiux.miniutils.gui.MiniutilsScreen;
-import me.margiux.miniutils.module.setting.IntegerSetting;
-import me.margiux.miniutils.module.setting.LongSetting;
-import me.margiux.miniutils.module.setting.StringSetting;
+import me.margiux.miniutils.setting.IntegerSetting;
+import me.margiux.miniutils.setting.LongSetting;
+import me.margiux.miniutils.setting.StringSetting;
 import me.margiux.miniutils.task.*;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
@@ -78,14 +76,15 @@ public final class AutoSell extends Module {
                 if (getClient().player != null) getClient().player.sendCommand("ah");
             }), 2)).setOnCompleteTask(new DelayTask((task -> {
                 if (getClient().player != null && getClient().currentScreen instanceof GenericContainerScreen screen && getClient().interactionManager != null) {
-                    if (screen.getScreenHandler().getSlot(46).getStack() == ItemStack.EMPTY) {
-                        task.setTaskCompleted();
-                    } else
-                        getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, 46, 0, SlotActionType.PICKUP, getClient().player);
+                    getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, 46, 0, SlotActionType.PICKUP, getClient().player);
                 }
             }), 5)).setOnCompleteTask(new DelayedRepeatTask(task -> {
                 if (getClient().player != null && getClient().currentScreen instanceof GenericContainerScreen screen && getClient().interactionManager != null)
-                    getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, 0, 0, SlotActionType.PICKUP, getClient().player);
+                {
+                    if (screen.getScreenHandler().getSlot(0).getStack() == ItemStack.EMPTY) {
+                        task.setTaskCompleted();
+                    } else getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, 0, 0, SlotActionType.PICKUP, getClient().player);
+                }
             }, 3, 3, 12)).setOnCompleteTask(new DelayTask((task -> {
                 getClient().setScreen(null);
                 canRun = true;

@@ -1,4 +1,4 @@
-package me.margiux.miniutils.module.setting;
+package me.margiux.miniutils.setting;
 
 public class BooleanSetting extends Setting<BooleanSetting> {
     public BooleanSetting(String name, String description, BooleanSetting data) {

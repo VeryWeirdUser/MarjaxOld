@@ -1,8 +1,8 @@
-package me.margiux.miniutils.module.setting;
+package me.margiux.miniutils.setting;
 
 import me.margiux.miniutils.Enum;
 
-public class EnumSetting<T extends Enum<?>> extends Setting<T> {
+public class EnumSetting<T extends Enum<T>> extends Setting<T> {
     public EnumSetting(String name, String description, T data) {
         super(name, description, data);
     }
