@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "miniutils",
   "version": "${version}",
-  "name": "Example Mod",
+  "name": "Mod",
   "license": "CC0-1.0",
   "icon": "assets/miniutils/icon.png",
   "environment": "*",

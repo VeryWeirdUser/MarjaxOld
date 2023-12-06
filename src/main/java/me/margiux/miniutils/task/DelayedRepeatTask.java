@@ -4,10 +4,9 @@ import java.util.function.Consumer;
 
 public class DelayedRepeatTask extends Task {
     private final int delay;
-    private final int delayUntilStart;
+    private int delayUntilStart;
     private int maxRepeatCount = -1;
     private int repeatCount = 0;
-    private int ticks;
 
     public DelayedRepeatTask(Consumer<Task> task, int delay, int delayUntilStart) {
         super(task);
@@ -24,19 +23,16 @@ public class DelayedRepeatTask extends Task {
 
     @Override
     public void tick() {
-        if (predicate != null && !predicate.test(true)) return;
-        if (taskCompleted) return;
-        if (delayUntilStart > ticks) {
-            ++ticks;
-            return;
+        super.tick();
+        if (++ticks < delayUntilStart) return;
+        else {
+            ticks = 0;
+            delayUntilStart = 0;
         }
 
-        if (delay > ticks) {
-            ++ticks;
-        } else {
+        if (++ticks >= delay) {
             if (maxRepeatCount != -1) {
-                if (repeatCount < maxRepeatCount) repeatCount++;
-                else {
+                if (++repeatCount < maxRepeatCount) {
                     setTaskCompleted();
                     return;
                 }
@@ -44,10 +40,5 @@ public class DelayedRepeatTask extends Task {
             task.accept(this);
             ticks = 0;
         }
-    }
-
-    @Override
-    public void onTaskEnded() {
-        ticks = 0;
     }
 }

@@ -48,7 +48,7 @@ public class MainListener implements Listener {
 
     @EventHandler(ignoreCanceled = false)
     public static void onChat(ChatReceiveMessageEvent message) {
-        if (message.message.getString().contains("Вы были вызваны на проверку читов") && Main.instance.STATUS.getValue() != CheatMode.ENABLED) {
+        if (message.message.getString().contains("Вы были вызваны на проверку читов") && Main.instance.status.getData() == CheatMode.ENABLED) {
             HudUtil.setSubTitle("§c§lHacks have been disabled!");
             Main.instance.changeStatus(CheatMode.DISABLED);
         }

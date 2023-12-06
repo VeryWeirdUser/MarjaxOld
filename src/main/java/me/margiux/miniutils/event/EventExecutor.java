@@ -11,7 +11,7 @@ public record EventExecutor(Method method, Listener listener, EventHandler handl
     public <T extends Event> void execute(T event) {
         try {
             if ((!event.isCanceled() || (event.isCanceled() && !handler.ignoreCanceled())) &&
-                    (Main.instance.STATUS.getValue() != CheatMode.PANIC || handler.executeInPanicMode()))
+                    (Main.instance.status.getData() != CheatMode.PANIC || handler.executeInPanicMode()))
                 method.invoke(listener, event);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);

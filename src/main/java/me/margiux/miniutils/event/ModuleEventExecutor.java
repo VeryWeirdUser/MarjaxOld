@@ -22,7 +22,7 @@ public record ModuleEventExecutor(Module module, Method method, Listener listene
         if (module.isEnabled()) {
             try {
                 if ((!event.isCanceled() || (event.isCanceled() && !handler.ignoreCanceled())) &&
-                        (Main.instance.STATUS.getValue() != CheatMode.PANIC || handler.executeInPanicMode()))
+                        (Main.instance.status.getData() != CheatMode.PANIC || handler.executeInPanicMode()))
                     method.invoke(listener, event);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);

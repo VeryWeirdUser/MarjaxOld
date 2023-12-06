@@ -4,8 +4,8 @@ import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.event.EventHandler;
 import me.margiux.miniutils.event.ModuleKeyEvent;
 import me.margiux.miniutils.event.Listener;
+import me.margiux.miniutils.setting.EnumSetting;
 import me.margiux.miniutils.setting.Setting;
-import me.margiux.miniutils.utils.Mutable;
 import me.margiux.miniutils.utils.HudUtil;
 import net.minecraft.client.MinecraftClient;
 import me.margiux.miniutils.Main;
@@ -18,17 +18,20 @@ public class Module implements Listener {
     public final String description;
     public final Category category;
     public final List<Setting<?>> moduleSettings = new ArrayList<>();
-    protected final Mutable<Mode> mode = new Mutable<>(Mode.DISABLED);
+    protected final EnumSetting<Mode> mode = new EnumSetting<>("Mode", "", Mode.DISABLED);
     public boolean disabledByMain = false;
     public final int activationKey;
 
     public MinecraftClient getClient() {
         return Main.instance.getClient();
     }
+    public EnumSetting<Mode> getModeSetting() {
+        return mode;
+    }
 
     public Module(String name, String description, Category category, int activationKey, Mode defaultMode) {
         this(name, description, category, activationKey);
-        this.mode.setValue(defaultMode);
+        this.mode.setData(defaultMode);
     }
 
     public Module(String name, String description, Category category, int activationKey) {
@@ -39,15 +42,15 @@ public class Module implements Listener {
     }
 
     public void changeMode(Mode mode) {
-        Mode oldMode = this.mode.getValue();
+        Mode oldMode = this.mode.getData();
         if (mode == oldMode) return;
-        this.mode.setValue(mode);
-        if (this.mode.getValue() == Mode.ENABLED) onEnable();
+        this.mode.setData(mode);
+        if (this.mode.getData() == Mode.ENABLED) onEnable();
         else if (oldMode == Mode.ENABLED) onDisable();
     }
 
     public void toggle() {
-        if (this.mode.getValue() != Mode.FORCE_DISABLED) changeMode(mode.getValue().getNext());
+        if (this.mode.getData() != Mode.FORCE_DISABLED) changeMode(mode.getData().getNext());
     }
 
     public void onEnable() {
@@ -59,10 +62,10 @@ public class Module implements Listener {
     }
 
     public boolean isEnabled() {
-        return mode.getValue() == Mode.ENABLED;
+        return mode.getData() == Mode.ENABLED;
     }
     public Mode getMode() {
-        return mode.getValue();
+        return mode.getData();
     }
 
     @EventHandler
@@ -75,5 +78,12 @@ public class Module implements Listener {
 
     public void addSetting(Setting<?> setting) {
         this.moduleSettings.add(setting);
+    }
+
+    public String getColorizedName() {
+        String c = "§7";
+        if (getMode() == Mode.ENABLED) c = "§a";
+        else if (getMode() == Mode.DISABLED) c = "§c";
+        return c + this.name;
     }
 }

@@ -1,6 +1,7 @@
 package me.margiux.miniutils.task;
 
 import me.margiux.miniutils.event.EventHandler;
+import me.margiux.miniutils.event.EventPriority;
 import me.margiux.miniutils.event.Listener;
 import me.margiux.miniutils.event.TickEvent;
 
@@ -10,12 +11,12 @@ import java.util.List;
 public class TaskManager implements Listener {
     protected static final List<Task> taskList = new ArrayList<>();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public static void tick(TickEvent event) {
         for (int i = 0; i < taskList.size(); i++) {
             try {
                 taskList.get(i).tick();
-                if (taskList.get(i).taskCompleted) {
+                if (taskList.get(i).isTaskCompleted() || taskList.get(i).isTaskSuspended()) {
                     taskList.remove(i);
                     --i;
                 }

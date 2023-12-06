@@ -19,7 +19,7 @@ public abstract class KeyboardMixin {
     private void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
         if (!(Main.instance.getClient().currentScreen instanceof ChatScreen)) {
             EventManager.fireEvent(new KeyEvent(key, modifiers, action));
-            if (action == 1 && modifiers == GLFW.GLFW_MOD_ALT && Main.instance.STATUS.getValue() == CheatMode.ENABLED) {
+            if (action == 1 && modifiers == GLFW.GLFW_MOD_ALT && Main.instance.status.getData() == CheatMode.ENABLED) {
                 ModuleKeyEvent moduleKeyEvent = new ModuleKeyEvent(key, modifiers, action);
                 EventManager.fireEvent(moduleKeyEvent);
                 if (moduleKeyEvent.isCanceled()) ci.cancel();

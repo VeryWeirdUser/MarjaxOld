@@ -8,17 +8,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class Widget extends ClickableWidget {
+    public final static int DEFAULT_WIDTH = 100;
+    public final static int DEFAULT_HEIGHT = 25;
     @Nullable
     protected Widget parent;
     public List<Widget> children = new ArrayList<>();
-    public String name;
+    public final String name;
+    public String displayName;
     public String description;
+    public Supplier<String> displayNameSupplier;
 
     public Widget(int x, int y, int width, int height, String name, String description) {
         super(x, y, width, height, Text.literal(name));
-        this.name = name;
+        this.name = this.displayName = name;
         this.description = description;
     }
 
@@ -43,6 +48,7 @@ public class Widget extends ClickableWidget {
         child.setParent(this);
     }
 
+    @SuppressWarnings("unused")
     public void removeChild(Widget child) {
         this.children.remove(child);
         child.setParent(null);
@@ -82,6 +88,7 @@ public class Widget extends ClickableWidget {
         this.parent = parent;
     }
 
+    @SuppressWarnings("unused")
     @Nullable
     public Widget getParent() {
         return this.parent;
@@ -107,5 +114,10 @@ public class Widget extends ClickableWidget {
     }
 
     public void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
+    }
+
+    public void refreshDisplayName() {
+        if (displayNameSupplier != null) displayName = displayNameSupplier.get();
+        else displayName = name;
     }
 }

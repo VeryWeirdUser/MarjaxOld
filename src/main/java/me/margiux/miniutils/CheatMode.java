@@ -1,12 +1,9 @@
 package me.margiux.miniutils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public enum CheatMode implements Enum<CheatMode> {
     ENABLED("§aEnabled"),
     DISABLED("§cDisabled"),
-    PANIC("§c&lPANIC", true);
+    PANIC("§c§lPANIC", true);
 
     final String name;
     final boolean displayOnly;

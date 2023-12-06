@@ -15,33 +15,29 @@ public class HackWindow extends Window {
     public Module module;
 
     public HackWindow(int x, int y, Module module) {
-        super(x, y, 100, 25);
+        super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.module = module;
 
-        String c = "§7";
-        if (module.getMode() == Mode.ENABLED) c = "§a";
-        else if (module.getMode() == Mode.DISABLED) c = "§c";
-        Button moduleButton = new Button(x, y, 100, 25, c + module.name, "", (b, mx, my, b1) -> {
-            if (b1 == 0) {
+        Enum<Mode> moduleButton = new Enum<>(x, y, Widget.DEFAULT_WIDTH, Widget.DEFAULT_HEIGHT, module.getColorizedName(), "", module.getModeSetting(), (setting, button) -> {
+            if (button == 0) {
                 module.toggle();
-                String color = "§7";
-                if (module.getMode() == Mode.ENABLED) color = "§a";
-                else if (module.getMode() == Mode.DISABLED) color = "§c";
-                b.name = color + module.name;
-            } else if (b1 == 1) {
+                setting.displayName = module.getColorizedName();
+            } else if (button == 1) {
                 expanded = !expanded;
                 this.height = calculateHeight();
             }
         });
+        moduleButton.displayNameSupplier = module::getColorizedName;
+
         addChild(moduleButton);
 
         List<Setting<?>> settings = module.moduleSettings;
 
         for (Setting<?> s : settings) {
             if (s instanceof FieldSetting<?> setting) {
-                addChild(new Field(100, 25, "", "", setting));
+                addChild(new Field(DEFAULT_WIDTH, DEFAULT_HEIGHT, "", "", setting));
             } else if (s instanceof EnumSetting<?> setting) {
-                addChild(new Enum<>(100, 25, setting.getName(), setting.getDescription(), setting, null));
+                addChild(new Enum<>(DEFAULT_WIDTH, DEFAULT_HEIGHT, setting.getName(), setting.getDescription(), setting, null));
             }
         }
     }
@@ -70,7 +66,7 @@ public class HackWindow extends Window {
         String color = "§7";
         if (module.getMode() == Mode.ENABLED) color = "§a";
         else if (module.getMode() == Mode.DISABLED) color = "§c";
-        children.get(0).name = color + module.name;
+        children.get(0).displayName = color + module.name;
         if (expanded) {
             for (Widget window : children) {
                 window.render(matrices, mouseX, mouseY, delta);

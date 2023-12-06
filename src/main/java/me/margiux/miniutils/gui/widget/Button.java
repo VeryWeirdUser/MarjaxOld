@@ -4,25 +4,26 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.function.Consumer;
 
 public class Button extends Widget {
     public PressAction onPress;
+
     public Button(int x, int y, int width, int height, String name, String description, PressAction onPress) {
         super(x, y, width, height, name, description);
         this.onPress = onPress;
     }
 
     public Button(int width, int height, String name, String description, PressAction onPress) {
-        super(width, height, name, description);
-        this.onPress = onPress;
+        this(0, 0, width, height, name, description, onPress);
+    }
+
+    @SuppressWarnings("unused")
+    public Button(String name, String description, PressAction onPress) {
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT, name, description, onPress);
     }
 
     @Override
@@ -36,7 +37,6 @@ public class Button extends Widget {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
-        int i = this.getYImage(this.isHovered());
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
@@ -45,7 +45,7 @@ public class Button extends Widget {
 
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
         int j = this.active ? 0xFFFFFF : 0xA0A0A0;
-        ClickableWidget.drawCenteredText(matrices, textRenderer, name, this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
+        ClickableWidget.drawCenteredText(matrices, textRenderer, displayName, this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
     }
 
     @Override

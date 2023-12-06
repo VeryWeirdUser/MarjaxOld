@@ -23,46 +23,7 @@ public final class AutoSell extends Module {
     public final StringSetting actionOnFailTriggerInput = new StringSetting("Resell trigger", "Message that will trigger the action", "Освободите хранилище");
     public boolean canRun = true;
 
-    public final Task sellTask = new RepeatTask((task) -> {
-        if (getClient().world == null || getClient().player == null || getClient().player.getInventory() == null || getClient().interactionManager == null)
-            return;
-        int slot = -1;
-        for (ItemStack stack : getClient().player.getInventory().main) {
-            if (itemMatches(stack)) {
-                slot = getClient().player.getInventory().getSlotWithStack(stack);
-                if (slot < 9) slot += 36;
-                break;
-            }
-        }
-        if (slot == -1) return;
-        int finalSlot = slot;
-        TaskManager.addTask(new DelayedRepeatTask((task2) -> {
-            if (finalSlot == getClient().player.getInventory().selectedSlot + 36) {
-                task2.setTaskCompleted();
-            } else {
-                getClient().setScreen(new InventoryScreen(getClient().player));
-                if (getClient().currentScreen instanceof InventoryScreen screen && !(getClient().currentScreen instanceof CreativeInventoryScreen)) {
-                    getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, finalSlot, 0, SlotActionType.PICKUP, getClient().player);
-                    task2.setTaskCompleted();
-                }
-            }
-        }, 4, 5).setPredicate((b) -> mode.getValue() == Mode.ENABLED && !(getClient().currentScreen instanceof MiniutilsScreen))).setOnCompleteTask(new DelayedRepeatTask((task2) -> {
-            if (finalSlot == getClient().player.getInventory().selectedSlot + 36) {
-                task2.setTaskCompleted();
-                return;
-            }
-            if (getClient().currentScreen instanceof InventoryScreen screen) {
-                getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, getClient().player.getInventory().selectedSlot + 36, 0, SlotActionType.PICKUP, getClient().player);
-                task2.setTaskCompleted();
-            }
-        }, 4, 5).setPredicate((b) -> mode.getValue() == Mode.ENABLED && !(getClient().currentScreen instanceof MiniutilsScreen))).setOnCompleteTask(
-                new DelayTask((task2) -> {
-                    getClient().setScreen(null);
-                    getClient().player.sendCommand(comInput.getData() + " " + priceInput.getData().toString());
-                }, 10).setPredicate((b) -> mode.getValue() == Mode.ENABLED && !(getClient().currentScreen instanceof MiniutilsScreen))
-        );
-    }, 30).setPredicate((b) -> mode.getValue() == Mode.ENABLED && comInput.getData() != null && idInput.getData() != null && priceInput.getData() != null && !(getClient().currentScreen instanceof MiniutilsScreen) && canRun);
-
+    public final Task sellTask;
     public boolean itemMatches(ItemStack stack) {
         if (stack.getCount() != quantityInput.getData()) return false;
         return stack.getRegistryEntry().matchesId(new Identifier("minecraft", idInput.getData()));
@@ -100,19 +61,58 @@ public final class AutoSell extends Module {
         addSetting(priceInput);
         addSetting(quantityInput);
         addSetting(actionOnFailTriggerInput);
+        sellTask = new RepeatTask((task) -> {
+            if (getClient().world == null || getClient().player == null || getClient().player.getInventory() == null || getClient().interactionManager == null)
+                return;
+            int slot = -1;
+            for (ItemStack stack : getClient().player.getInventory().main) {
+                if (itemMatches(stack)) {
+                    slot = getClient().player.getInventory().getSlotWithStack(stack);
+                    if (slot < 9) slot += 36;
+                    break;
+                }
+            }
+            if (slot == -1) return;
+            int finalSlot = slot;
+            TaskManager.addTask(new DelayedRepeatTask((task2) -> {
+                if (finalSlot == getClient().player.getInventory().selectedSlot + 36) {
+                    task2.setTaskCompleted();
+                } else {
+                    getClient().setScreen(new InventoryScreen(getClient().player));
+                    if (getClient().currentScreen instanceof InventoryScreen screen && !(getClient().currentScreen instanceof CreativeInventoryScreen)) {
+                        getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, finalSlot, 0, SlotActionType.PICKUP, getClient().player);
+                        task2.setTaskCompleted();
+                    }
+                }
+            }, 4, 5).setPredicate((b) -> mode.getData() == Mode.ENABLED && !(getClient().currentScreen instanceof MiniutilsScreen))).setOnCompleteTask(new DelayedRepeatTask((task2) -> {
+                if (finalSlot == getClient().player.getInventory().selectedSlot + 36) {
+                    task2.setTaskCompleted();
+                    return;
+                }
+                if (getClient().currentScreen instanceof InventoryScreen screen) {
+                    getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, getClient().player.getInventory().selectedSlot + 36, 0, SlotActionType.PICKUP, getClient().player);
+                    task2.setTaskCompleted();
+                }
+            }, 4, 5).setPredicate((b) -> mode.getData() == Mode.ENABLED && !(getClient().currentScreen instanceof MiniutilsScreen))).setOnCompleteTask(
+                    new DelayTask((task2) -> {
+                        getClient().setScreen(null);
+                        getClient().player.sendCommand(comInput.getData() + " " + priceInput.getData().toString());
+                    }, 10).setPredicate((b) -> mode.getData() == Mode.ENABLED && !(getClient().currentScreen instanceof MiniutilsScreen))
+            );
+        }, 30).setPredicate((b) -> mode.getData() == Mode.ENABLED && comInput.getData() != null && idInput.getData() != null && priceInput.getData() != null && !(getClient().currentScreen instanceof MiniutilsScreen) && canRun);
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
-
+        sellTask.restartTask();
         TaskManager.addTask(sellTask);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-
+        sellTask.endTask();
         TaskManager.removeTask(sellTask);
     }
 }

@@ -20,24 +20,20 @@ public class ModuleManager {
     public static final AnticheatTrigger2 anticheatTrigger2 = new AnticheatTrigger2("AnticheatTrigger2", "Anticheat trigger", Category.MISC, GLFW.GLFW_KEY_KP_2);
 
     static {
-        modules.add(truesight);
-        modules.add(chorusFarmer);
-        modules.add(elytraHunter);
-        modules.add(auctionSeller);
-        modules.add(chestStealer);
-        modules.add(triggerBot);
-        modules.add(playerSearcher);
-        modules.add(anticheatTrigger);
-        modules.add(anticheatTrigger2);
-        for (Module mod : modules) {
-            EventManager.addListener(mod);
-            EventManager.addModuleListener(mod, mod);
-        }
+        addModule(truesight);
+        addModule(chorusFarmer);
+        addModule(elytraHunter);
+        addModule(auctionSeller);
+        addModule(chestStealer);
+        addModule(triggerBot);
+        addModule(playerSearcher);
+        addModule(anticheatTrigger);
+        addModule(anticheatTrigger2);
     }
 
     public static void disable() {
         for (Module module : modules) {
-            if (module.mode.getValue() == Mode.ENABLED) {
+            if (module.mode.getData() == Mode.ENABLED) {
                 module.changeMode(Mode.FORCE_DISABLED);
                 module.disabledByMain = true;
             } else module.changeMode(Mode.FORCE_DISABLED);
@@ -46,10 +42,16 @@ public class ModuleManager {
 
     public static void enableDisabled() {
         for (Module module : modules) {
-            if (module.mode.getValue() == Mode.FORCE_DISABLED) {
+            if (module.mode.getData() == Mode.FORCE_DISABLED) {
                 module.changeMode(module.disabledByMain ? Mode.ENABLED : Mode.DISABLED);
                 module.disabledByMain = false;
             }
         }
+    }
+
+    public static void addModule(Module module) {
+        modules.add(module);
+        EventManager.addListener(module);
+        EventManager.addModuleListener(module, module);
     }
 }
