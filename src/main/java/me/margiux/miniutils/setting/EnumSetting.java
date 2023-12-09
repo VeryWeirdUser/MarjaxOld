@@ -1,6 +1,6 @@
 package me.margiux.miniutils.setting;
 
-import me.margiux.miniutils.Enum;
+import me.margiux.miniutils.utils.Enum;
 import me.margiux.miniutils.gui.widget.Widget;
 
 public class EnumSetting<T extends Enum<T>> extends Setting<T> {

@@ -13,7 +13,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 
 public class TriggerBot extends Module {
-    public BooleanSetting safeMode = new BooleanSetting("Safe mode", "Should TriggerBot make a delay before hitting player", true);
+    public final BooleanSetting safeMode = new BooleanSetting("Safe mode", "Should TriggerBot make a delay before hitting player", true);
     public int randomTickDelay = 0;
 
     public TriggerBot(String name, String description, Category category, int activationKey) {

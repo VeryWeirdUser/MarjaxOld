@@ -15,10 +15,10 @@ public class Widget extends ClickableWidget {
     public final static int DEFAULT_HEIGHT = 25;
     @Nullable
     protected Widget parent;
-    public List<Widget> children = new ArrayList<>();
+    public final List<Widget> children = new ArrayList<>();
     public final String name;
+    public final String description;
     public String displayName;
-    public String description;
     public Supplier<String> displayNameSupplier;
 
     public Widget(int x, int y, int width, int height, String name, String description) {

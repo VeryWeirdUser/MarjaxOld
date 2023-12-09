@@ -12,14 +12,14 @@ import org.lwjgl.glfw.GLFW;
 public class MainListener implements Listener {
     public static boolean panicTriggered = false;
     public static int holdTime = 0;
-    public static RepeatTask repeatTask = new RepeatTask((task -> {
+    public static final RepeatTask repeatTask = new RepeatTask((task -> {
         HudUtil.setActionbar("§c§lIf you want to continue - press Enter, otherwise press Ctrl + C");
         HudUtil.setSubTitle("§e§l[WARNING] Panic mode triggered!");
     }), 1);
 
     @EventHandler(executeInPanicMode = true)
     public static void onKey(KeyEvent event) {
-        if (event.getModifiers() == GLFW.GLFW_MOD_ALT && event.getKey() == GLFW.GLFW_KEY_KP_DECIMAL) {
+        if (event.getKey() == GLFW.GLFW_KEY_DELETE) {
             if (event.getAction() == 2) holdTime++;
             if (holdTime > 60 && !panicTriggered) {
                 panicTriggered = true;

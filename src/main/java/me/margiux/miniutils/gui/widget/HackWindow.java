@@ -13,7 +13,7 @@ import java.util.List;
 
 public class HackWindow extends Window {
     public boolean expanded = false;
-    public Module module;
+    public final Module module;
 
     public HackWindow(int x, int y, Module module) {
         super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);

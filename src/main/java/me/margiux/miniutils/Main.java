@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 public class Main implements ModInitializer {
     public static Main instance;
     public static MiniutilsGui gui;
-    public EnumSetting<CheatMode> status = new EnumSetting<>("Cheat status", "", CheatMode.ENABLED);
+    public final EnumSetting<CheatMode> status = new EnumSetting<>("Cheat status", "", CheatMode.ENABLED);
 
     public MinecraftClient getClient() {
         return MinecraftClient.getInstance();

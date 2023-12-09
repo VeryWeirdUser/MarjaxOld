@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
 public class Button extends Widget {
-    public PressAction onPress;
+    public final PressAction onPress;
 
     public Button(int x, int y, int width, int height, String name, String description, PressAction onPress) {
         super(x, y, width, height, name, description);

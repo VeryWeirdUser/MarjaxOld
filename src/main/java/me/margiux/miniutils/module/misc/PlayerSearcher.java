@@ -14,7 +14,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class PlayerSearcher extends Module {
     private PlayerEntity player = null;
-    FieldSetting playerName = new FieldSetting("Player name", "Name of the player");
+    final FieldSetting playerName = new FieldSetting("Player name", "Name of the player");
 
     public PlayerSearcher(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);

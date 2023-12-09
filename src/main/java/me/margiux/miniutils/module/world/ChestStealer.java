@@ -1,6 +1,6 @@
 package me.margiux.miniutils.module.world;
 
-import me.margiux.miniutils.Enum;
+import me.margiux.miniutils.utils.Enum;
 import me.margiux.miniutils.event.KeyEvent;
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.OpenScreenEvent;
@@ -32,25 +32,14 @@ public final class ChestStealer extends Module {
         BUTTON_CLICKED("On button clicked");
 
         final String name;
-        final boolean displayOnly;
-
-        StealMode(String name, boolean displayOnly) {
-            this.name = name;
-            this.displayOnly = displayOnly;
-        }
 
         StealMode(String name) {
-            this(name, false);
+            this.name = name;
         }
 
         @Override
         public String getName() {
             return name;
-        }
-
-        @Override
-        public boolean isDisplayOnly() {
-            return displayOnly;
         }
 
         @Override
@@ -63,13 +52,13 @@ public final class ChestStealer extends Module {
                 }
             }
             for (int i = thisIndex; i < values().length; i++) {
-                if (!values()[i].displayOnly && i != thisIndex) return values()[i];
+                if (i != thisIndex) return values()[i];
             }
             return values()[0];
         }
     }
-    public EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.BUTTON_CLICKED);
-    public FieldSetting tickDelay = new FieldSetting("Delay", "Delay in ticks", "3");
+    public final EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.BUTTON_CLICKED);
+    public final FieldSetting tickDelay = new FieldSetting("Delay", "Delay in ticks", "3");
 
     public ChestStealer(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);
@@ -85,7 +74,7 @@ public final class ChestStealer extends Module {
         else return;
         if (stealMode.getData() == StealMode.BUTTON_CLICKED) {
             HandledScreenAccessor handledScreen = ((HandledScreenAccessor) screen);
-            ((ScreenAccessor) screen).callAddDrawableChild(new ButtonWidget(handledScreen.getX() + handledScreen.getBackgroundWidth() - 60, handledScreen.getY() + 3, 54, 12, Text.literal("Steal"), (b) -> steal(screen)));
+            ((ScreenAccessor) screen).addDrawableChild(new ButtonWidget(handledScreen.getX() + handledScreen.getBackgroundWidth() - 60, handledScreen.getY() + 3, 54, 12, Text.literal("Steal"), (b) -> steal(screen)));
         } else if (stealMode.getData() == StealMode.SCREEN_OPEN) TaskManager.addTask(new DelayTask((task) -> steal(screen), 5));
     }
 

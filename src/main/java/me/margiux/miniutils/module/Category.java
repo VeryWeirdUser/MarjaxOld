@@ -5,7 +5,7 @@ public enum Category {
     VISUAL("Visual"),
     MISC("Miscellaneous"),
     WORLD("World");
-    final String name;
+    public final String name;
     Category(String name) {
         this.name = name;
     }

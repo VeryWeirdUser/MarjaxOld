@@ -40,7 +40,7 @@ public class HackListWindow extends Window {
         DrawableHelper.fill(matrices, this.x, this.y, this.x + this.width, this.y + 15, 0x99001B4D);
 
         int j = this.active ? 0xFFFFFF : 0xA0A0A0;
-        ClickableWidget.drawCenteredText(matrices, textRenderer, category.name(), this.x + this.width / 2, this.y + (15) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
+        ClickableWidget.drawCenteredText(matrices, textRenderer, category.name, this.x + this.width / 2, this.y + (15) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
 
         if (expanded) {
             int y = this.y + 15;

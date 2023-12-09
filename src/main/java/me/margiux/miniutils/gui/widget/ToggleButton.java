@@ -6,7 +6,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class ToggleButton extends Button {
-    public BooleanSetting setting;
+    public final BooleanSetting setting;
 
     public ToggleButton(int x, int y, int width, int height, String name, String description, BooleanSetting setting) {
         super(x, y, width, height, name, description, null);

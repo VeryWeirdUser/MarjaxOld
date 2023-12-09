@@ -9,9 +9,9 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.Nullable;
 
-public class Enum<T extends me.margiux.miniutils.Enum<T>> extends Button {
-    public EnumSetting<T> setting;
-    public PressAction<T> onPress;
+public class Enum<T extends me.margiux.miniutils.utils.Enum<T>> extends Button {
+    public final EnumSetting<T> setting;
+    public final PressAction<T> onPress;
     public boolean displayInSingleLine = false;
 
     public Enum(int x, int y, int width, int height, String name, String description, EnumSetting<T> setting, @Nullable PressAction<T> handler) {
@@ -40,7 +40,7 @@ public class Enum<T extends me.margiux.miniutils.Enum<T>> extends Button {
     }
 
     @FunctionalInterface
-    public interface PressAction<T extends me.margiux.miniutils.Enum<T>> {
+    public interface PressAction<T extends me.margiux.miniutils.utils.Enum<T>> {
         void onPress(Enum<T> enumWidget, int button);
     }
 

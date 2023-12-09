@@ -26,11 +26,6 @@ public class MiniutilsScreen extends Screen {
     }
 
     @Override
-    protected void init() {
-        super.init();
-    }
-
-    @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         super.render(matrices, mouseX, mouseY, delta);
         rootWidget.render(matrices, mouseX, mouseY, delta);

@@ -3,9 +3,9 @@ package me.margiux.miniutils.setting;
 import me.margiux.miniutils.utils.Mutable;
 
 public abstract class Setting<T> {
-    protected String name;
-    protected String description;
-    protected Mutable<T> data;
+    protected final String name;
+    protected final String description;
+    protected final Mutable<T> data;
 
     public Setting(String name, String description, T data) {
         this.name = name;

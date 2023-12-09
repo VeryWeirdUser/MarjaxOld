@@ -1,8 +1,6 @@
 package me.margiux.miniutils.gui;
 
 import me.margiux.miniutils.Main;
-import me.margiux.miniutils.gui.widget.Widget;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 

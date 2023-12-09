@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 public class Field extends Widget {
     public final static Predicate<String> NUMBER_PREDICATE = (e) -> (e.matches("^[\\d-.,\\s]"));
     public final static Predicate<String> STRING_PREDICATE = Objects::nonNull;
-    public FieldSetting setting;
+    public final FieldSetting setting;
     private TextRenderer textRenderer;
     private int maxLength = 32;
     private final boolean drawsBackground = true;
@@ -33,6 +33,7 @@ public class Field extends Widget {
     private int selectionEnd;
     private Predicate<String> textPredicate = STRING_PREDICATE;
     private final BiFunction<String, Integer, OrderedText> renderTextProvider = (string, firstCharacterIndex) -> OrderedText.styledForwardsVisitedString(string, Style.EMPTY);
+    @SuppressWarnings("CanBeFinal")
     public boolean displayFieldName = true;
     public final int editableColor = 0xE0E0E0;
 

@@ -1,5 +1,7 @@
 package me.margiux.miniutils;
 
+import me.margiux.miniutils.utils.Enum;
+
 public enum Mode implements Enum<Mode> {
     ENABLED("§aEnabled"),
     DISABLED("§cDisabled"),
@@ -20,11 +22,6 @@ public enum Mode implements Enum<Mode> {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public boolean isDisplayOnly() {
-        return displayOnly;
     }
 
     @Override
