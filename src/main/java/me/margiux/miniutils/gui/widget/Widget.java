@@ -1,5 +1,6 @@
 package me.margiux.miniutils.gui.widget;
 
+import me.margiux.miniutils.utils.DrawUtils;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class Widget extends ClickableWidget {
+public class Widget extends ClickableWidget implements DrawUtils {
     public final static int DEFAULT_WIDTH = 100;
     public final static int DEFAULT_HEIGHT = 25;
     @Nullable

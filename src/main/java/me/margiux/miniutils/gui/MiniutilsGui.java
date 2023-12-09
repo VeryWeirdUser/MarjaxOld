@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class MiniutilsGui extends Window {
     public MiniutilsGui() {
-        super(5, 5, 500, 500);
+        super(0, 0, 900, 500);
 
         int x = 15;
 

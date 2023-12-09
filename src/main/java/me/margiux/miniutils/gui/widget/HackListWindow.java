@@ -57,7 +57,7 @@ public class HackListWindow extends Window {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawableHelper.fill(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0x22002266);
+        DrawableHelper.fill(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0x66BED5F7);
         ClickableWidget.drawCenteredText(matrices, textRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
 

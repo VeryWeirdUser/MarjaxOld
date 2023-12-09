@@ -25,3 +25,9 @@
 - **Miscellaneous**
     - Auto sell
     - Player searcher
+
+## GUI Screenshot
+
+<p style="text-align: center;">
+    <img src="https://i.imgur.com/hhy8aJx.png" style="width: 69%" alt="">
+</p>

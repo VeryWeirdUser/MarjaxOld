@@ -55,8 +55,8 @@ public class Enum<T extends me.margiux.miniutils.utils.Enum<T>> extends Button {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawableHelper.fill(matrices, this.x, this.y + 10, this.x + this.width, this.y + this.height, 0x55092D49);
-        DrawableHelper.fill(matrices, this.x + 2, this.y + 12, this.x + this.width - 2, this.y + this.height - 2, 0x550887E7);
+        DrawableHelper.fill(matrices, this.x, this.y + 10, this.x + this.width, this.y + this.height, 0xFF092D49);
+        DrawableHelper.fill(matrices, this.x + 2, this.y + 12, this.x + this.width - 2, this.y + this.height - 2, 0xFF0887E7);
     }
 
     @Override
