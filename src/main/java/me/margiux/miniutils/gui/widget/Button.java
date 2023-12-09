@@ -1,7 +1,7 @@
 package me.margiux.miniutils.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.MinecraftClient;
+import me.margiux.miniutils.Main;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -26,26 +26,30 @@ public class Button extends Widget {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT, name, description, onPress);
     }
 
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        if (!this.visible) {
-            return;
-        }
-        this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        TextRenderer textRenderer = minecraftClient.textRenderer;
+    public void renderBackground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
         DrawableHelper.fill(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0x55092D49);
         DrawableHelper.fill(matrices, this.x + 2, this.y + 2, this.x + this.width - 2, this.y + this.height - 2, 0x550887E7);
+    }
 
-        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+    @Override
+    public void renderText(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        TextRenderer textRenderer = Main.instance.getClient().textRenderer;
         int j = this.active ? 0xFFFFFF : 0xA0A0A0;
         ClickableWidget.drawCenteredText(matrices, textRenderer, displayName, this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        if (!this.visible) return;
+        this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+
+        renderBackground(matrices, mouseX, mouseY, delta);
+        renderText(matrices, mouseX, mouseY, delta);
     }
 
     @Override

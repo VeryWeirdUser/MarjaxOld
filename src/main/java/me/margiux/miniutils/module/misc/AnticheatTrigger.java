@@ -1,7 +1,9 @@
-package me.margiux.miniutils.module;
+package me.margiux.miniutils.module.misc;
 
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
+import me.margiux.miniutils.module.Category;
+import me.margiux.miniutils.module.Module;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;

@@ -21,44 +21,9 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public class Field extends Widget {
-    public final static Predicate<String> INT_PREDICATE = (e) -> {
-        if (Objects.equals(e, "")) return true;
-        try {
-            Integer.valueOf(e);
-        } catch (NumberFormatException exception) {
-            return false;
-        }
-        return true;
-    };
-    public final static Predicate<String> LONG_PREDICATE = (e) -> {
-        if (Objects.equals(e, "")) return true;
-        try {
-            Long.valueOf(e);
-        } catch (NumberFormatException exception) {
-            return false;
-        }
-        return true;
-    };
-    public final static Predicate<String> FLOAT_PREDICATE = (e) -> {
-        if (Objects.equals(e, "")) return true;
-        try {
-            Float.valueOf(e);
-        } catch (NumberFormatException exception) {
-            return false;
-        }
-        return true;
-    };
-    public final static Predicate<String> DOUBLE_PREDICATE = (e) -> {
-        if (Objects.equals(e, "")) return true;
-        try {
-            Double.valueOf(e);
-        } catch (NumberFormatException exception) {
-            return false;
-        }
-        return true;
-    };
+    public final static Predicate<String> NUMBER_PREDICATE = (e) -> (e.matches("[0-9.,\\s]"));
     public final static Predicate<String> STRING_PREDICATE = Objects::nonNull;
-    public FieldSetting<?> setting;
+    public FieldSetting setting;
     private TextRenderer textRenderer;
     private int maxLength = 32;
     private final boolean drawsBackground = true;
@@ -68,24 +33,25 @@ public class Field extends Widget {
     private int selectionEnd;
     private Predicate<String> textPredicate = STRING_PREDICATE;
     private final BiFunction<String, Integer, OrderedText> renderTextProvider = (string, firstCharacterIndex) -> OrderedText.styledForwardsVisitedString(string, Style.EMPTY);
+    public boolean displayFieldName = true;
 
     public void setText(String text) {
         if (!this.textPredicate.test(text)) {
             return;
         }
-        setting.parseAndSetValue(text.length() > this.maxLength ? text.substring(0, this.maxLength) : text);
+        setting.setData(text.length() > this.maxLength ? text.substring(0, this.maxLength) : text);
         this.setCursorToEnd();
         this.setSelectionEnd(this.selectionStart);
     }
 
     public String getText() {
-        return setting.getStringValue();
+        return setting.getData();
     }
 
     public String getSelectedText() {
         int i = Math.min(this.selectionStart, this.selectionEnd);
         int j = Math.max(this.selectionStart, this.selectionEnd);
-        return this.setting.getStringValue().substring(i, j);
+        return this.setting.getData().substring(i, j);
     }
 
     public void write(String text) {
@@ -94,15 +60,15 @@ public class Field extends Widget {
         int l;
         int i = Math.min(this.selectionStart, this.selectionEnd);
         int j = Math.max(this.selectionStart, this.selectionEnd);
-        int k = this.maxLength - this.setting.getStringValue().length() - (i - j);
+        int k = this.maxLength - this.setting.getData().length() - (i - j);
         if (k < (l = (string = SharedConstants.stripInvalidChars(text)).length())) {
             string = string.substring(0, k);
             l = k;
         }
-       if (!this.textPredicate.test(string2 = new StringBuilder(this.setting.getStringValue()).replace(i, j, string).toString())) {
+        if (!this.textPredicate.test(string2 = new StringBuilder(this.setting.getData()).replace(i, j, string).toString())) {
             return;
         }
-        this.setting.parseAndSetValue(string2);
+        this.setting.setData(string2);
         this.setSelectionStart(i + l);
         this.setSelectionEnd(this.selectionStart);
     }
@@ -116,7 +82,7 @@ public class Field extends Widget {
     }
 
     public void eraseWords(int wordOffset) {
-        if (this.setting.getStringValue().isEmpty()) {
+        if (this.setting.getData().isEmpty()) {
             return;
         }
         if (this.selectionEnd != this.selectionStart) {
@@ -128,7 +94,7 @@ public class Field extends Widget {
 
     public void eraseCharacters(int characterOffset) {
         int k;
-        if (this.setting.getStringValue().isEmpty()) {
+        if (this.setting.getData().isEmpty()) {
             return;
         }
         if (this.selectionEnd != this.selectionStart) {
@@ -140,11 +106,11 @@ public class Field extends Widget {
         if (j == (k = Math.max(i, this.selectionStart))) {
             return;
         }
-        String string = new StringBuilder(this.setting.getStringValue()).delete(j, k).toString();
+        String string = new StringBuilder(this.setting.getData()).delete(j, k).toString();
         if (!this.textPredicate.test(string)) {
             return;
         }
-        this.setting.parseAndSetValue(string);
+        this.setting.setData(string);
         this.setCursor(j);
     }
 
@@ -156,26 +122,27 @@ public class Field extends Widget {
         return this.getWordSkipPosition(wordOffset, cursorPosition, true);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private int getWordSkipPosition(int wordOffset, int cursorPosition, boolean skipOverSpaces) {
         int i = cursorPosition;
         boolean bl = wordOffset < 0;
         int j = Math.abs(wordOffset);
         for (int k = 0; k < j; ++k) {
             if (bl) {
-                while (skipOverSpaces && i > 0 && this.setting.getStringValue().charAt(i - 1) == ' ') {
+                while (skipOverSpaces && i > 0 && this.setting.getData().charAt(i - 1) == ' ') {
                     --i;
                 }
-                while (i > 0 && this.setting.getStringValue().charAt(i - 1) != ' ') {
+                while (i > 0 && this.setting.getData().charAt(i - 1) != ' ') {
                     --i;
                 }
                 continue;
             }
-            int l = this.setting.getStringValue().length();
-            if ((i = this.setting.getStringValue().indexOf(32, i)) == -1) {
+            int l = this.setting.getData().length();
+            if ((i = this.setting.getData().indexOf(32, i)) == -1) {
                 i = l;
                 continue;
             }
-            while (skipOverSpaces && i < l && this.setting.getStringValue().charAt(i) == ' ') {
+            while (skipOverSpaces && i < l && this.setting.getData().charAt(i) == ' ') {
                 ++i;
             }
         }
@@ -187,7 +154,7 @@ public class Field extends Widget {
     }
 
     private int getCursorPosWithOffset(int offset) {
-        return Util.moveCursor(this.setting.getStringValue(), this.selectionStart, offset);
+        return Util.moveCursor(this.setting.getData(), this.selectionStart, offset);
     }
 
     public void setCursor(int cursor) {
@@ -198,7 +165,7 @@ public class Field extends Widget {
     }
 
     public void setSelectionStart(int cursor) {
-        this.selectionStart = MathHelper.clamp(cursor, 0, this.setting.getStringValue().length());
+        this.selectionStart = MathHelper.clamp(cursor, 0, this.setting.getData().length());
     }
 
     public void setCursorToStart() {
@@ -206,12 +173,12 @@ public class Field extends Widget {
     }
 
     public void setCursorToEnd() {
-        this.setCursor(this.setting.getStringValue().length());
+        this.setCursor(this.setting.getData().length());
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (!this.isActive()) {
+        if (!this.active) {
             return false;
         }
         this.selecting = Screen.hasShiftDown();
@@ -275,13 +242,9 @@ public class Field extends Widget {
         };
     }
 
-    public boolean isActive() {
-        return this.isVisible() && this.isFocused();
-    }
-
     @Override
     public boolean charTyped(char chr, int modifiers) {
-        if (!this.isActive()) {
+        if (!this.active) {
             return false;
         }
         if (SharedConstants.isValidChar(chr)) {
@@ -296,30 +259,26 @@ public class Field extends Widget {
     public void onClick(double mouseX, double mouseY, int button) {
         this.textRenderer = MinecraftClient.getInstance().textRenderer;
         boolean bl;
-        if (!this.isVisible()) {
+        if (!this.visible) {
             return;
         }
         bl = mouseX >= (double) this.x && mouseX < (double) (this.x + this.width) && mouseY >= (double) this.y && mouseY < (double) (this.y + this.height);
-        this.setTextFieldFocused(bl);
+        this.setFocused(bl);
         if (this.isFocused() && bl && button == 0) {
             int i = MathHelper.floor(mouseX) - this.x;
             if (this.drawsBackground) {
                 i -= 4;
             }
-            String string = this.textRenderer.trimToWidth(this.setting.getStringValue().substring(this.firstCharacterIndex), this.getInnerWidth());
+            String string = this.textRenderer.trimToWidth(this.setting.getData().substring(this.firstCharacterIndex), this.getInnerWidth());
             this.setCursor(this.textRenderer.trimToWidth(string, i).length() + this.firstCharacterIndex);
         }
-    }
-
-    public void setTextFieldFocused(boolean focused) {
-        this.setFocused(focused);
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.textRenderer = MinecraftClient.getInstance().textRenderer;
         int i;
-        if (!this.isVisible()) {
+        if (!this.visible) {
             return;
         }
         if (this.drawsBackground()) {
@@ -329,7 +288,7 @@ public class Field extends Widget {
         }
         int j = this.selectionStart - this.firstCharacterIndex;
         int k = this.selectionEnd - this.firstCharacterIndex;
-        String string = this.textRenderer.trimToWidth(this.setting.getStringValue().substring(this.firstCharacterIndex), this.getInnerWidth());
+        String string = this.textRenderer.trimToWidth(this.setting.getData().substring(this.firstCharacterIndex), this.getInnerWidth());
         boolean bl = j >= 0 && j <= string.length();
         int l = this.drawsBackground ? this.x + 4 : this.x;
         int m = this.drawsBackground ? this.y + (this.height - 8) / 2 : this.y;
@@ -342,7 +301,7 @@ public class Field extends Widget {
             String string2 = bl ? string.substring(0, j) : string;
             n = this.textRenderer.drawWithShadow(matrices, this.renderTextProvider.apply(string2, this.firstCharacterIndex), (float) n, (float) m, editableColor);
         }
-        boolean bl3 = this.selectionStart < this.setting.getStringValue().length() || this.setting.getStringValue().length() >= this.getMaxLength();
+        boolean bl3 = this.selectionStart < this.setting.getData().length() || this.setting.getData().length() >= this.getMaxLength();
         int o = n;
         if (!bl) {
             o = j > 0 ? l + this.width : l;
@@ -402,10 +361,11 @@ public class Field extends Widget {
         RenderSystem.enableTexture();
     }
 
+    @SuppressWarnings("unused")
     public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;
-        if (this.setting.getStringValue().length() > maxLength) {
-            this.setting.parseAndSetValue(this.setting.getStringValue().substring(0, maxLength));
+        if (this.setting.getData().length() > maxLength) {
+            this.setting.setData(this.setting.getData().substring(0, maxLength));
         }
     }
 
@@ -437,17 +397,17 @@ public class Field extends Widget {
     }
 
     public void setSelectionEnd(int index) {
-        int i = this.setting.getStringValue().length();
+        int i = this.setting.getData().length();
         this.selectionEnd = MathHelper.clamp(index, 0, i);
         if (this.textRenderer != null) {
             if (this.firstCharacterIndex > i) {
                 this.firstCharacterIndex = i;
             }
             int j = this.getInnerWidth();
-            String string = this.textRenderer.trimToWidth(this.setting.getStringValue().substring(this.firstCharacterIndex), j);
+            String string = this.textRenderer.trimToWidth(this.setting.getData().substring(this.firstCharacterIndex), j);
             int k = string.length() + this.firstCharacterIndex;
             if (this.selectionEnd == this.firstCharacterIndex) {
-                this.firstCharacterIndex -= this.textRenderer.trimToWidth(this.setting.getStringValue(), j, true).length();
+                this.firstCharacterIndex -= this.textRenderer.trimToWidth(this.setting.getData(), j, true).length();
             }
             if (this.selectionEnd > k) {
                 this.firstCharacterIndex += this.selectionEnd - k;
@@ -458,10 +418,6 @@ public class Field extends Widget {
         }
     }
 
-    public boolean isVisible() {
-        return this.visible;
-    }
-
     public void setTextPredicate(Predicate<String> predicate) {
         this.textPredicate = predicate;
     }
@@ -470,13 +426,8 @@ public class Field extends Widget {
         super(width, height, name, description);
     }
 
-    public Field(int width, int height, String name, String description, FieldSetting<?> setting) {
+    public Field(int width, int height, String name, String description, FieldSetting setting) {
         this(width, height, name, description);
-        if (setting instanceof StringSetting) setTextPredicate(STRING_PREDICATE);
-        else if (setting instanceof IntegerSetting) setTextPredicate(INT_PREDICATE);
-        else if (setting instanceof DoubleSetting) setTextPredicate(DOUBLE_PREDICATE);
-        else if (setting instanceof LongSetting) setTextPredicate(LONG_PREDICATE);
-        else if (setting instanceof FloatSetting) setTextPredicate(FLOAT_PREDICATE);
         this.setting = setting;
     }
 }

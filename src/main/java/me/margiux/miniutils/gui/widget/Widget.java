@@ -101,6 +101,15 @@ public class Widget extends ClickableWidget {
         }
     }
 
+    public void renderText(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+
+    }
+
+    public void renderBackground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+
+    }
+
+
     public void onClick(double mouseX, double mouseY, int button) {
 
     }

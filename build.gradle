@@ -6,13 +6,6 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 
-repositories {
-	maven {
-		name = "CottonMC"
-		url = "https://server.bbkr.space/artifactory/libs-release"
-	}
-}
-
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -21,8 +14,6 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	modImplementation include("io.github.cottonmc:LibGui:6.4.0+1.19")
 }
 
 base {

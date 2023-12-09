@@ -2,6 +2,7 @@ package me.margiux.miniutils.gui.widget;
 
 import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.module.Module;
+import me.margiux.miniutils.setting.BooleanSetting;
 import me.margiux.miniutils.setting.EnumSetting;
 import me.margiux.miniutils.setting.FieldSetting;
 import me.margiux.miniutils.setting.Setting;
@@ -28,16 +29,19 @@ public class HackWindow extends Window {
             }
         });
         moduleButton.displayNameSupplier = module::getColorizedName;
+        moduleButton.displayInSingleLine = true;
 
         addChild(moduleButton);
 
         List<Setting<?>> settings = module.moduleSettings;
 
         for (Setting<?> s : settings) {
-            if (s instanceof FieldSetting<?> setting) {
-                addChild(new Field(DEFAULT_WIDTH, DEFAULT_HEIGHT, "", "", setting));
+            if (s instanceof FieldSetting setting) {
+                addChild(setting.makeWidget());
             } else if (s instanceof EnumSetting<?> setting) {
-                addChild(new Enum<>(DEFAULT_WIDTH, DEFAULT_HEIGHT, setting.getName(), setting.getDescription(), setting, null));
+                addChild(setting.makeWidget());
+            } else if (s instanceof BooleanSetting setting) {
+                addChild(setting.makeWidget());
             }
         }
     }
@@ -52,7 +56,8 @@ public class HackWindow extends Window {
         int y = this.y;
         if (expanded) {
             for (Widget window : children) {
-                window.x = this.x;
+                window.x = this.x + ((children.indexOf(window) == 0) ? 0 : 2);
+                window.setWidth(width - ((children.indexOf(window) == 0) ? 0 : 4));
                 window.y = y;
                 y += window.getHeight() + 1;
             }
@@ -80,7 +85,7 @@ public class HackWindow extends Window {
         int height = 0;
         if (expanded) {
             for (Widget window : children) {
-                height += window.getHeight() + 1;
+                height += window.getHeight() + ((children.size() > 1) ? 1 : 0);
             }
         } else {
             height += children.get(0).getHeight();

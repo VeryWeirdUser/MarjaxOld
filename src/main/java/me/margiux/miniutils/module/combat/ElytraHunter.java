@@ -1,9 +1,11 @@
-package me.margiux.miniutils.module;
+package me.margiux.miniutils.module.combat;
 
 import me.margiux.miniutils.event.KeyEvent;
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
-import me.margiux.miniutils.setting.IntegerSetting;
+import me.margiux.miniutils.module.Category;
+import me.margiux.miniutils.module.Module;
+import me.margiux.miniutils.setting.FieldSetting;
 import me.margiux.miniutils.task.DelayTask;
 import me.margiux.miniutils.task.TaskManager;
 import me.margiux.miniutils.utils.HudUtil;
@@ -24,7 +26,7 @@ public final class ElytraHunter extends Module {
     }
 
     private Aimlock aimlockStatus;
-    private final IntegerSetting radiusInput = new IntegerSetting("Radius", "", 250);
+    private final FieldSetting radiusInput = new FieldSetting("Radius", "", "250");
 
     public ElytraHunter(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);
@@ -62,7 +64,7 @@ public final class ElytraHunter extends Module {
         if (getClient().world == null) return;
         float radius = 100;
         try {
-            radius = (radiusInput.getData() == 0) ? radius : radiusInput.getData();
+            radius = radiusInput.getIntegerData();
         } catch (Exception ignored) {
         }
         wasFound = hasTargets();
@@ -138,7 +140,7 @@ public final class ElytraHunter extends Module {
     public void aim(PlayerEntity target) {
         if (target == null) return;
         for (PlayerEntity p : targets) {
-            if (target != null && p.getUuid() == target.getUuid()) {
+            if (p.getUuid() == target.getUuid()) {
                 target = p;
                 break;
             }

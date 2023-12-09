@@ -1,9 +1,11 @@
-package me.margiux.miniutils.module;
+package me.margiux.miniutils.module.world;
 
 import me.margiux.miniutils.Main;
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
-import me.margiux.miniutils.setting.IntegerSetting;
+import me.margiux.miniutils.module.Category;
+import me.margiux.miniutils.module.Module;
+import me.margiux.miniutils.setting.FieldSetting;
 import net.minecraft.block.ChorusFlowerBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.BowItem;
@@ -16,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ChorusFarmer extends Module {
-    private final IntegerSetting radiusField = new IntegerSetting("Radius", "Radius of chorus flower searching area", 50);
-    private final IntegerSetting maxYField = new IntegerSetting("Y radius", "Radius of chorus flower searching area by Y", 20);
+    private final FieldSetting radiusField = new FieldSetting("Radius", "Radius of chorus flower searching area", "50");
+    private final FieldSetting maxYField = new FieldSetting("Y radius", "Radius of chorus flower searching area by Y", "20");
 
     public ChorusFarmer(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);
@@ -33,8 +35,8 @@ public final class ChorusFarmer extends Module {
         int radius = 25;
         int yRadius = 20;
         try {
-            radius = (radiusField.getData() == 0 || radiusField.getData() > 100) ? radius : radiusField.getData();
-            yRadius = maxYField.getData();
+            radius = (radiusField.getIntegerData() < 0 || radiusField.getIntegerData() >= 100) ? radius : radiusField.getIntegerData();
+            yRadius = maxYField.getIntegerData();
         } catch (Exception e) {
             radius = 25;
         }

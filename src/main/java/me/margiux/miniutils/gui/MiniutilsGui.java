@@ -42,6 +42,7 @@ public class MiniutilsGui extends Window {
                 setting.refreshDisplayName();
             }
         });
+        cheatModeEnum.displayInSingleLine = true;
         addChild(cheatModeEnum);
     }
 }

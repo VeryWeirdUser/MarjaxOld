@@ -1,9 +1,11 @@
-package me.margiux.miniutils.module;
+package me.margiux.miniutils.module.misc;
 
 import me.margiux.miniutils.event.KeyEvent;
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
-import me.margiux.miniutils.setting.StringSetting;
+import me.margiux.miniutils.module.Category;
+import me.margiux.miniutils.module.Module;
+import me.margiux.miniutils.setting.FieldSetting;
 import me.margiux.miniutils.utils.HudUtil;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
@@ -12,7 +14,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class PlayerSearcher extends Module {
     private PlayerEntity player = null;
-    StringSetting playerName = new StringSetting("Player name", "Name of the player");
+    FieldSetting playerName = new FieldSetting("Player name", "Name of the player");
 
     public PlayerSearcher(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);

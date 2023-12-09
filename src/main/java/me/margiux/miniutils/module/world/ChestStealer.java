@@ -1,4 +1,4 @@
-package me.margiux.miniutils.module;
+package me.margiux.miniutils.module.world;
 
 import me.margiux.miniutils.Enum;
 import me.margiux.miniutils.event.KeyEvent;
@@ -7,8 +7,10 @@ import me.margiux.miniutils.event.OpenScreenEvent;
 import me.margiux.miniutils.mixin.GenericContainerScreenAccessor;
 import me.margiux.miniutils.mixin.HandledScreenAccessor;
 import me.margiux.miniutils.mixin.ScreenAccessor;
+import me.margiux.miniutils.module.Category;
+import me.margiux.miniutils.module.Module;
 import me.margiux.miniutils.setting.EnumSetting;
-import me.margiux.miniutils.setting.IntegerSetting;
+import me.margiux.miniutils.setting.FieldSetting;
 import me.margiux.miniutils.task.DelayTask;
 import me.margiux.miniutils.task.TaskManager;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
@@ -67,7 +69,7 @@ public final class ChestStealer extends Module {
         }
     }
     public EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.BUTTON_CLICKED);
-    public IntegerSetting tickDelay = new IntegerSetting("Delay", "Delay in ticks", 3);
+    public FieldSetting tickDelay = new FieldSetting("Delay", "Delay in ticks", "3");
 
     public ChestStealer(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);
@@ -111,7 +113,7 @@ public final class ChestStealer extends Module {
                         continue;
 
                     AtomicBoolean canRun = new AtomicBoolean(false);
-                    TaskManager.addTask(new DelayTask((task) -> canRun.set(true), tickDelay.getData()));
+                    TaskManager.addTask(new DelayTask((task) -> canRun.set(true), tickDelay.getIntegerData()));
 
                     //noinspection StatementWithEmptyBody
                     while (!canRun.get()) {

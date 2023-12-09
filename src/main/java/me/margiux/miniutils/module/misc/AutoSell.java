@@ -1,12 +1,13 @@
-package me.margiux.miniutils.module;
+package me.margiux.miniutils.module.misc;
 
 import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.event.ChatReceiveMessageEvent;
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.gui.MiniutilsScreen;
-import me.margiux.miniutils.setting.IntegerSetting;
-import me.margiux.miniutils.setting.LongSetting;
-import me.margiux.miniutils.setting.StringSetting;
+import me.margiux.miniutils.gui.widget.Field;
+import me.margiux.miniutils.module.Category;
+import me.margiux.miniutils.module.Module;
+import me.margiux.miniutils.setting.FieldSetting;
 import me.margiux.miniutils.task.*;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
@@ -16,16 +17,16 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Identifier;
 
 public final class AutoSell extends Module {
-    public final StringSetting comInput = new StringSetting("*Command", "", "ah sell");
-    public final StringSetting idInput = new StringSetting("*ID", "ID of the item", "potion");
-    public final LongSetting priceInput = new LongSetting("*Price", "Price of the item", 449999L);
-    public final IntegerSetting quantityInput = new IntegerSetting("Quantity", "Quantity of the item", 1);
-    public final StringSetting actionOnFailTriggerInput = new StringSetting("Resell trigger", "Message that will trigger the action", "Освободите хранилище");
+    public final FieldSetting comInput = new FieldSetting("*Command", "", "ah sell");
+    public final FieldSetting idInput = new FieldSetting("*ID", "ID of the item", "potion");
+    public final FieldSetting priceInput = new FieldSetting("*Price", "Price of the item", "449999");
+    public final FieldSetting quantityInput = new FieldSetting("Quantity", "Quantity of the item", "1");
+    public final FieldSetting actionOnFailTriggerInput = new FieldSetting("Resell trigger", "Message that will trigger the action", "Освободите хранилище");
     public boolean canRun = true;
 
     public final Task sellTask;
     public boolean itemMatches(ItemStack stack) {
-        if (stack.getCount() != quantityInput.getData()) return false;
+        if (stack.getCount() != quantityInput.getLongData()) return false;
         return stack.getRegistryEntry().matchesId(new Identifier("minecraft", idInput.getData()));
     }
 
@@ -56,6 +57,9 @@ public final class AutoSell extends Module {
 
     public AutoSell(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);
+        idInput.predicate = Field.NUMBER_PREDICATE;
+        priceInput.predicate = Field.NUMBER_PREDICATE;
+        quantityInput.predicate = Field.NUMBER_PREDICATE;
         addSetting(comInput);
         addSetting(idInput);
         addSetting(priceInput);
@@ -96,7 +100,7 @@ public final class AutoSell extends Module {
             }, 4, 5).setPredicate((b) -> mode.getData() == Mode.ENABLED && !(getClient().currentScreen instanceof MiniutilsScreen))).setOnCompleteTask(
                     new DelayTask((task2) -> {
                         getClient().setScreen(null);
-                        getClient().player.sendCommand(comInput.getData() + " " + priceInput.getData().toString());
+                        getClient().player.sendCommand(comInput.getData() + " " + priceInput.getData());
                     }, 10).setPredicate((b) -> mode.getData() == Mode.ENABLED && !(getClient().currentScreen instanceof MiniutilsScreen))
             );
         }, 30).setPredicate((b) -> mode.getData() == Mode.ENABLED && comInput.getData() != null && idInput.getData() != null && priceInput.getData() != null && !(getClient().currentScreen instanceof MiniutilsScreen) && canRun);

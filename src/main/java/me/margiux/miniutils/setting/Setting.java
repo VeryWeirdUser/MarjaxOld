@@ -2,7 +2,7 @@ package me.margiux.miniutils.setting;
 
 import me.margiux.miniutils.utils.Mutable;
 
-public class Setting<T> {
+public abstract class Setting<T> {
     protected String name;
     protected String description;
     protected Mutable<T> data;

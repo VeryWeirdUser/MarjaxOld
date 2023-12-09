@@ -1,7 +1,9 @@
-package me.margiux.miniutils.module;
+package me.margiux.miniutils.module.misc;
 
 import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
+import me.margiux.miniutils.module.Category;
+import me.margiux.miniutils.module.Module;
 
 public class AnticheatTrigger2 extends Module {
     int tick;
