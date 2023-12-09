@@ -44,15 +44,6 @@ public class Button extends Widget {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        if (!this.visible) return;
-        this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-
-        renderBackground(matrices, mouseX, mouseY, delta);
-        renderText(matrices, mouseX, mouseY, delta);
-    }
-
-    @Override
     public void onClick(double mouseX, double mouseY, int button) {
         if (onPress != null) onPress.onPress(this, mouseX, mouseY, button);
     }

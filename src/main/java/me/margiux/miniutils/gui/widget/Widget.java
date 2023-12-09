@@ -96,6 +96,10 @@ public class Widget extends ClickableWidget {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+
+        renderBackground(matrices, mouseX, mouseY, delta);
+        renderText(matrices, mouseX, mouseY, delta);
         for (Widget child : children) {
             child.render(matrices, mouseX, mouseY, delta);
         }

@@ -1,12 +1,12 @@
 package me.margiux.miniutils.gui.widget;
 
+import me.margiux.miniutils.Main;
 import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.module.Module;
 import me.margiux.miniutils.setting.BooleanSetting;
 import me.margiux.miniutils.setting.EnumSetting;
 import me.margiux.miniutils.setting.FieldSetting;
 import me.margiux.miniutils.setting.Setting;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.List;
@@ -25,7 +25,6 @@ public class HackWindow extends Window {
                 setting.displayName = module.getColorizedName();
             } else if (button == 1) {
                 expanded = !expanded;
-                this.height = calculateHeight();
             }
         });
         moduleButton.displayNameSupplier = module::getColorizedName;
@@ -48,12 +47,10 @@ public class HackWindow extends Window {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        if (!this.visible) {
-            return;
-        }
+        if (!this.visible) return;
         this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         int y = this.y;
+        this.height = calculateHeight();
         if (expanded) {
             for (Widget window : children) {
                 window.x = this.x + ((children.indexOf(window) == 0) ? 0 : 2);
@@ -66,7 +63,7 @@ public class HackWindow extends Window {
             children.get(0).y = y;
         }
 
-        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+        this.renderBackground(matrices, Main.instance.getClient(), mouseX, mouseY);
 
         String color = "§7";
         if (module.getMode() == Mode.ENABLED) color = "§a";

@@ -13,7 +13,7 @@ public class FieldSetting extends Setting<String> {
     }
 
     public FieldSetting(String name, String description) {
-        super(name, description);
+        this(name, description, "");
     }
 
     public void setData(Integer data) {
@@ -64,13 +64,13 @@ public class FieldSetting extends Setting<String> {
         return 0L;
     }
 
-    public Widget makeWidget(int width, int height) {
-        Field field = new Field(width, height, name, description, this);
+    public Widget makeWidget(int width) {
+        Field field = new Field(width, name, description, this);
         if (predicate != null) field.setTextPredicate(predicate);
         return field;
     }
 
     public Widget makeWidget() {
-        return makeWidget(Widget.DEFAULT_WIDTH, Widget.DEFAULT_HEIGHT - 5);
+        return makeWidget(Widget.DEFAULT_WIDTH);
     }
 }

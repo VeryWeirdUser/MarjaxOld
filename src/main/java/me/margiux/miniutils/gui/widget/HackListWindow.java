@@ -28,9 +28,9 @@ public class HackListWindow extends Window {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if (!this.visible) return;
+        this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         TextRenderer textRenderer = minecraftClient.textRenderer;
-        this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
@@ -87,7 +87,7 @@ public class HackListWindow extends Window {
 
     @Override
     public void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-        this.x += deltaX;
-        this.y += deltaY;
+        this.x += (int) deltaX;
+        this.y += (int) deltaY;
     }
 }
