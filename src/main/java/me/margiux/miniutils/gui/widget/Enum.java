@@ -5,10 +5,8 @@ import me.margiux.miniutils.Main;
 import me.margiux.miniutils.setting.EnumSetting;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
 public class Enum<T extends me.margiux.miniutils.Enum<T>> extends Button {

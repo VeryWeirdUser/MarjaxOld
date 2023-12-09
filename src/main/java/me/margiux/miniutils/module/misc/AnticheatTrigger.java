@@ -4,13 +4,6 @@ import me.margiux.miniutils.event.ModuleEventHandler;
 import me.margiux.miniutils.event.TickEvent;
 import me.margiux.miniutils.module.Category;
 import me.margiux.miniutils.module.Module;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.decoration.EndCrystalEntity;
-import net.minecraft.entity.projectile.ShulkerBulletEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.EntityHitResult;
-
 public class AnticheatTrigger extends Module {
     boolean jumped = false;
     int tick;
