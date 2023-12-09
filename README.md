@@ -24,4 +24,4 @@
     - Chorus farmer
 - **Miscellaneous**
     - Auto sell
-    - Player searchers
+    - Player searcher
