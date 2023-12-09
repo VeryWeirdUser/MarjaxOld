@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
 public class Button extends Widget {
-    public PressAction onPress;
+    public final PressAction onPress;
 
     public Button(int x, int y, int width, int height, String name, String description, PressAction onPress) {
         super(x, y, width, height, name, description);
@@ -33,8 +33,6 @@ public class Button extends Widget {
         RenderSystem.enableDepthTest();
         horizontalGradient(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0xFF87f2b2 - 0x00333333, 0xFF8BA8E0 - 0x00333333);
         horizontalGradient(matrices, this.x + 2, this.y + 2, this.x + this.width - 2, this.y + this.height - 2, 0xFF87f2b2, 0xFF8BA8E0);
-        //DrawableHelper.fill(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0x55092D49);
-        //DrawableHelper.fill(matrices, this.x + 2, this.y + 2, this.x + this.width - 2, this.y + this.height - 2, 0x550887E7);
     }
 
     @Override

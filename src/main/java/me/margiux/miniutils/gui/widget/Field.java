@@ -15,6 +15,7 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -203,8 +204,9 @@ public class Field extends Widget {
 
             return true;
         }
+
         return switch (keyCode) {
-            case 263 -> {
+            case GLFW.GLFW_KEY_LEFT -> {
                 if (Screen.hasControlDown()) {
                     this.setCursor(this.getWordSkipPosition(-1));
                 } else {
@@ -212,7 +214,7 @@ public class Field extends Widget {
                 }
                 yield true;
             }
-            case 262 -> {
+            case GLFW.GLFW_KEY_RIGHT -> {
                 if (Screen.hasControlDown()) {
                     this.setCursor(this.getWordSkipPosition(1));
                 } else {
@@ -220,23 +222,23 @@ public class Field extends Widget {
                 }
                 yield true;
             }
-            case 259 -> {
+            case GLFW.GLFW_KEY_BACKSPACE -> {
                 this.selecting = false;
                 this.erase(-1);
                 this.selecting = Screen.hasShiftDown();
                 yield true;
             }
-            case 261 -> {
+            case GLFW.GLFW_KEY_DELETE -> {
                 this.selecting = false;
                 this.erase(1);
                 this.selecting = Screen.hasShiftDown();
                 yield true;
             }
-            case 268 -> {
+            case GLFW.GLFW_KEY_HOME -> {
                 this.setCursorToStart();
                 yield true;
             }
-            case 269 -> {
+            case GLFW.GLFW_KEY_END -> {
                 this.setCursorToEnd();
                 yield true;
             }
