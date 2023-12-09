@@ -74,7 +74,7 @@ public final class ChestStealer extends Module {
         else return;
         if (stealMode.getData() == StealMode.BUTTON_CLICKED) {
             HandledScreenAccessor handledScreen = ((HandledScreenAccessor) screen);
-            ((ScreenAccessor) screen).addDrawableChild(new ButtonWidget(handledScreen.getX() + handledScreen.getBackgroundWidth() - 60, handledScreen.getY() + 3, 54, 12, Text.literal("Steal"), (b) -> steal(screen)));
+            ((ScreenAccessor) screen).invokeAddDrawableChild(new ButtonWidget(handledScreen.getX() + handledScreen.getBackgroundWidth() - 60, handledScreen.getY() + 3, 54, 12, Text.literal("Steal"), (b) -> steal(screen)));
         } else if (stealMode.getData() == StealMode.SCREEN_OPEN) TaskManager.addTask(new DelayTask((task) -> steal(screen), 5));
     }
 

@@ -10,6 +10,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(Screen.class)
 public interface ScreenAccessor {
     @SuppressWarnings("UnusedReturnValue")
-    @Invoker(value = "addDrawableChild")
-    <T extends Element & Drawable & Selectable> T addDrawableChild(T drawableElement);
+    @Invoker
+    <T extends Element & Drawable & Selectable> T invokeAddDrawableChild(T drawableElement);
 }
