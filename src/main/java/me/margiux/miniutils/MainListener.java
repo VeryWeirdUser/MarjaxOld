@@ -19,7 +19,7 @@ public class MainListener implements Listener {
 
     @EventHandler(executeInPanicMode = true)
     public static void onKey(KeyEvent event) {
-        if (event.getKey() == GLFW.GLFW_KEY_DELETE) {
+        if (event.getModifiers() == 0 && (event.getKey() == GLFW.GLFW_KEY_DELETE || event.getKey() == GLFW.GLFW_KEY_KP_DECIMAL)) {
             if (event.getAction() == 2) holdTime++;
             if (holdTime > 60 && !panicTriggered) {
                 panicTriggered = true;
