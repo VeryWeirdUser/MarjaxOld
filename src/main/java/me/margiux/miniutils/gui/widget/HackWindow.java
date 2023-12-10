@@ -1,6 +1,5 @@
 package me.margiux.miniutils.gui.widget;
 
-import me.margiux.miniutils.Main;
 import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.module.Module;
 import me.margiux.miniutils.setting.BooleanSetting;
@@ -62,8 +61,6 @@ public class HackWindow extends Window {
             children.get(0).x = this.x;
             children.get(0).y = y;
         }
-
-        this.renderBackground(matrices, Main.instance.getClient(), mouseX, mouseY);
 
         String color = "§7";
         if (module.getMode() == Mode.ENABLED) color = "§a";

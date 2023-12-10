@@ -1,10 +1,8 @@
 package me.margiux.miniutils.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.margiux.miniutils.Main;
 import me.margiux.miniutils.setting.EnumSetting;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import me.margiux.miniutils.utils.DrawUtils;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.Nullable;
@@ -55,8 +53,8 @@ public class Enum<T extends me.margiux.miniutils.utils.Enum<T>> extends Button {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawableHelper.fill(matrices, this.x, this.y + 10, this.x + this.width, this.y + this.height, 0xFF092D49);
-        DrawableHelper.fill(matrices, this.x + 2, this.y + 12, this.x + this.width - 2, this.y + this.height - 2, 0xFF0887E7);
+        DrawUtils.fill(matrices, this.x, this.y + 10, this.x + this.width, this.y + this.height, 0xFF092D49);
+        DrawUtils.fill(matrices, this.x + 2, this.y + 12, this.x + this.width - 2, this.y + this.height - 2, 0xFF0887E7);
     }
 
     @Override
@@ -65,9 +63,8 @@ public class Enum<T extends me.margiux.miniutils.utils.Enum<T>> extends Button {
             super.renderText(matrices, mouseX, mouseY, delta);
             return;
         }
-        TextRenderer textRenderer = Main.instance.getClient().textRenderer;
-        textRenderer.draw(matrices, name + ":", this.x + 3, this. y + 2, 0xFFFFFFFF);
-        textRenderer.draw(matrices, setting.getData().getName(), this.x + 3, this. y + 16, 0xFFFFFFFF);
+        DrawUtils.drawText(matrices, name + ":", this.x + 3, this. y + 2, 0xFFFFFFFF);
+        DrawUtils.drawText(matrices, setting.getData().getName(), this.x + 3, this. y + 16, 0xFFFFFFFF);
     }
 
     @Override

@@ -4,10 +4,10 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.margiux.miniutils.Main;
 import me.margiux.miniutils.setting.*;
+import me.margiux.miniutils.utils.DrawUtils;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -280,13 +280,13 @@ public class Field extends Widget {
 
     @Override
     public void renderBackground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        DrawableHelper.fill(matrices, this.x, this.y + (displayFieldName ? 10 : 0), this.x + this.width, this.y + this.height, this.isFocused() ? 0xFF00CCFF : 0xFF000033);
-        DrawableHelper.fill(matrices, this.x + 1, this.y + (displayFieldName ? 11 : 1), this.x + this.width - 1, this.y + this.height - 1, 0xFF00004d);
+        DrawUtils.fill(matrices, this.x, this.y + (displayFieldName ? 10 : 0), this.x + this.width, this.y + this.height, this.isFocused() ? 0xFF00CCFF : 0xFF000033);
+        DrawUtils.fill(matrices, this.x + 1, this.y + (displayFieldName ? 11 : 1), this.x + this.width - 1, this.y + this.height - 1, 0xFF00004d);
     }
 
     @Override
     public void renderText(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.textRenderer.drawWithShadow(matrices, displayName + ":", this.x + 3, this.y + 1, 0xFFFFFF);
+        DrawUtils.drawTextWithShadow(matrices, displayName + ":", this.x + 3, this.y + 1, 0xFFFFFF);
         String string = this.textRenderer.trimToWidth(this.setting.getData().substring(this.firstCharacterIndex), this.getInnerWidth());
         int j = this.selectionStart - this.firstCharacterIndex;
         int k = this.selectionEnd - this.firstCharacterIndex;
@@ -300,7 +300,7 @@ public class Field extends Widget {
         }
         if (!string.isEmpty()) {
             String string2 = bl ? string.substring(0, j) : string;
-            n = this.textRenderer.drawWithShadow(matrices, this.renderTextProvider.apply(string2, this.firstCharacterIndex), n, m, editableColor);
+            n = DrawUtils.drawTextWithShadow(matrices, this.renderTextProvider.apply(string2, this.firstCharacterIndex), n, m, editableColor);
         }
         boolean bl3 = this.selectionStart < this.setting.getData().length() || this.setting.getData().length() >= this.getMaxLength();
         int o = n;
@@ -311,13 +311,13 @@ public class Field extends Widget {
             --n;
         }
         if (!string.isEmpty() && bl && j < string.length()) {
-            this.textRenderer.drawWithShadow(matrices, this.renderTextProvider.apply(string.substring(j), this.selectionStart), n, m, editableColor);
+            DrawUtils.drawTextWithShadow(matrices, this.renderTextProvider.apply(string.substring(j), this.selectionStart), n, m, editableColor);
         }
         if (isFocused()) {
             if (bl3) {
-                DrawableHelper.fill(matrices, o, m - 1, o + 1, m + 1 + this.textRenderer.fontHeight, -3092272);
+                DrawUtils.fill(matrices, o, m - 1, o + 1, m + 1 + this.textRenderer.fontHeight, -3092272);
             } else {
-                this.textRenderer.drawWithShadow(matrices, "_", o, m, editableColor);
+                DrawUtils.drawTextWithShadow(matrices, "_", o, m, editableColor);
             }
         }
         if (k != j) {

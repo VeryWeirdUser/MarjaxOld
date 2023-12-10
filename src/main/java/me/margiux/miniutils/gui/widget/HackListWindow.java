@@ -2,10 +2,7 @@ package me.margiux.miniutils.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.margiux.miniutils.module.Category;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.widget.ClickableWidget;
+import me.margiux.miniutils.utils.DrawUtils;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
@@ -29,18 +26,15 @@ public class HackListWindow extends Window {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if (!this.visible) return;
         this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        TextRenderer textRenderer = minecraftClient.textRenderer;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawableHelper.fill(matrices, this.x, this.y, this.x + this.width, this.y + 15, 0x99001B4D);
+        DrawUtils.fill(matrices, this.x, this.y, this.x + this.width, this.y + 15, 0x99001B4D);
 
         int j = this.active ? 0xFFFFFF : 0xA0A0A0;
-        ClickableWidget.drawCenteredText(matrices, textRenderer, category.name, this.x + this.width / 2, this.y + (15) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
+        DrawUtils.drawCenteredText(matrices, category.name, this.x + this.width / 2, this.y + (15) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
 
         if (expanded) {
             int y = this.y + 15;
@@ -52,14 +46,12 @@ public class HackListWindow extends Window {
         }
         this.setHeight(calculateHeight());
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawableHelper.fill(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0x66BED5F7);
-        ClickableWidget.drawCenteredText(matrices, textRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
-        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+        DrawUtils.fill(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0x66BED5F7);
+        DrawUtils.drawCenteredText(matrices, this.name, this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
 
         if (expanded) {
             for (Widget window : children) {
@@ -87,7 +79,7 @@ public class HackListWindow extends Window {
 
     @Override
     public void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-        this.x += (int) deltaX;
-        this.y += (int) deltaY;
+        x = (int)Math.round(draggedX);
+        y = (int)Math.round(draggedY);
     }
 }

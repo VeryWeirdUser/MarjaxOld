@@ -3,7 +3,6 @@ package me.margiux.miniutils.gui;
 import me.margiux.miniutils.Main;
 import me.margiux.miniutils.gui.widget.Widget;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -33,7 +32,7 @@ public class MiniutilsScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (rootWidget.isValidClickButton(button) && rootWidget.inBounds(mouseX, mouseY)) {
+        if (rootWidget.isValidClickButton(button)) {
             Widget widget = rootWidget;
             while (!widget.children.isEmpty()) {
                 Widget oldWidget = widget;
@@ -44,45 +43,36 @@ public class MiniutilsScreen extends Screen {
                 }
                 if (oldWidget == widget) break;
             }
-            widget.onClick(mouseX, mouseY, button);
-            widget.playDownSound(MinecraftClient.getInstance().getSoundManager());
+            widget.mouseClicked(mouseX, mouseY, button);
             setFocusedWidget(widget);
         }
         return false;
     }
 
     @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (rootWidget.isValidClickButton(button) && focusedWidget != null)
+            return focusedWidget.mouseReleased(mouseX, mouseY, button);
+        return false;
+    }
+
+    @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (rootWidget.isValidClickButton(button) && rootWidget.inBounds(mouseX, mouseY)) {
-            Widget widget = rootWidget;
-            while (!widget.children.isEmpty()) {
-                Widget oldWidget = widget;
-                for (Widget child : widget.children) {
-                    if (child.inBounds(mouseX, mouseY)) {
-                        widget = child;
-                    }
-                }
-                if (oldWidget == widget) break;
-            }
-            widget.onDrag(mouseX, mouseY, deltaX, deltaY);
-        }
+        if (rootWidget.isValidClickButton(button) && focusedWidget != null)
+            return focusedWidget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
         return false;
     }
 
     @Override
     public boolean charTyped(char chr, int modifiers) {
-        if (focusedWidget != null && SharedConstants.isValidChar(chr)) {
-            return focusedWidget.charTyped(chr, modifiers);
-        }
+        if (focusedWidget != null && SharedConstants.isValidChar(chr)) return focusedWidget.charTyped(chr, modifiers);
         return false;
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         super.keyPressed(keyCode, scanCode, modifiers);
-        if (focusedWidget != null) {
-            return focusedWidget.keyPressed(keyCode, scanCode, modifiers);
-        }
+        if (focusedWidget != null) return focusedWidget.keyPressed(keyCode, scanCode, modifiers);
         return false;
     }
 
