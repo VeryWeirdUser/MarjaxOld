@@ -28,7 +28,7 @@ public abstract class KeyboardMixin {
                     return;
                 }
             }
-            Input.setPressed(key, action != 1);
+            Input.setPressed(key, action != 0);
         }
     }
 }
