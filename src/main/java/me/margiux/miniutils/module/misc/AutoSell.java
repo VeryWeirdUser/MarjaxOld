@@ -17,11 +17,11 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Identifier;
 
 public final class AutoSell extends Module {
-    public final FieldSetting comInput = new FieldSetting("*Command", "", "ah sell");
-    public final FieldSetting idInput = new FieldSetting("*ID", "ID of the item", "potion");
-    public final FieldSetting priceInput = new FieldSetting("*Price", "Price of the item", "449999");
-    public final FieldSetting quantityInput = new FieldSetting("Quantity", "Quantity of the item", "1");
-    public final FieldSetting actionOnFailTriggerInput = new FieldSetting("Resell trigger", "Message that will trigger the action", "Освободите хранилище");
+    public final FieldSetting comInput = new FieldSetting("*Command", "", "ah sell", null);
+    public final FieldSetting idInput = new FieldSetting("*ID", "ID of the item", "potion", null);
+    public final FieldSetting priceInput = new FieldSetting("*Price", "Price of the item", "449999", Field.NUMBER_PREDICATE);
+    public final FieldSetting quantityInput = new FieldSetting("Quantity", "Quantity of the item", "1", Field.NUMBER_PREDICATE);
+    public final FieldSetting actionOnFailTriggerInput = new FieldSetting("Resell trigger", "Message that will trigger the action", "Освободите хранилище", null);
     public boolean canRun = true;
 
     public final Task sellTask;
@@ -57,9 +57,6 @@ public final class AutoSell extends Module {
 
     public AutoSell(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);
-        idInput.predicate = Field.NUMBER_PREDICATE;
-        priceInput.predicate = Field.NUMBER_PREDICATE;
-        quantityInput.predicate = Field.NUMBER_PREDICATE;
         addSetting(comInput);
         addSetting(idInput);
         addSetting(priceInput);

@@ -1,7 +1,7 @@
 package me.margiux.miniutils.gui.widget;
 
 import me.margiux.miniutils.setting.BooleanSetting;
-import me.margiux.miniutils.utils.DrawUtils;
+import me.margiux.miniutils.utils.RenderUtils;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class ToggleButton extends Button {
@@ -27,9 +27,9 @@ public class ToggleButton extends Button {
 
     @Override
     public void renderText(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        DrawUtils.fill(matrices, this.x + 3, this.y + 3, this.x + 13, this.y + 12, 0xFF092D49);
-        DrawUtils.drawText(matrices, "✔", x + 5, y + 4, setting.getData() ? 0xffeeff : 0x66666666);
+        RenderUtils.fill(matrices, this.x + 3, this.y + 3, this.x + 13, this.y + 12, 0xFF092D49);
+        RenderUtils.drawText(matrices, "✔", x + 5, y + 4, setting.getData() ? 0xffeeff : 0x66666666);
 
-        DrawUtils.drawTextWithShadow(matrices, displayName, x + 14, y + 4, 0xffffff);
+        RenderUtils.drawTextWithShadow(matrices, displayName, x + 14, y + 4, 0xffffff);
     }
 }

@@ -2,18 +2,21 @@ package me.margiux.miniutils.setting;
 
 import me.margiux.miniutils.gui.widget.Field;
 import me.margiux.miniutils.gui.widget.Widget;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
 public class FieldSetting extends Setting<String> {
-    public Predicate<String> predicate = null;
+    @Nullable
+    public Predicate<String> predicate;
 
-    public FieldSetting(String name, String description, String data) {
+    public FieldSetting(String name, String description, String data, @Nullable Predicate<String> predicate) {
         super(name, description, data);
+        this.predicate = predicate;
     }
 
-    public FieldSetting(String name, String description) {
-        this(name, description, "");
+    public FieldSetting(String name, String description, @Nullable Predicate<String> predicate) {
+        this(name, description, "", predicate);
     }
 
     public void setData(Integer data) {

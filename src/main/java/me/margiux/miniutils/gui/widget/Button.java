@@ -1,19 +1,20 @@
 package me.margiux.miniutils.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.margiux.miniutils.Main;
-import me.margiux.miniutils.utils.DrawUtils;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.render.GameRenderer;
+import me.margiux.miniutils.gui.Color;
+import me.margiux.miniutils.gui.Gradient;
+import me.margiux.miniutils.utils.RenderUtils;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
 public class Button extends Widget {
+    protected Color strokeColor = new Gradient(0xFF87f2b2 - 0x00333333, 0xFF8BA8E0 - 0x00333333);
     public final PressAction onPress;
 
     public Button(int x, int y, int width, int height, String name, String description, PressAction onPress) {
         super(x, y, width, height, name, description);
         this.onPress = onPress;
+        this.widgetColor = new Gradient(0xFF87f2b2, 0xFF8BA8E0);
     }
 
     public Button(int width, int height, String name, String description, PressAction onPress) {
@@ -26,20 +27,16 @@ public class Button extends Widget {
     }
 
     public void renderBackground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        RenderUtils.setupRender();
         RenderSystem.enableDepthTest();
-        DrawUtils.horizontalGradient(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0xFF87f2b2 - 0x00333333, 0xFF8BA8E0 - 0x00333333);
-        DrawUtils.horizontalGradient(matrices, this.x + 2, this.y + 2, this.x + this.width - 2, this.y + this.height - 2, 0xFF87f2b2, 0xFF8BA8E0);
+        RenderUtils.draw(matrices, this.x, this.y, this.x + this.width, this.y + this.height, strokeColor);
+        RenderUtils.draw(matrices, this.x + 2, this.y + 2, this.x + this.width - 2, this.y + this.height - 2, widgetColor);
+        RenderUtils.resetRender();
     }
 
     @Override
     public void renderText(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        TextRenderer textRenderer = Main.instance.getClient().textRenderer;
-        int j = this.active ? 0xFFFFFF : 0xA0A0A0;
-        DrawUtils.drawCenteredText(matrices, textRenderer, displayName, this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
+        RenderUtils.drawCenteredText(matrices, displayName, this.x + this.width / 2, this.y + (this.height - 8) / 2, 0xFFFFFF | MathHelper.ceil(this.alpha * 255.0f) << 24);
     }
 
     @Override

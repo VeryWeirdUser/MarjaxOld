@@ -1,5 +1,6 @@
 package me.margiux.miniutils.gui.widget;
 
+import me.margiux.miniutils.gui.Color;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -31,7 +32,13 @@ public class Widget implements Drawable, Element, Selectable {
     private boolean focused;
     @Nullable
     protected Widget parent;
-    public final List<Widget> children = new ArrayList<>();
+    public Color widgetColor;
+
+    public List<Widget> getChildren() {
+        return children;
+    }
+
+    protected final List<Widget> children = new ArrayList<>();
     public final String name;
     public final String description;
     public String displayName;

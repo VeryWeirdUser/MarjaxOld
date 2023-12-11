@@ -2,7 +2,7 @@ package me.margiux.miniutils.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.margiux.miniutils.setting.EnumSetting;
-import me.margiux.miniutils.utils.DrawUtils;
+import me.margiux.miniutils.utils.RenderUtils;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.Nullable;
@@ -16,6 +16,7 @@ public class Enum<T extends me.margiux.miniutils.utils.Enum<T>> extends Button {
         super(x, y, width, height, name, description, null);
         this.onPress = handler;
         this.setting = setting;
+        this.displayNameSupplier = () -> name + ": " + setting.getData().getName();
         refreshDisplayName();
     }
 
@@ -53,8 +54,8 @@ public class Enum<T extends me.margiux.miniutils.utils.Enum<T>> extends Button {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawUtils.fill(matrices, this.x, this.y + 10, this.x + this.width, this.y + this.height, 0xFF092D49);
-        DrawUtils.fill(matrices, this.x + 2, this.y + 12, this.x + this.width - 2, this.y + this.height - 2, 0xFF0887E7);
+        RenderUtils.fill(matrices, this.x, this.y + 10, this.x + this.width, this.y + this.height, 0xFF092D49);
+        RenderUtils.fill(matrices, this.x + 2, this.y + 12, this.x + this.width - 2, this.y + this.height - 2, 0xFF0887E7);
     }
 
     @Override
@@ -63,21 +64,19 @@ public class Enum<T extends me.margiux.miniutils.utils.Enum<T>> extends Button {
             super.renderText(matrices, mouseX, mouseY, delta);
             return;
         }
-        DrawUtils.drawText(matrices, name + ":", this.x + 3, this. y + 2, 0xFFFFFFFF);
-        DrawUtils.drawText(matrices, setting.getData().getName(), this.x + 3, this. y + 16, 0xFFFFFFFF);
+        RenderUtils.drawText(matrices, name + ":", this.x + 3, this. y + 2, 0xFFFFFFFF);
+        RenderUtils.drawText(matrices, setting.getData().getName(), this.x + 3, this. y + 16, 0xFFFFFFFF);
+    }
+
+    public int calculateHeight() {
+        if (displayInSingleLine) return DEFAULT_HEIGHT;
+        else return 30;
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         refreshDisplayName();
-        if (displayInSingleLine) setHeight(DEFAULT_HEIGHT);
-        else setHeight(30);
+        setHeight(calculateHeight());
         super.render(matrices, mouseX, mouseY, delta);
-    }
-
-    @Override
-    public void refreshDisplayName() {
-        if (displayNameSupplier != null) displayName = displayNameSupplier.get();
-        else displayName = name + ": " + setting.getData().getName();
     }
 }

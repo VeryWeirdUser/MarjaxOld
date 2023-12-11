@@ -34,9 +34,9 @@ public class MiniutilsScreen extends Screen {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (rootWidget.isValidClickButton(button)) {
             Widget widget = rootWidget;
-            while (!widget.children.isEmpty()) {
+            while (!widget.getChildren().isEmpty()) {
                 Widget oldWidget = widget;
-                for (Widget child : widget.children) {
+                for (Widget child : widget.getChildren()) {
                     if (child.inBounds(mouseX, mouseY)) {
                         widget = child;
                     }
