@@ -32,10 +32,15 @@ public final class ChestStealer extends Module {
         KEY_PRESSED("On key pressed"),
         BUTTON_CLICKED("On button clicked");
 
-        final String name;
+        public final String name;
 
         StealMode(String name) {
             this.name = name;
+        }
+
+        @Override
+        public StealMode[] getEnumValues() {
+            return values();
         }
 
         @Override
@@ -44,20 +49,11 @@ public final class ChestStealer extends Module {
         }
 
         @Override
-        public StealMode getNext() {
-            int thisIndex = 0;
-            for (int i = 0; i < values().length; i++) {
-                if (values()[i] == this) {
-                    thisIndex = i;
-                    break;
-                }
-            }
-            for (int i = thisIndex; i < values().length; i++) {
-                if (i != thisIndex) return values()[i];
-            }
-            return values()[0];
+        public boolean isDisplayOnly() {
+            return false;
         }
     }
+
     private final EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.BUTTON_CLICKED);
     private final FieldSetting tickDelay = new FieldSetting("Delay", "Delay in ticks", "3", Field.NUMBER_PREDICATE);
 
@@ -76,7 +72,8 @@ public final class ChestStealer extends Module {
         if (stealMode.getData() == StealMode.BUTTON_CLICKED) {
             HandledScreenAccessor handledScreen = ((HandledScreenAccessor) screen);
             ((ScreenAccessor) screen).invokeAddDrawableChild(new ButtonWidget(handledScreen.getX() + handledScreen.getBackgroundWidth() - 60, handledScreen.getY() + 3, 54, 12, Text.literal("Steal"), (b) -> steal(screen)));
-        } else if (stealMode.getData() == StealMode.SCREEN_OPEN) TaskManager.addTask(new DelayTask((task) -> steal(screen), 5));
+        } else if (stealMode.getData() == StealMode.SCREEN_OPEN)
+            TaskManager.addTask(new DelayTask((task) -> steal(screen), 5));
     }
 
     @ModuleEventHandler
@@ -95,7 +92,8 @@ public final class ChestStealer extends Module {
                 else if (screen instanceof ShulkerBoxScreen) rows = 3;
                 else rows = 3;
                 for (int i = 0; i < rows * 9; i++) {
-                    if (getClient().currentScreen != screen || getClient().interactionManager == null || getClient().player == null) break;
+                    if (getClient().currentScreen != screen || getClient().interactionManager == null || getClient().player == null)
+                        break;
                     if (getClient().player.getInventory().getEmptySlot() == -1) return;
 
                     Slot slot = screen.getScreenHandler().slots.get(i);
