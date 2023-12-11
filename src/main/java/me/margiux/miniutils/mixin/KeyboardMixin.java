@@ -5,6 +5,7 @@ import me.margiux.miniutils.Main;
 import me.margiux.miniutils.event.EventManager;
 import me.margiux.miniutils.event.KeyEvent;
 import me.margiux.miniutils.event.ModuleKeyEvent;
+import me.margiux.miniutils.utils.Input;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.gui.screen.ChatScreen;
 import org.lwjgl.glfw.GLFW;
@@ -22,8 +23,12 @@ public abstract class KeyboardMixin {
             if (action == 1 && modifiers == GLFW.GLFW_MOD_ALT && Main.instance.status.getData() == CheatMode.ENABLED) {
                 ModuleKeyEvent moduleKeyEvent = new ModuleKeyEvent(key, modifiers, action);
                 EventManager.fireEvent(moduleKeyEvent);
-                if (moduleKeyEvent.isCanceled()) ci.cancel();
+                if (moduleKeyEvent.isCanceled()) {
+                    ci.cancel();
+                    return;
+                }
             }
+            Input.setPressed(key, action != 1);
         }
     }
 }
