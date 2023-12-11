@@ -1,5 +1,6 @@
 package me.margiux.miniutils.module.world;
 
+import me.margiux.miniutils.gui.widget.Field;
 import me.margiux.miniutils.utils.Enum;
 import me.margiux.miniutils.event.KeyEvent;
 import me.margiux.miniutils.event.ModuleEventHandler;
@@ -57,8 +58,8 @@ public final class ChestStealer extends Module {
             return values()[0];
         }
     }
-    public final EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.BUTTON_CLICKED);
-    public final FieldSetting tickDelay = new FieldSetting("Delay", "Delay in ticks", "3");
+    private final EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.BUTTON_CLICKED);
+    private final FieldSetting tickDelay = new FieldSetting("Delay", "Delay in ticks", "3", Field.NUMBER_PREDICATE);
 
     public ChestStealer(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);

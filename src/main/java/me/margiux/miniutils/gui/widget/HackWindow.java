@@ -11,23 +11,13 @@ import net.minecraft.client.util.math.MatrixStack;
 import java.util.List;
 
 public class HackWindow extends Window {
-    public boolean expanded = false;
     public final Module module;
 
     public HackWindow(int x, int y, Module module) {
         super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.module = module;
 
-        Enum<Mode> moduleButton = new Enum<>(x, y, Widget.DEFAULT_WIDTH, Widget.DEFAULT_HEIGHT, module.getColorizedName(), "", module.getModeSetting(), (setting, button) -> {
-            if (button == 0) {
-                module.toggle();
-                setting.displayName = module.getColorizedName();
-            } else if (button == 1) {
-                expanded = !expanded;
-            }
-        });
-        moduleButton.displayNameSupplier = module::getColorizedName;
-        moduleButton.displayInSingleLine = true;
+        ModuleWidget moduleButton = new ModuleWidget(module, x, y, Widget.DEFAULT_WIDTH, module.getColorizedName(), "", module.getModeSetting(), this);
 
         addChild(moduleButton);
 
@@ -75,6 +65,7 @@ public class HackWindow extends Window {
         }
     }
 
+    @Override
     public int calculateHeight() {
         int height = 0;
         if (expanded) {

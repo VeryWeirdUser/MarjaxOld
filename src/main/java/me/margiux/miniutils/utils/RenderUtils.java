@@ -2,6 +2,8 @@ package me.margiux.miniutils.utils;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.margiux.miniutils.Main;
+import me.margiux.miniutils.gui.Color;
+import me.margiux.miniutils.gui.Gradient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
@@ -9,8 +11,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.util.math.Matrix4f;
 
-public interface DrawUtils {
-    static void verticalGradient(MatrixStack matrices, int left, int top, int right, int bottom, int startColor, int endColor) {
+public class RenderUtils {
+    public static void draw(MatrixStack matrices, int left, int top, int right, int bottom, Color color) {
+        if (color instanceof Gradient gradient) {
+            if (gradient.type == Gradient.GradientType.Vertical) verticalGradient(matrices, left, top, right, bottom, gradient.color, gradient.endColor);
+            else horizontalGradient(matrices, left, top, right, bottom, gradient.color, gradient.endColor);
+        } else fill(matrices, left, top, right, bottom, color.color);
+    }
+    public static void verticalGradient(MatrixStack matrices, int left, int top, int right, int bottom, int startColor, int endColor) {
         Matrix4f matrix = matrices.peek().getPositionMatrix();
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         setupRender();
@@ -24,7 +32,7 @@ public interface DrawUtils {
         resetRender();
     }
 
-    static void horizontalGradient(MatrixStack matrices, int left, int top, int rigth, int bottom, int startColor, int endColor) {
+    public static void horizontalGradient(MatrixStack matrices, int left, int top, int rigth, int bottom, int startColor, int endColor) {
         Matrix4f matrix = matrices.peek().getPositionMatrix();
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         setupRender();
@@ -38,48 +46,54 @@ public interface DrawUtils {
         resetRender();
     }
 
-    static void fill(MatrixStack matrices, int left, int top, int right, int bottom, int startColor) {
+    public static void fill(MatrixStack matrices, int left, int top, int right, int bottom, int startColor) {
         DrawableHelper.fill(matrices, left, top, right, bottom, startColor);
     }
 
-    static int drawCenteredText(MatrixStack matrices, String text, int centerX, int y, int color) {
+    public static int drawCenteredText(MatrixStack matrices, String text, int centerX, int y, int color) {
         return drawCenteredText(matrices, Main.instance.getClient().textRenderer, text, centerX, y, color);
     }
 
-    static int drawCenteredText(MatrixStack matrices, TextRenderer textRenderer, String text, int centerX, int y, int color) {
+    public static int drawCenteredText(MatrixStack matrices, TextRenderer textRenderer, String text, int centerX, int y, int color) {
         return textRenderer.drawWithShadow(matrices, text, (float) (centerX - textRenderer.getWidth(text) / 2), (float) y, color);
     }
 
-    static int drawText(MatrixStack matrices, String text, float x, float y, int color) {
+    public static int drawText(MatrixStack matrices, String text, float x, float y, int color) {
         return drawText(matrices, Main.instance.getClient().textRenderer, text, x, y, color);
     }
 
-    static int drawText(MatrixStack matrices, TextRenderer textRenderer, String text, float x, float y, int color) {
+    public static int drawText(MatrixStack matrices, TextRenderer textRenderer, String text, float x, float y, int color) {
         return textRenderer.draw(matrices, text, x, y, color);
     }
 
-    static int drawTextWithShadow(MatrixStack matrices, String text, float x, float y, int color) {
+    public static int drawTextWithShadow(MatrixStack matrices, String text, float x, float y, int color) {
         return drawTextWithShadow(matrices, Main.instance.getClient().textRenderer, text, x, y, color);
     }
 
-    static int drawTextWithShadow(MatrixStack matrices, TextRenderer textRenderer, String text, float x, float y, int color) {
+    public static int drawTextWithShadow(MatrixStack matrices, TextRenderer textRenderer, String text, float x, float y, int color) {
         return textRenderer.drawWithShadow(matrices, text, x, y, color);
     }
 
-    static int drawTextWithShadow(MatrixStack matrices, OrderedText text, float x, float y, int color) {
+    public static int drawTextWithShadow(MatrixStack matrices, OrderedText text, float x, float y, int color) {
         return drawTextWithShadow(matrices, Main.instance.getClient().textRenderer, text, x, y, color);
     }
 
-    static int drawTextWithShadow(MatrixStack matrices, TextRenderer textRenderer, OrderedText text, float x, float y, int color) {
+    public static int drawTextWithShadow(MatrixStack matrices, TextRenderer textRenderer, OrderedText text, float x, float y, int color) {
         return textRenderer.drawWithShadow(matrices, text, x, y, color);
     }
 
-    static void setupRender() {
+    public static void setupRender() {
+        setupRender(1f);
+    }
+
+    public static void setupRender(float alpha) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1f, 1f, 1f, alpha);
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+        RenderSystem.defaultBlendFunc();
     }
 
-    static void resetRender() {
+    public static void resetRender() {
         RenderSystem.disableBlend();
     }
 }

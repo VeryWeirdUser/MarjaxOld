@@ -2,7 +2,7 @@ package me.margiux.miniutils.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.margiux.miniutils.module.Category;
-import me.margiux.miniutils.utils.DrawUtils;
+import me.margiux.miniutils.utils.RenderUtils;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
@@ -31,17 +31,17 @@ public class HackListWindow extends Window {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawUtils.fill(matrices, this.x, this.y, this.x + this.width, this.y + 15, 0x99001B4D);
+        RenderUtils.fill(matrices, this.x, this.y, this.x + this.width, this.y + 15, 0x99001B4D);
 
         int j = this.active ? 0xFFFFFF : 0xA0A0A0;
-        DrawUtils.drawCenteredText(matrices, category.name, this.x + this.width / 2, this.y + (15) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
+        RenderUtils.drawCenteredText(matrices, category.name, this.x + this.width / 2, this.y + (15) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
 
         if (expanded) {
             int y = this.y + 15;
             for (Widget window : children) {
                 window.x = this.x;
                 window.y = y;
-                y += window.getHeight() + 3;
+                y += window.getHeight() + 1;
             }
         }
         this.setHeight(calculateHeight());
@@ -50,8 +50,8 @@ public class HackListWindow extends Window {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawUtils.fill(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0x66BED5F7);
-        DrawUtils.drawCenteredText(matrices, this.name, this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
+        RenderUtils.fill(matrices, this.x, this.y, this.x + this.width, this.y + this.height, 0x66BED5F7);
+        RenderUtils.drawCenteredText(matrices, this.name, this.x + this.width / 2, this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0f) << 24);
 
         if (expanded) {
             for (Widget window : children) {
@@ -60,11 +60,12 @@ public class HackListWindow extends Window {
         }
     }
 
+    @Override
     public int calculateHeight() {
         int height = 15;
         if (expanded) {
             for (Widget window : children) {
-                height += window.getHeight() + 3;
+                height += window.getHeight() + (children.indexOf(window) == children.size() - 1 ? 0 : 1);
             }
         }
         return height;
