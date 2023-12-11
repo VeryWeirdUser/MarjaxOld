@@ -4,7 +4,7 @@
 
 - Minecraft version: `Fabric 1.19.2`
 - Gui keybind - **``Delete``** (Attention! - In Panic Mode this keybind won't work, the hack is entirely disabled)
-- Hack version - **`v1.0.0`**
+- Hack version - **`v1.1.0`**
 - List of modules - [(Click)](#list-of-modules)
 
 ## Requirements
