@@ -19,6 +19,9 @@
     - Trigger Bot
 - **Visual**
     - Truesight
+    - Client time
+- **Player**
+    - Gui Move
 - **World**
     - Chest Stealer
     - Chorus farmer
