@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
 public class ModuleWidget extends Enum<Mode> {
-    HackWindow parent;
+    final HackWindow parent;
     public ModuleWidget(Module module, int x, int y, int width, String name, String description, EnumSetting<Mode> setting, HackWindow parent) {
         super(x, y, width, 15, name, description, setting, (s, button) -> {
             if (button == 0) {

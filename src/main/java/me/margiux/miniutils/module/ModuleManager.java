@@ -23,7 +23,6 @@ public class ModuleManager {
     public static final TriggerBot triggerBot = new TriggerBot("TriggerBot", "Immediately attacks entities you are looking at", Category.COMBAT, GLFW.GLFW_KEY_T);
     public static final PlayerSearcher playerSearcher = new PlayerSearcher("PlayerSearcher", "Searching for a defined player", Category.MISC, GLFW.GLFW_KEY_T);
     public static final AnticheatTrigger anticheatTrigger = new AnticheatTrigger("AnticheatTrigger", "Anticheat trigger", Category.MISC, GLFW.GLFW_KEY_KP_1);
-    public static final AnticheatTrigger2 anticheatTrigger2 = new AnticheatTrigger2("AnticheatTrigger2", "Anticheat trigger", Category.MISC, GLFW.GLFW_KEY_KP_2);
 
     static {
         addModule(truesight);
@@ -34,7 +33,6 @@ public class ModuleManager {
         addModule(triggerBot);
         addModule(playerSearcher);
         addModule(anticheatTrigger);
-        addModule(anticheatTrigger2);
     }
 
     public static void disable() {

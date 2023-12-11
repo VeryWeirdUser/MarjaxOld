@@ -1,7 +1,7 @@
 package me.margiux.miniutils.gui;
 
 public class Color {
-    public int color;
+    public final int color;
 
     public Color(int color) {
         this.color = color;

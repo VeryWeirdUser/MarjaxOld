@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 public class FieldSetting extends Setting<String> {
     @Nullable
-    public Predicate<String> predicate;
+    public final Predicate<String> predicate;
 
     public FieldSetting(String name, String description, String data, @Nullable Predicate<String> predicate) {
         super(name, description, data);

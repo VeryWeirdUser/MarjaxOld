@@ -5,8 +5,8 @@ public class Gradient extends Color {
         Horizontal,
         Vertical
     }
-    public GradientType type;
-    public int endColor;
+    public final GradientType type;
+    public final int endColor;
     public Gradient(int startColor, int endColor) {
         this(startColor, endColor, GradientType.Horizontal);
     }
