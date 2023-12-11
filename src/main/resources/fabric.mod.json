@@ -3,7 +3,7 @@
   "id": "miniutils",
   "version": "${version}",
   "name": "Mod",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/miniutils/icon.png",
   "environment": "*",
   "entrypoints": {

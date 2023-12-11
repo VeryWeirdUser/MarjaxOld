@@ -30,15 +30,15 @@ public class Module implements Listener {
     }
 
     public Module(String name, String description, Category category, int activationKey, Mode defaultMode) {
-        this(name, description, category, activationKey);
-        this.mode.setData(defaultMode);
-    }
-
-    public Module(String name, String description, Category category, int activationKey) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.activationKey = activationKey;
+        this.mode.setData(defaultMode);
+    }
+
+    public Module(String name, String description, Category category, int activationKey) {
+        this(name, description, category, activationKey, Mode.DISABLED);
     }
 
     public void changeMode(Mode mode) {

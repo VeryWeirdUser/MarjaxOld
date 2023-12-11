@@ -6,6 +6,7 @@ import me.margiux.miniutils.module.combat.ElytraHunter;
 import me.margiux.miniutils.module.combat.TriggerBot;
 import me.margiux.miniutils.module.misc.*;
 import me.margiux.miniutils.module.player.GuiMove;
+import me.margiux.miniutils.module.visual.ClientTime;
 import me.margiux.miniutils.module.visual.Truesight;
 import me.margiux.miniutils.module.world.ChestStealer;
 import me.margiux.miniutils.module.world.ChorusFarmer;
@@ -25,6 +26,7 @@ public class ModuleManager {
     public static final PlayerSearcher playerSearcher = new PlayerSearcher("PlayerSearcher", "Searching for a defined player", Category.MISC, GLFW.GLFW_KEY_T);
     public static final AnticheatTrigger anticheatTrigger = new AnticheatTrigger("AnticheatTrigger", "Anticheat trigger", Category.MISC, GLFW.GLFW_KEY_KP_1);
     public static final GuiMove guiMove = new GuiMove("GUI Move", "Allows to move while have opened a GUI", Category.PLAYER, GLFW.GLFW_KEY_M);
+    public static final ClientTime clientTime = new ClientTime("ClientTime", "Allows to world time on the client side", Category.VISUAL, GLFW.GLFW_KEY_M);
 
     static {
         addModule(truesight);
@@ -36,6 +38,7 @@ public class ModuleManager {
         addModule(playerSearcher);
         addModule(anticheatTrigger);
         addModule(guiMove);
+        addModule(clientTime);
     }
 
     public static void disable() {
