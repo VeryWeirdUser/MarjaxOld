@@ -17,7 +17,7 @@ public class ClientWorldMixin {
     @Inject(at = @At("HEAD"), method = "setTimeOfDay", cancellable = true)
     public void setTimeOfDay(long timeOfDay, CallbackInfo ci) {
         if (ModuleManager.clientTime.isEnabled()) {
-            clientWorldProperties.setTimeOfDay( ModuleManager.clientTime.timeSetting.getData().time);
+            clientWorldProperties.setTimeOfDay(ModuleManager.clientTime.timeSetting.getData().time);
             ci.cancel();
         }
     }

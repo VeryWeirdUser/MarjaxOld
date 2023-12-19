@@ -10,10 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public class TruesightMixin {
-    @Inject(
-            method = "isInvisibleTo",
-            at = @At("HEAD"),
-            cancellable = true)
+    @Inject(method = "isInvisibleTo", at = @At("HEAD"), cancellable = true)
     public void isInvisibleToPlayer(PlayerEntity player, CallbackInfoReturnable<Boolean> ci) {
         if (ModuleManager.truesight.isEnabled()) {
             ci.setReturnValue(false);
