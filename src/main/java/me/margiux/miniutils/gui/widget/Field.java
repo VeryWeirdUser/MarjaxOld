@@ -22,7 +22,7 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public class Field extends Widget {
-    public final static Predicate<String> NUMBER_PREDICATE = (e) -> (e.matches("[\\d-.,\\s]"));
+    public final static Predicate<String> NUMBER_PREDICATE = (e) -> (e.matches("^[\\d\\s.,-]+$"));
     public final static Predicate<String> STRING_PREDICATE = Objects::nonNull;
     public final FieldSetting setting;
     private TextRenderer textRenderer;
