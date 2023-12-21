@@ -24,8 +24,6 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public final class ChestStealer extends Module {
     public enum StealMode implements Enum<StealMode> {
         SCREEN_OPEN("On screen open"),
@@ -54,6 +52,7 @@ public final class ChestStealer extends Module {
         }
     }
 
+    volatile boolean canRun = true;
     private final EnumSetting<StealMode> stealMode = new EnumSetting<>("Steal mode", "", StealMode.BUTTON_CLICKED);
     private final FieldSetting tickDelay = new FieldSetting("Delay", "Delay in ticks", "3", Field.NUMBER_PREDICATE);
 
@@ -78,7 +77,7 @@ public final class ChestStealer extends Module {
 
     @ModuleEventHandler
     public void onKeyPressed(KeyEvent e) {
-        if (e.getKey() == GLFW.GLFW_KEY_LEFT_ALT && stealMode.getData() == StealMode.KEY_PRESSED && getClient().currentScreen != null && getClient().currentScreen instanceof HandledScreen<?> screen && (getClient().currentScreen instanceof GenericContainerScreen || getClient().currentScreen instanceof ShulkerBoxScreen)) {
+        if (e.getKey() == GLFW.GLFW_KEY_LEFT_ALT && e.getAction() == 1 && stealMode.getData() == StealMode.KEY_PRESSED && getClient().currentScreen != null && getClient().currentScreen instanceof HandledScreen<?> screen && (getClient().currentScreen instanceof GenericContainerScreen || getClient().currentScreen instanceof ShulkerBoxScreen)) {
             steal(screen);
         }
     }
@@ -100,12 +99,13 @@ public final class ChestStealer extends Module {
                     if (slot.getStack().isEmpty())
                         continue;
 
-                    AtomicBoolean canRun = new AtomicBoolean(false);
-                    TaskManager.addTask(new DelayTask((task) -> canRun.set(true), tickDelay.getIntegerData()));
 
-                    //noinspection StatementWithEmptyBody
-                    while (!canRun.get()) {
+                    TaskManager.addTask(new DelayTask((task) -> canRun = true, tickDelay.getIntegerData()));
+
+                    while (!canRun) {
+                        Thread.onSpinWait();
                     }
+                    canRun = false;
 
                     getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, i, 0, SlotActionType.QUICK_MOVE, getClient().player);
                 }
