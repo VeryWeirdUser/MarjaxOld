@@ -1,5 +1,7 @@
 # Marjack Hacked Client
 
+# Discord: https://discord.gg/WvUrupyrwr
+
 ### This README contains two versions:
 
 - **[English](#english-version)**
