@@ -31,8 +31,8 @@ public class TriggerBot extends Module {
             }
 
             Entity e = result.getEntity();
-            if (!(e != null && !e.isRemoved() && (e instanceof LivingEntity &&
-                    ((LivingEntity) e).getHealth() > 0 || e instanceof EndCrystalEntity || e instanceof ShulkerBulletEntity)
+            if (!(e != null && !e.isRemoved() && ((e instanceof LivingEntity l &&
+                    l.getHealth() > 0) || e instanceof EndCrystalEntity || e instanceof ShulkerBulletEntity)
                     && e != getClient().player)) return;
 
             if (--randomTickDelay <= 0 || !safeMode.getData()) {
