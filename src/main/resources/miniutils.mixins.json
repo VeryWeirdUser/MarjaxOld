@@ -12,6 +12,7 @@
     "GenericContainerScreenAccessor",
     "GenericContainerScreenMixin",
     "HandledScreenAccessor",
+    "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientAccessor",
     "MinecraftClientMixin",
