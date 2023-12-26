@@ -24,7 +24,7 @@ public class AnticheatTrigger extends Module {
     }
 
     @Override
-    public void onDisable() {
+    protected void onDisable() {
         super.onDisable();
         tick = 0;
         if (getClient().player != null) getClient().player.setSprinting(false);

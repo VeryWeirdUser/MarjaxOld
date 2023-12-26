@@ -104,14 +104,14 @@ public final class AutoSell extends Module {
     }
 
     @Override
-    public void onEnable() {
+    protected void onEnable() {
         super.onEnable();
         sellTask.restartTask();
         TaskManager.addTask(sellTask);
     }
 
     @Override
-    public void onDisable() {
+    protected void onDisable() {
         super.onDisable();
         sellTask.endTask();
         TaskManager.removeTask(sellTask);
