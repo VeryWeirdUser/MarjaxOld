@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class KeyboardMixin {
     @Inject(method = "onKey", at = @At("HEAD"), cancellable = true)
     private void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
-        if (!(Main.instance.getClient().currentScreen instanceof ChatScreen)) {
+        if (!(Main.getClient().currentScreen instanceof ChatScreen)) {
             EventManager.fireEvent(new KeyEvent(key, modifiers, action));
             if (action == 1 && modifiers == GLFW.GLFW_MOD_ALT && Main.instance.status.getData() == CheatMode.ENABLED) {
                 ModuleKeyEvent moduleKeyEvent = new ModuleKeyEvent(key, modifiers, action);
