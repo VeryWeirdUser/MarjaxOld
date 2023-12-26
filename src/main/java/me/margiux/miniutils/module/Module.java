@@ -23,7 +23,7 @@ public class Module implements Listener {
     public final int activationKey;
 
     public MinecraftClient getClient() {
-        return Main.instance.getClient();
+        return Main.getClient();
     }
     public EnumSetting<Mode> getModeSetting() {
         return mode;
@@ -53,11 +53,11 @@ public class Module implements Listener {
         if (this.mode.getData() != Mode.FORCE_DISABLED) changeMode(mode.getData().getNext());
     }
 
-    public void onEnable() {
+    protected void onEnable() {
         HudUtil.setSubTitle("§7" + name + ": §aEnabled");
     }
 
-    public void onDisable() {
+    protected void onDisable() {
         HudUtil.setSubTitle("§7" + name + ": §cDisabled");
     }
 
@@ -85,5 +85,13 @@ public class Module implements Listener {
         if (getMode() == Mode.ENABLED) c = "§a";
         else if (getMode() == Mode.DISABLED) c = "§c";
         return c + this.name;
+    }
+
+    public void enable() {
+        changeMode(Mode.ENABLED);
+    }
+
+    public void disable() {
+        changeMode(Mode.DISABLED);
     }
 }
