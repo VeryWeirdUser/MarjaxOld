@@ -1,5 +1,7 @@
 package me.margiux.miniutils.mixin;
 
+import me.margiux.miniutils.event.EventManager;
+import me.margiux.miniutils.event.UpdateEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -30,5 +32,10 @@ public abstract class MinecraftClientMixin {
                 }
             }
         }
+    }
+
+    @Inject(method = "render", at = @At("HEAD"))
+    public void render(boolean tick, CallbackInfo callback) {
+        EventManager.fireEvent(new UpdateEvent());
     }
 }
