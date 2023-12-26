@@ -2,9 +2,12 @@ package me.margiux.miniutils.module;
 
 import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.event.EventManager;
+import me.margiux.miniutils.module.combat.AntiBot;
 import me.margiux.miniutils.module.combat.ElytraHunter;
+import me.margiux.miniutils.module.combat.Killaura;
 import me.margiux.miniutils.module.combat.TriggerBot;
 import me.margiux.miniutils.module.misc.*;
+import me.margiux.miniutils.module.player.DropAll;
 import me.margiux.miniutils.module.player.GuiMove;
 import me.margiux.miniutils.module.visual.ClientTime;
 import me.margiux.miniutils.module.visual.Truesight;
@@ -27,6 +30,9 @@ public class ModuleManager {
     public static final AnticheatTrigger anticheatTrigger = new AnticheatTrigger("AnticheatTrigger", "Anticheat trigger", Category.MISC, GLFW.GLFW_KEY_KP_1);
     public static final GuiMove guiMove = new GuiMove("GUI Move", "Allows to move while have opened a GUI", Category.PLAYER, GLFW.GLFW_KEY_M);
     public static final ClientTime clientTime = new ClientTime("ClientTime", "Allows to world time on the client side", Category.VISUAL, GLFW.GLFW_KEY_M);
+    public static final Killaura killaura = new Killaura("Killaura", "Aims at the closest player and attacks it", Category.VISUAL, GLFW.GLFW_KEY_K);
+    public static final AntiBot antiBot = new AntiBot("AntiBot", "Anti bot", Category.VISUAL, GLFW.GLFW_KEY_KP_9, Mode.ENABLED);
+    public static final DropAll dropAll = new DropAll("DropAll", "Drop all items automatically", Category.VISUAL, 0);
 
     static {
         addModule(truesight);
@@ -39,6 +45,9 @@ public class ModuleManager {
         addModule(anticheatTrigger);
         addModule(guiMove);
         addModule(clientTime);
+        addModule(killaura);
+        addModule(antiBot);
+        addModule(dropAll);
     }
 
     public static void disable() {
