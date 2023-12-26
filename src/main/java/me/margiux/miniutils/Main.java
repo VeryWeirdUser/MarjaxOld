@@ -18,7 +18,7 @@ public class Main implements ModInitializer {
     public static MiniutilsGui gui;
     public final EnumSetting<CheatMode> status = new EnumSetting<>("Cheat status", "", CheatMode.ENABLED);
 
-    public MinecraftClient getClient() {
+    public static MinecraftClient getClient() {
         return MinecraftClient.getInstance();
     }
 
