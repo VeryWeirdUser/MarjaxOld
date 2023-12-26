@@ -29,9 +29,6 @@ public abstract class ClientWorldMixin extends World {
     private ClientWorld.Properties clientWorldProperties;
 
     @Shadow
-    public abstract void removeEntity(int entityId, Entity.RemovalReason removalReason);
-
-    @Shadow
     protected abstract EntityLookup<Entity> getEntityLookup();
 
     protected ClientWorldMixin(MutableWorldProperties properties, RegistryKey<World> registryRef, RegistryEntry<DimensionType> dimension, Supplier<Profiler> profiler, boolean isClient, boolean debugWorld, long seed, int maxChainedNeighborUpdates) {
