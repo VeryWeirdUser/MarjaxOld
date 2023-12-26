@@ -10,6 +10,7 @@ import me.margiux.miniutils.setting.FieldSetting;
 import me.margiux.miniutils.task.DelayTask;
 import me.margiux.miniutils.task.TaskManager;
 import me.margiux.miniutils.utils.HudUtil;
+import me.margiux.miniutils.utils.PlayerUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -40,16 +41,14 @@ public final class ElytraHunter extends Module {
     private boolean canRun = true;
     private boolean wasFound = false;
 
-    public void findPlayers(float radius) {
+    public void findPlayers(double radius) {
         targets.clear();
-        if (getClient().world == null) return;
-        for (PlayerEntity e : getClient().world.getPlayers()) {
+        if (getClient().world == null || getClient().player == null) return;
+        for (PlayerEntity e : PlayerUtils.getPlayersInRange(getClient().player, radius)) {
             if (e != getClient().player) {
                 for (ItemStack i :
                         e.getArmorItems()) {
-                    if (i.getItem() == Items.ELYTRA) {
-                        if (e.distanceTo(getClient().player) <= radius) targets.add(e);
-                    }
+                    if (i.getItem() == Items.ELYTRA) targets.add(e);
                 }
             }
         }
