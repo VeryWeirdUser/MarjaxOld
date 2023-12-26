@@ -47,7 +47,7 @@ public class PlayerSearcher extends Module {
     public void onKey(KeyEvent event) {
         if (event.getKey() == GLFW.GLFW_KEY_UP && event.getAction() == 0 && player != null) {
             if (getClient().player == null || getClient().world == null) return;
-            getClient().player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, player.getPos());
+            getClient().player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, player.getPos());
         }
     }
 }
