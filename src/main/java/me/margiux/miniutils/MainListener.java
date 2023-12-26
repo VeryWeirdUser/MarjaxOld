@@ -17,7 +17,7 @@ public class MainListener implements Listener {
         HudUtil.setSubTitle("§e§l[WARNING] Panic mode triggered!");
     }), 1);
 
-    @EventHandler(executeInPanicMode = true)
+    @EventHandler
     public static void onKey(KeyEvent event) {
         if (event.getModifiers() == 0 && (event.getKey() == GLFW.GLFW_KEY_DELETE || event.getKey() == GLFW.GLFW_KEY_KP_DECIMAL)) {
             if (event.getAction() == 2) holdTime++;
