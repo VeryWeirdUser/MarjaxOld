@@ -31,7 +31,7 @@ public class TriggerBot extends Module {
     @ModuleEventHandler
     public void onTick(TickEvent event) {
         if (!isClientInGame()) return;
-        if (MC.currentScreen == null) return;
+        if (MC.currentScreen != null) return;
         if (MC.player.getAttackCooldownProgress(0f) != 1) return;
         if (MC.crosshairTarget instanceof EntityHitResult result) {
             if (MC.player.squaredDistanceTo(result.getEntity()) > MC.interactionManager.getReachDistance() * MC.interactionManager.getReachDistance()) return;
