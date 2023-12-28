@@ -4,7 +4,6 @@ import me.margiux.miniutils.event.EventManager;
 import me.margiux.miniutils.event.TickEvent;
 import me.margiux.miniutils.gui.ClickGuiScreen;
 import me.margiux.miniutils.gui.MiniutilsGui;
-import me.margiux.miniutils.mixin.MinecraftClientAccessor;
 import me.margiux.miniutils.module.ModuleManager;
 import me.margiux.miniutils.setting.EnumSetting;
 import me.margiux.miniutils.task.TaskManager;
@@ -29,8 +28,6 @@ public class Main implements ModInitializer {
         EventManager.addStaticListener(MainListener.class);
         EventManager.addStaticListener(TaskManager.class);
         ClientTickEvents.END_CLIENT_TICK.register((client) -> EventManager.fireEvent(new TickEvent()));
-        ((MinecraftClientAccessor)getClient()).setGameVersion("Абракадабра :) (1.19.2 Fabric)");
-        ((MinecraftClientAccessor)getClient()).setVersionType("Абракадабра :) (1.19.2 Fabric)");
     }
 
     public void openScreen() {
