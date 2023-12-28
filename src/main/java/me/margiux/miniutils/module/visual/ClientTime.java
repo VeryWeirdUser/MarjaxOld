@@ -35,7 +35,7 @@ public class ClientTime extends Module {
             return false;
         }
     }
-    public EnumSetting<Time> timeSetting = new EnumSetting<>("Time", "Time of the world", Time.SUNRISE);
+    public final EnumSetting<Time> timeSetting = new EnumSetting<>("Time", "Time of the world", Time.SUNRISE);
     public ClientTime(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);
         addSetting(timeSetting);

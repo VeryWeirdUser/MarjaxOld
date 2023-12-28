@@ -51,7 +51,7 @@ public class RenderUtils {
     }
 
     public static int drawCenteredText(MatrixStack matrices, String text, int centerX, int y, int color) {
-        return drawCenteredText(matrices, Main.instance.getClient().textRenderer, text, centerX, y, color);
+        return drawCenteredText(matrices, Main.MC.textRenderer, text, centerX, y, color);
     }
 
     public static int drawCenteredText(MatrixStack matrices, TextRenderer textRenderer, String text, int centerX, int y, int color) {
@@ -59,7 +59,7 @@ public class RenderUtils {
     }
 
     public static int drawText(MatrixStack matrices, String text, float x, float y, int color) {
-        return drawText(matrices, Main.instance.getClient().textRenderer, text, x, y, color);
+        return drawText(matrices, Main.MC.textRenderer, text, x, y, color);
     }
 
     public static int drawText(MatrixStack matrices, TextRenderer textRenderer, String text, float x, float y, int color) {
@@ -67,7 +67,7 @@ public class RenderUtils {
     }
 
     public static int drawTextWithShadow(MatrixStack matrices, String text, float x, float y, int color) {
-        return drawTextWithShadow(matrices, Main.instance.getClient().textRenderer, text, x, y, color);
+        return drawTextWithShadow(matrices, Main.MC.textRenderer, text, x, y, color);
     }
 
     public static int drawTextWithShadow(MatrixStack matrices, TextRenderer textRenderer, String text, float x, float y, int color) {
@@ -75,7 +75,7 @@ public class RenderUtils {
     }
 
     public static int drawTextWithShadow(MatrixStack matrices, OrderedText text, float x, float y, int color) {
-        return drawTextWithShadow(matrices, Main.instance.getClient().textRenderer, text, x, y, color);
+        return drawTextWithShadow(matrices, Main.MC.textRenderer, text, x, y, color);
     }
 
     public static int drawTextWithShadow(MatrixStack matrices, TextRenderer textRenderer, OrderedText text, float x, float y, int color) {

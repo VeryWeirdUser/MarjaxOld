@@ -36,11 +36,11 @@ public class AntiBot extends Module {
 
     @ModuleEventHandler
     public void onTick(TickEvent e) {
-        if (getClient().player == null) return;
+        if (!isClientInGame()) return;
         for (int i = 0; i < possibleBots.size(); i++) {
             Player p = possibleBots.get(i);
             PlayerEntity player = p.player;
-            p.distance = player.squaredDistanceTo(getClient().player);
+            p.distance = player.squaredDistanceTo(MC.player);
             if (p.ticks == 0) {
                 if (p.averageDistance == 0) p.averageDistance = p.distance;
                 if (p.minDistance == 0) p.minDistance = p.distance;
@@ -55,12 +55,12 @@ public class AntiBot extends Module {
             if (p.maxDistance < p.distance) p.maxDistance = p.distance;
             p.averageDistance = (p.averageDistance * (p.ticks - 1) + p.distance) / p.ticks;
 
-            double posX = player.getX() - getClient().player.getX();
-            double posZ = player.getZ() - getClient().player.getZ();
+            double posX = player.getX() - MC.player.getX();
+            double posZ = player.getZ() - MC.player.getZ();
 
             float newYaw = (float) Math.toDegrees(Math.atan2(posZ, posX)) - 90F;
             if (newYaw < 0) newYaw = -newYaw;
-            float playerYaw = (getClient().player.prevYaw < 0) ? -getClient().player.prevYaw : getClient().player.prevYaw;
+            float playerYaw = (MC.player.prevYaw < 0) ? -MC.player.prevYaw : MC.player.prevYaw;
 
             if (newYaw - playerYaw > -140 && newYaw - playerYaw < 140) p.ticksBehindPlayer++;
             if (newYaw - playerYaw > -15 && newYaw - playerYaw < 15) p.ticksExactlyBehindPlayer++;
@@ -92,10 +92,10 @@ public class AntiBot extends Module {
 
     @ModuleEventHandler
     public void onEntityAdded(EntityAddedEvent e) {
-        if (getClient().player == null) return;
+        if (!isClientInGame()) return;
         if (e.getEntity() instanceof PlayerEntity p) {
-            if (p == getClient().player) return;
-            if (p.distanceTo(getClient().player) > 10) return;
+            if (p == MC.player) return;
+            if (p.distanceTo(MC.player) > 10) return;
             Player player = new Player();
             player.player = p;
             player.initialPosition = p.getPos();

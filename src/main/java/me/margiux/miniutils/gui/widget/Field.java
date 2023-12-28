@@ -329,7 +329,7 @@ public class Field extends Widget {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        textRenderer = Main.instance.getClient().textRenderer;
+        textRenderer = Main.MC.textRenderer;
         setHeight(displayFieldName ? 25 : 15);
         super.render(matrices, mouseX, mouseY, delta);
     }

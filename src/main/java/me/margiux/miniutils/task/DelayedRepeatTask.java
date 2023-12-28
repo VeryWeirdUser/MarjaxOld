@@ -25,7 +25,7 @@ public class DelayedRepeatTask extends Task {
     public void tick() {
         super.tick();
         if (++ticks < delayUntilStart) return;
-        else {
+        else if (delayUntilStart != 0) {
             ticks = 0;
             delayUntilStart = 0;
         }

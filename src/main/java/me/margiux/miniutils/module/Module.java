@@ -22,11 +22,12 @@ public class Module implements Listener {
     public boolean disabledByMain = false;
     public final int activationKey;
 
-    public MinecraftClient getClient() {
-        return Main.getClient();
-    }
+    public static final MinecraftClient MC = Main.MC;
     public EnumSetting<Mode> getModeSetting() {
         return mode;
+    }
+    public boolean isClientInGame() {
+        return Main.isClientInGame();
     }
 
     public Module(String name, String description, Category category, int activationKey, Mode defaultMode) {

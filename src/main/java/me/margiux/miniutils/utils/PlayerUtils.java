@@ -10,7 +10,7 @@ import java.util.List;
 public class PlayerUtils {
 
     public static List<PlayerEntity> getPlayersInRange(PlayerEntity player) {
-        if (Main.getClient().player != null) return getPlayersInRange(player, (Main.getClient().interactionManager == null) ? 4.5 : Main.getClient().interactionManager.getReachDistance());
+        if (Main.MC.player != null) return getPlayersInRange(player, (Main.MC.interactionManager == null) ? 4.5 : Main.MC.interactionManager.getReachDistance());
         return null;
     }
 
@@ -19,12 +19,12 @@ public class PlayerUtils {
     }
 
     public static void attackEntity(Entity entity) {
-        if (Main.getClient().player != null) attackEntity(Main.getClient().player, entity);
+        if (Main.MC.player != null) attackEntity(Main.MC.player, entity);
     }
 
     public static void attackEntity(PlayerEntity player, Entity entity) {
-        if (Main.getClient().interactionManager != null)
-            Main.getClient().interactionManager.attackEntity(player, entity);
+        if (Main.MC.interactionManager != null)
+            Main.MC.interactionManager.attackEntity(player, entity);
         player.swingHand(player.getActiveHand());
     }
 

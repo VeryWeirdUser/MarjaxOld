@@ -24,10 +24,10 @@ public class PlayerSearcher extends Module {
     @ModuleEventHandler
     public void onTick(TickEvent event) {
         player = null;
-        if (getClient().player == null) return;
-        if (getClient().world == null) return;
+        if (MC.player == null) return;
+        if (MC.world == null) return;
         if (playerName.getData() == null) return;
-        for (Entity e : getClient().world.getEntities()) {
+        for (Entity e : MC.world.getEntities()) {
             if (e instanceof PlayerEntity pe && pe.getName().getString().equals(playerName.getData())) {
                 player = pe;
                 break;
@@ -46,8 +46,8 @@ public class PlayerSearcher extends Module {
     @ModuleEventHandler
     public void onKey(KeyEvent event) {
         if (event.getKey() == GLFW.GLFW_KEY_UP && event.getAction() == 0 && player != null) {
-            if (getClient().player == null || getClient().world == null) return;
-            getClient().player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, player.getPos());
+            if (MC.player == null || MC.world == null) return;
+            MC.player.lookAt(EntityAnchorArgumentType.EntityAnchor.FEET, player.getPos());
         }
     }
 }

@@ -30,17 +30,18 @@ public class TriggerBot extends Module {
 
     @ModuleEventHandler
     public void onTick(TickEvent event) {
-        if (getClient().crosshairTarget != null && getClient().crosshairTarget instanceof EntityHitResult result && getClient().player != null && getClient().interactionManager != null) {
-            if (getClient().currentScreen != null) return;
-            if (getClient().player.getAttackCooldownProgress(0f) != 1) return;
-            if (getClient().player.squaredDistanceTo(result.getEntity()) > getClient().interactionManager.getReachDistance() * getClient().interactionManager.getReachDistance()) return;
+        if (!isClientInGame()) return;
+        if (MC.currentScreen == null) return;
+        if (MC.player.getAttackCooldownProgress(0f) != 1) return;
+        if (MC.crosshairTarget instanceof EntityHitResult result) {
+            if (MC.player.squaredDistanceTo(result.getEntity()) > MC.interactionManager.getReachDistance() * MC.interactionManager.getReachDistance()) return;
 
             Entity e = result.getEntity();
-            if (!(e != null && !e.isRemoved() && ((e instanceof LivingEntity l && l.getHealth() > 0) || e instanceof EndCrystalEntity || e instanceof ShulkerBulletEntity) && e != getClient().player))
+            if (!(e != null && !e.isRemoved() && ((e instanceof LivingEntity l && l.getHealth() > 0) || e instanceof EndCrystalEntity || e instanceof ShulkerBulletEntity) && e != MC.player))
                 return;
 
             if (--randomTickDelay <= 0 || !safeMode.getData()) {
-                if (getClient().player.isUsingItem()) return;
+                if (MC.player.isUsingItem()) return;
                 if (safeMode.getData()) randomTickDelay = (int) Math.round(Math.random() * 4);
                 PlayerUtils.attackEntity(e);
             }

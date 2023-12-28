@@ -43,9 +43,9 @@ public final class ElytraHunter extends Module {
 
     public void findPlayers(double radius) {
         targets.clear();
-        if (getClient().world == null || getClient().player == null) return;
-        for (PlayerEntity e : PlayerUtils.getPlayersInRange(getClient().player, radius)) {
-            if (e != getClient().player) {
+        if (!isClientInGame()) return;
+        for (PlayerEntity e : PlayerUtils.getPlayersInRange(MC.player, radius)) {
+            if (e != MC.player) {
                 for (ItemStack i :
                         e.getArmorItems()) {
                     if (i.getItem() == Items.ELYTRA) targets.add(e);
@@ -61,7 +61,7 @@ public final class ElytraHunter extends Module {
     @ModuleEventHandler
     public void tick(TickEvent event) {
         if (!canRun) return;
-        if (getClient().world == null) return;
+        if (!isClientInGame()) return;
         float radius = 100;
         try {
             radius = radiusInput.getIntegerData();
@@ -146,10 +146,10 @@ public final class ElytraHunter extends Module {
             }
         }
         if (hasTargets()) {
-            if (getClient().player == null || getClient().world == null) return;
-            double posX = target.getX() - getClient().player.getX();
-            double posY = target.getY() - (getClient().player.getY() + getClient().player.getEyeHeight(getClient().player.getPose()));
-            double posZ = target.getZ() - getClient().player.getZ();
+            if (!isClientInGame()) return;
+            double posX = target.getX() - MC.player.getX();
+            double posY = target.getY() - (MC.player.getY() + MC.player.getEyeHeight(MC.player.getPose()));
+            double posZ = target.getZ() - MC.player.getZ();
 
             double posXZ = Math.sqrt(posX * posX + posZ * posZ);
 
@@ -163,8 +163,8 @@ public final class ElytraHunter extends Module {
                     .sqrt(velocityPow4 - g * (g * hDistanceSq + 2 * posY * velocitySq)))
                     / (g * posXZ)));
 
-            getClient().player.setYaw(getClient().player.getYaw() + MathHelper.wrapDegrees(newYaw - getClient().player.getYaw()));
-            getClient().player.setPitch(getClient().player.getPitch() + MathHelper.wrapDegrees(newPitch - getClient().player.getPitch()));
+            MC.player.setYaw(MC.player.getYaw() + MathHelper.wrapDegrees(newYaw - MC.player.getYaw()));
+            MC.player.setPitch(MC.player.getPitch() + MathHelper.wrapDegrees(newPitch - MC.player.getPitch()));
         }
     }
 
@@ -179,7 +179,7 @@ public final class ElytraHunter extends Module {
 
     @ModuleEventHandler
     public void onKey(KeyEvent event) {
-        if (getClient().world == null) return;
+        if (!isClientInGame()) return;
         if (event.getAction() != 1) return;
         switch (event.getKey()) {
             case GLFW.GLFW_KEY_RIGHT -> selectNext();

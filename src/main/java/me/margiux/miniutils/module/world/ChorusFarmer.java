@@ -58,7 +58,7 @@ public final class ChorusFarmer extends Module {
 
     @ModuleEventHandler
     public void tick(TickEvent event) {
-        MinecraftClient client = Main.instance.getClient();
+        MinecraftClient client = Main.MC;
         if (client.player != null && client.interactionManager != null && client.player.getMainHandStack().getItem() instanceof BowItem) {
             findFlowers(client);
             if (!blocks.isEmpty()) {
@@ -108,11 +108,11 @@ public final class ChorusFarmer extends Module {
 
     private void useBow() {
         if (tick <= 22) {
-            getClient().options.useKey.setPressed(true);
+            MC.options.useKey.setPressed(true);
         }
         if (tick == 23) {
-            if (getClient().interactionManager == null) return;
-            getClient().interactionManager.stopUsingItem(getClient().player);
+            if (MC.interactionManager == null) return;
+            MC.interactionManager.stopUsingItem(MC.player);
             tick = 0;
             return;
         }
@@ -124,6 +124,6 @@ public final class ChorusFarmer extends Module {
         super.onDisable();
         tick = 0;
         blocks.clear();
-        getClient().options.useKey.setPressed(false);
+        MC.options.useKey.setPressed(false);
     }
 }

@@ -14,13 +14,13 @@ public class GuiMove extends Module {
 
     @ModuleEventHandler
     public void onTick(TickEvent event) {
-        if (getClient().currentScreen instanceof HandledScreen<?>) {
-            getClient().options.forwardKey.setPressed(Input.isPressed(getClient().options.forwardKey.getDefaultKey().getCode()));
-            getClient().options.backKey.setPressed(Input.isPressed(getClient().options.backKey.getDefaultKey().getCode()));
-            getClient().options.rightKey.setPressed(Input.isPressed(getClient().options.rightKey.getDefaultKey().getCode()));
-            getClient().options.leftKey.setPressed(Input.isPressed(getClient().options.leftKey.getDefaultKey().getCode()));
-            getClient().options.jumpKey.setPressed(Input.isPressed(getClient().options.jumpKey.getDefaultKey().getCode()));
-            getClient().options.sprintKey.setPressed(Input.isPressed(getClient().options.sprintKey.getDefaultKey().getCode()));
+        if (MC.currentScreen instanceof HandledScreen<?>) {
+            MC.options.forwardKey.setPressed(Input.isPressed(MC.options.forwardKey.getDefaultKey().getCode()));
+            MC.options.backKey.setPressed(Input.isPressed(MC.options.backKey.getDefaultKey().getCode()));
+            MC.options.rightKey.setPressed(Input.isPressed(MC.options.rightKey.getDefaultKey().getCode()));
+            MC.options.leftKey.setPressed(Input.isPressed(MC.options.leftKey.getDefaultKey().getCode()));
+            MC.options.jumpKey.setPressed(Input.isPressed(MC.options.jumpKey.getDefaultKey().getCode()));
+            MC.options.sprintKey.setPressed(Input.isPressed(MC.options.sprintKey.getDefaultKey().getCode()));
         }
     }
 }

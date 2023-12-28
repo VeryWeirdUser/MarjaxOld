@@ -77,7 +77,7 @@ public final class ChestStealer extends Module {
 
     @ModuleEventHandler
     public void onKeyPressed(KeyEvent e) {
-        if (e.getKey() == GLFW.GLFW_KEY_LEFT_ALT && e.getAction() == 1 && stealMode.getData() == StealMode.KEY_PRESSED && getClient().currentScreen != null && getClient().currentScreen instanceof HandledScreen<?> screen && (getClient().currentScreen instanceof GenericContainerScreen || getClient().currentScreen instanceof ShulkerBoxScreen)) {
+        if (e.getKey() == GLFW.GLFW_KEY_LEFT_ALT && e.getAction() == 1 && stealMode.getData() == StealMode.KEY_PRESSED && MC.currentScreen instanceof HandledScreen<?> screen && (MC.currentScreen instanceof GenericContainerScreen || MC.currentScreen instanceof ShulkerBoxScreen)) {
             steal(screen);
         }
     }
@@ -91,9 +91,9 @@ public final class ChestStealer extends Module {
                 else if (screen instanceof ShulkerBoxScreen) rows = 3;
                 else rows = 3;
                 for (int i = 0; i < rows * 9; i++) {
-                    if (getClient().currentScreen != screen || getClient().interactionManager == null || getClient().player == null)
+                    if (MC.currentScreen != screen || MC.interactionManager == null || MC.player == null)
                         break;
-                    if (getClient().player.getInventory().getEmptySlot() == -1) return;
+                    if (MC.player.getInventory().getEmptySlot() == -1) return;
 
                     Slot slot = screen.getScreenHandler().slots.get(i);
                     if (slot.getStack().isEmpty())
@@ -107,7 +107,7 @@ public final class ChestStealer extends Module {
                     }
                     canRun = false;
 
-                    getClient().interactionManager.clickSlot(screen.getScreenHandler().syncId, i, 0, SlotActionType.QUICK_MOVE, getClient().player);
+                    MC.interactionManager.clickSlot(screen.getScreenHandler().syncId, i, 0, SlotActionType.QUICK_MOVE, MC.player);
                 }
             }).start();
         } catch (Exception ignored) {

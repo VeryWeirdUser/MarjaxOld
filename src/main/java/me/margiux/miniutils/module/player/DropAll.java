@@ -1,28 +1,38 @@
 package me.margiux.miniutils.module.player;
 
+import me.margiux.miniutils.gui.MiniutilsScreen;
 import me.margiux.miniutils.module.Category;
 import me.margiux.miniutils.module.Module;
-import me.margiux.miniutils.task.DelayedRepeatTask;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import me.margiux.miniutils.task.RepeatTask;
+import me.margiux.miniutils.task.TaskManager;
 import net.minecraft.screen.slot.SlotActionType;
 
 public class DropAll extends Module {
-    public DelayedRepeatTask task = new DelayedRepeatTask(task1 -> drop(), 10, 20);
+    public final RepeatTask task = new RepeatTask(task -> drop(), 10);
 
     public DropAll(String name, String description, Category category, int activationKey) {
         super(name, description, category, activationKey);
     }
 
+    @Override
+    protected void onEnable() {
+        super.onEnable();
+        TaskManager.addTask(task);
+    }
+
+    @Override
+    protected void onDisable() {
+        super.onDisable();
+        TaskManager.removeTask(task);
+    }
+
     public void drop() {
-        if (getClient().player == null) return;
-        if (getClient().interactionManager == null) return;
-        if (getClient().player.getInventory().isEmpty()) return;
-        getClient().setScreen(new InventoryScreen(getClient().player));
-        for (int i = 0; i < getClient().player.getInventory().size(); i++) {
-            if (getClient().currentScreen != null) {
-                getClient().interactionManager.clickSlot(((InventoryScreen) getClient().currentScreen).getScreenHandler().syncId, i, 1, SlotActionType.THROW, getClient().player);
-            }
+        if (MC.player == null) return;
+        if (MC.interactionManager == null) return;
+        if (MC.player.getInventory().isEmpty()) return;
+        if (MC.currentScreen instanceof MiniutilsScreen) return;
+        for (int i = 0; i < MC.player.getInventory().size(); i++) {
+            MC.interactionManager.clickSlot(MC.player.playerScreenHandler.syncId, i, 1, SlotActionType.THROW, MC.player);
         }
-        getClient().setScreen(null);
     }
 }
