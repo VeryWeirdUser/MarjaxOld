@@ -15,6 +15,7 @@
     "InGameHudMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
+    "MouseMixin",
     "ScreenAccessor",
     "ShulkerBoxScreenMixin"
   ],

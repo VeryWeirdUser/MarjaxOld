@@ -4,6 +4,7 @@ import me.margiux.miniutils.Mode;
 import me.margiux.miniutils.event.EventHandler;
 import me.margiux.miniutils.event.ModuleKeyEvent;
 import me.margiux.miniutils.event.Listener;
+import me.margiux.miniutils.access.IChatHud;
 import me.margiux.miniutils.setting.EnumSetting;
 import me.margiux.miniutils.setting.Setting;
 import me.margiux.miniutils.utils.HudUtil;
@@ -94,5 +95,9 @@ public class Module implements Listener {
 
     public void disable() {
         changeMode(Mode.DISABLED);
+    }
+
+    public void sendMessage(String message) {
+        ((IChatHud)MC.inGameHud.getChatHud()).addHiddenMessage("§l[" + name + "] : §r" +  message);
     }
 }

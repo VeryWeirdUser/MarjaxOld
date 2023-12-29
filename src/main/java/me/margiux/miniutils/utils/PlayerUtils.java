@@ -1,8 +1,12 @@
 package me.margiux.miniutils.utils;
 
 import me.margiux.miniutils.Main;
+import me.margiux.miniutils.module.misc.Friends;
+import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.hit.EntityHitResult;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +14,7 @@ import java.util.List;
 public class PlayerUtils {
 
     public static List<PlayerEntity> getPlayersInRange(PlayerEntity player) {
-        if (Main.MC.player != null) return getPlayersInRange(player, (Main.MC.interactionManager == null) ? 4.5 : Main.MC.interactionManager.getReachDistance());
-        return null;
+        return getPlayersInRange(player, (Main.MC.interactionManager == null) ? 4.5 : Main.MC.interactionManager.getReachDistance());
     }
 
     public static List<PlayerEntity> getPlayersInRange(PlayerEntity player, double distance) {
@@ -43,5 +46,25 @@ public class PlayerUtils {
             }
         }
         return closest;
+    }
+
+    public static List<PlayerEntity> getAttackablePlayers(PlayerEntity player) {
+        return new ArrayList<>(getPlayersInRange(player).stream().filter(PlayerUtils::isAttackable).toList());
+    }
+
+    public static boolean isAttackable(PlayerEntity player) {
+        return player != null && !player.isRemoved() && player.isAlive() && player.isAttackable() && !Friends.isFriend(player);
+    }
+
+    @Nullable
+    public static PlayerEntity getPlayerFromLook() {
+        return getPlayerFromLook(false);
+    }
+
+    @Nullable
+    public static PlayerEntity getPlayerFromLook(boolean includeFriends) {
+        if (Main.MC.crosshairTarget instanceof EntityHitResult e && e.getEntity() instanceof OtherClientPlayerEntity p && !(!includeFriends && Friends.isFriend(p)))
+            return p;
+        return null;
     }
 }
